@@ -49,9 +49,9 @@ function loadPersistedState() {
     if (!raw) return fallback;
     const parsed = JSON.parse(raw);
     const schemas = { ...fallback.schemas, ...(parsed.schemas || {}) };
-    const searchOptionalRevision = Math.max(2, Number(parsed.searchOptionalRevision) || 0);
+    const searchOptionalRevision = Math.max(3, Number(parsed.searchOptionalRevision) || 0);
     if (schemas.search) {
-      schemas.search = relaxSearchRequirements(schemas.search, (Number(parsed.searchOptionalRevision) || 0) < 2);
+      schemas.search = relaxSearchRequirements(schemas.search, (Number(parsed.searchOptionalRevision) || 0) < 3);
     }
     const employees = Array.isArray(parsed.employees) && parsed.employees.length
       ? parsed.employees.map((employee) => ({
@@ -76,7 +76,7 @@ export function AppProvider({ children }) {
   const [employees, setEmployees] = useState(initial.employees);
   const [schemas, setSchemas] = useState(initial.schemas);
   const [customForms, setCustomForms] = useState(initial.customForms);
-  const searchOptionalRevision = initial.searchOptionalRevision || 2;
+  const searchOptionalRevision = initial.searchOptionalRevision || 3;
   const [view, setView] = useState("manage");
   const [selectedId, setSelectedId] = useState("emp-1002");
   const [criteria, setCriteria] = useState(null);
