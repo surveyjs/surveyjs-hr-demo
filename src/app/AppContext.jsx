@@ -10,34 +10,6 @@ function clone(value) {
   return structuredClone(value);
 }
 
-const OPTIONAL_SEARCH_DESCRIPTION = "Last name, date of birth, and employee ID are all optional.";
-const PREVIOUS_SEARCH_DESCRIPTIONS = new Set([
-  "Enter the employee’s last name and either their date of birth or employee ID.",
-  "Enter the employee’s last name. Date of birth and employee ID are optional."
-]);
-
-function relaxSearchRequirements(schema, makeLastNameOptional) {
-  if (!schema?.pages) return schema;
-  const next = clone(schema);
-  for (const page of next.pages) {
-    for (const element of page.elements || []) {
-      if (element.name === "date_of_birth" && element.requiredIf === "{employee_id} empty") {
-        delete element.requiredIf;
-      }
-      if (element.name === "employee_id" && element.requiredIf === "{date_of_birth} empty") {
-        delete element.requiredIf;
-      }
-      if (makeLastNameOptional && element.name === "last_name") {
-        delete element.isRequired;
-      }
-    }
-    if (PREVIOUS_SEARCH_DESCRIPTIONS.has(page.description)) {
-      page.description = OPTIONAL_SEARCH_DESCRIPTION;
-    }
-  }
-  return next;
-}
-
 function loadPersistedState() {
   const fallback = {
     employees: clone(mockEmployees),
@@ -48,11 +20,6 @@ function loadPersistedState() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return fallback;
     const parsed = JSON.parse(raw);
-    const schemas = { ...fallback.schemas, ...(parsed.schemas || {}) };
-    const searchOptionalRevision = Math.max(3, Number(parsed.searchOptionalRevision) || 0);
-    if (schemas.search) {
-      schemas.search = relaxSearchRequirements(schemas.search, (Number(parsed.searchOptionalRevision) || 0) < 3);
-    }
     const employees = Array.isArray(parsed.employees) && parsed.employees.length
       ? parsed.employees.map((employee) => ({
           ...employee,
@@ -62,9 +29,8 @@ function loadPersistedState() {
       : fallback.employees;
     return {
       employees,
-      schemas,
-      customForms: Array.isArray(parsed.customForms) ? parsed.customForms : [],
-      searchOptionalRevision
+      schemas: clone(schemaCatalog),
+      customForms: Array.isArray(parsed.customForms) ? parsed.customForms : []
     };
   } catch {
     return fallback;
@@ -76,7 +42,6 @@ export function AppProvider({ children }) {
   const [employees, setEmployees] = useState(initial.employees);
   const [schemas, setSchemas] = useState(initial.schemas);
   const [customForms, setCustomForms] = useState(initial.customForms);
-  const searchOptionalRevision = initial.searchOptionalRevision || 3;
   const [view, setView] = useState("manage");
   const [selectedId, setSelectedId] = useState("emp-1002");
   const [criteria, setCriteria] = useState(null);
@@ -88,13 +53,8 @@ export function AppProvider({ children }) {
   schemasRef.current = schemas;
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      employees,
-      schemas,
-      customForms,
-      searchOptionalRevision
-    }));
-  }, [employees, schemas, customForms, searchOptionalRevision]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ employees, schemas, customForms }));
+  }, [employees, schemas, customForms]);
 
   const searchResults = useMemo(
     () => (criteria ? searchEmployees(employees, criteria) : null),

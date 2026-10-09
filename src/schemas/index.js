@@ -16,6 +16,20 @@ export const schemaCatalog = {
   leavePanel: leaveRequestsPanel
 };
 
+if (import.meta.hot) {
+  import.meta.hot.accept([
+    "./Add Leave Request.json",
+    "./Add Performance Review.json",
+    "./Edit Employee.json",
+    "./Employee Registration Form.json",
+    "./Leave Requests dynamic panel.json",
+    "./Performance Reviews dynamic panel.json",
+    "./Search for an Employee.json"
+  ], () => {
+    window.location.reload();
+  });
+}
+
 export const blankOnboardingSchema = {
   title: "Employee Onboarding",
   pages: [

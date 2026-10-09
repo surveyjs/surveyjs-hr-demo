@@ -101,8 +101,8 @@
         {
           "type": "text",
           "name": "work_email",
-          "title": "Work Email",
-          "description": "full.name@example.com",
+          "title": "Work Email (full.name@example.com)",
+          "description": "",
           "isRequired": true,
           "inputType": "email",
           "autocomplete": "email"
@@ -130,15 +130,13 @@
             {
               "type": "text",
               "name": "address-line-1",
-              "title": "Address line 1",
-              "description": "house number/name and street"
+              "title": "Address line 1: House number/name and street"
             },
             {
               "type": "text",
               "name": "address-line-2",
               "startWithNewLine": false,
-              "title": "Address line 2",
-              "description": "apartment, building, locality (optional)"
+              "title": "Address line 2: Apartment, building, locality (optional)"
             },
             {
               "type": "text",
@@ -149,8 +147,7 @@
               "type": "text",
               "name": "county",
               "startWithNewLine": false,
-              "title": "County",
-              "description": "(optional)"
+              "title": "County (optional)"
             },
             {
               "type": "text",

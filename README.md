@@ -2,7 +2,7 @@
 
 Employee directory demo. SurveyJS Form Library renders the business forms. SurveyJS Creator lets a business user change those forms during the session. Employee, review, and leave data stay in memory and in `localStorage`.
 
-Survey Creator is a commercial product. The builder runs without a license key and shows the license banner. Form Library does not need a key.
+Survey Creator reads `SURVEYJS_KEY` and calls `slk` before the builder opens. With that variable set, the license banner is removed. Form Library does not need a key. Copy `.env.example` to `.env.local` for a local key. The published site at `https://hr.demos.surveyjs.io` receives the key from the demo host.
 
 ## Run
 

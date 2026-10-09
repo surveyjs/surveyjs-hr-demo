@@ -46,9 +46,11 @@ export default function SurveyCreatorModal() {
           <Toolbar sx={{ gap: 2 }}>
             <Box sx={{ flexGrow: 1, minWidth: 0 }}>
               <Typography variant="h6" noWrap>{creatorRequest?.title || "Form builder"}</Typography>
-              <Typography variant="caption" color="text.secondary">
-                Survey Creator is a commercial product. The builder stays fully usable, and a license banner is shown until a license key is configured.
-              </Typography>
+              {import.meta.env.SURVEYJS_KEY?.trim() ? null : (
+                <Typography variant="caption" color="text.secondary">
+                  Survey Creator is a commercial product. Set SURVEYJS_KEY to remove the license banner.
+                </Typography>
+              )}
             </Box>
             <Button type="button" variant="contained" onClick={saveAndClose}>Save schema</Button>
             <Button type="button" variant="outlined" onClick={closeCreator}>Close</Button>
