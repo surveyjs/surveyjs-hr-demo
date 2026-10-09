@@ -1,0 +1,85 @@
+{
+  "title": "Add Leave Request",
+  "pages": [
+    {
+      "name": "leave_requests",
+      "elements": [
+        {
+          "type": "dropdown",
+          "name": "leave_type",
+          "title": "Leave Type",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "annual_leave",
+              "text": "Annual Leave"
+            },
+            {
+              "value": "sick_leave",
+              "text": "Sick Leave"
+            },
+            {
+              "value": "unpaid_leave",
+              "text": "Unpaid Leave"
+            },
+            {
+              "value": "parental_leave",
+              "text": "Parental Leave"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "start_date",
+          "title": "Start Date",
+          "isRequired": true,
+          "inputType": "date"
+        },
+        {
+          "type": "text",
+          "name": "end_date",
+          "startWithNewLine": false,
+          "title": "End Date",
+          "isRequired": true,
+          "validators": [
+            {
+              "type": "expression",
+              "text": "End Date must be on or after Start Date.",
+              "expression": "{end_date} >= {start_date}"
+            }
+          ],
+          "inputType": "date"
+        },
+        {
+          "type": "comment",
+          "name": "reason",
+          "visibleIf": "{leave_type} = 'unpaid_leave'",
+          "title": "Reason"
+        },
+        {
+          "type": "radiogroup",
+          "name": "status",
+          "title": "Status",
+          "defaultValue": "pending",
+          "choices": [
+            {
+              "value": "pending",
+              "text": "Pending"
+            },
+            {
+              "value": "approved",
+              "text": "Approved"
+            },
+            {
+              "value": "declined",
+              "text": "Declined"
+            }
+          ],
+          "colCount": 3
+        }
+      ]
+    }
+  ],
+  "completeText": "Save Leave Request",
+  "headerView": "advanced"
+}

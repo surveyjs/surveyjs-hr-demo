@@ -1,0 +1,96 @@
+{
+  "title": "Leave Requests",
+  "pages": [
+    {
+      "name": "leave_requests",
+      "elements": [
+        {
+          "type": "paneldynamic",
+          "name": "leave_list",
+          "title": "Leave Requests",
+          "titleLocation": "hidden",
+          "templateElements": [
+            {
+              "type": "dropdown",
+              "name": "leave_type",
+              "title": "Leave Type",
+              "isRequired": true,
+              "choices": [
+                {
+                  "value": "annual_leave",
+                  "text": "Annual Leave"
+                },
+                {
+                  "value": "sick_leave",
+                  "text": "Sick Leave"
+                },
+                {
+                  "value": "unpaid_leave",
+                  "text": "Unpaid Leave"
+                },
+                {
+                  "value": "parental_leave",
+                  "text": "Parental Leave"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "start_date",
+              "title": "Start Date",
+              "isRequired": true,
+              "inputType": "date"
+            },
+            {
+              "type": "text",
+              "name": "end_date",
+              "startWithNewLine": false,
+              "title": "End Date",
+              "isRequired": true,
+              "validators": [
+                {
+                  "type": "expression",
+                  "text": "End Date must be on or after Start Date.",
+                  "expression": "{panel.end_date} >= {panel.start_date}"
+                }
+              ],
+              "inputType": "date"
+            },
+            {
+              "type": "comment",
+              "name": "reason",
+              "visibleIf": "{leave_list[0].leave_type} = 'unpaid_leave'",
+              "title": "Reason"
+            },
+            {
+              "type": "radiogroup",
+              "name": "status",
+              "title": "Status",
+              "choices": [
+                {
+                  "value": "pending",
+                  "text": "Pending"
+                },
+                {
+                  "value": "approved",
+                  "text": "Approved"
+                },
+                {
+                  "value": "declined",
+                  "text": "Declined"
+                }
+              ],
+              "colCount": 3
+            }
+          ],
+          "templateTitle": "{panel.leave_type} — {panel.start_date} to {panel.end_date}",
+          "allowRemovePanel": false,
+          "panelCount": 1,
+          "panelsState": "firstExpanded",
+          "addPanelText": "Add Leave Request"
+        }
+      ]
+    }
+  ],
+  "headerView": "advanced"
+}

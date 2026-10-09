@@ -1,0 +1,139 @@
+{
+  "title": "Performance Reviews",
+  "pages": [
+    {
+      "name": "performance_reviews",
+      "elements": [
+        {
+          "type": "paneldynamic",
+          "name": "review_list",
+          "title": "Performance Reviews",
+          "titleLocation": "hidden",
+          "templateElements": [
+            {
+              "type": "text",
+              "name": "review_date",
+              "title": "Review Date",
+              "isRequired": true,
+              "inputType": "date"
+            },
+            {
+              "type": "dropdown",
+              "name": "reviewer",
+              "startWithNewLine": false,
+              "title": "Reviewer",
+              "isRequired": true,
+              "choices": [
+                {
+                  "value": "sarah_chen",
+                  "text": "Sarah Chen"
+                },
+                {
+                  "value": "david_kim",
+                  "text": "David Kim"
+                },
+                {
+                  "value": "lisa_wang",
+                  "text": "Lisa Wang"
+                }
+              ],
+              "showOtherItem": true,
+              "otherText": "Other"
+            },
+            {
+              "type": "matrixdropdown",
+              "name": "quality",
+              "title": "Quality of Work ",
+              "showCommentArea": true,
+              "commentText": "Comments",
+              "showHeader": false,
+              "alternateRows": true,
+              "columns": [
+                {
+                  "name": "rating",
+                  "cellType": "rating",
+                  "width": "30%",
+                  "resetValueIf": "{row.checkbox} notempty",
+                  "totalType": "avg",
+                  "totalFormat": "Avg score: {0}",
+                  "totalDisplayStyle": "decimal",
+                  "autoGenerate": false,
+                  "rateValues": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ]
+                }
+              ],
+              "choices": [
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "rows": [
+                {
+                  "value": "accurate",
+                  "text": "Consistently provides thorough and accurate work"
+                },
+                {
+                  "value": "pressure",
+                  "text": "Ability to work under pressure and learn from previous mistakes"
+                },
+                {
+                  "value": "issues",
+                  "text": "Accurately checks processes and tasks, handles issues in a timely manner"
+                },
+                {
+                  "value": "timely",
+                  "text": "Ability to work quickly and submit deliverables in a timely manner"
+                },
+                {
+                  "value": "details",
+                  "text": "Manages work details; organized and detailed in work product"
+                }
+              ],
+              "rowTitleWidth": "65%"
+            },
+            {
+              "type": "rating",
+              "name": "rating",
+              "title": "Overall Rating",
+              "isRequired": true,
+              "rateType": "smileys",
+              "rateCount": 10,
+              "rateMax": 10
+            },
+            {
+              "type": "comment",
+              "name": "strengths",
+              "title": "Strengths",
+              "maxLength": 300
+            },
+            {
+              "type": "comment",
+              "name": "areas_for_improvement",
+              "title": "Areas for Improvement",
+              "maxLength": 300
+            },
+            {
+              "type": "comment",
+              "name": "next_steps",
+              "title": "Next Steps",
+              "maxLength": 300
+            }
+          ],
+          "templateTitle": "{panel.review_date} — {panel.reviewer}",
+          "allowRemovePanel": false,
+          "panelCount": 1,
+          "panelsState": "firstExpanded",
+          "addPanelText": "Add Performance Review"
+        }
+      ]
+    }
+  ],
+  "headerView": "advanced"
+}

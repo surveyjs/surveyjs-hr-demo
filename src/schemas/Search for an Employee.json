@@ -1,0 +1,37 @@
+{
+  "title": "Search for an Employee",
+  "pages": [
+    {
+      "name": "search_for_employee",
+      "description": "Enter the employee’s last name and either their date of birth or employee ID.",
+      "elements": [
+        {
+          "type": "text",
+          "name": "last_name",
+          "title": "Last Name",
+          "isRequired": true,
+          "autocomplete": "family-name"
+        },
+        {
+          "type": "text",
+          "name": "date_of_birth",
+          "startWithNewLine": false,
+          "title": "Date of Birth",
+          "requiredIf": "{employee_id} empty",
+          "inputType": "date",
+          "autocomplete": "bday"
+        },
+        {
+          "type": "text",
+          "name": "employee_id",
+          "startWithNewLine": false,
+          "title": "Employee ID",
+          "requiredIf": "{date_of_birth} empty"
+        }
+      ]
+    }
+  ],
+  "checkErrorsMode": "onValueChanged",
+  "completeText": "Search",
+  "headerView": "advanced"
+}

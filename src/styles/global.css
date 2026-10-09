@@ -1,0 +1,18 @@
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.creator-host,
+.creator-host .svc-creator {
+  height: 100%;
+}
+
+.survey-host {
+  width: 100%;
+}
