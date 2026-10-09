@@ -3,13 +3,12 @@
   "pages": [
     {
       "name": "search_for_employee",
-      "description": "Enter the employee’s last name and either their date of birth or employee ID.",
+      "description": "Last name, date of birth, and employee ID are all optional.",
       "elements": [
         {
           "type": "text",
           "name": "last_name",
           "title": "Last Name",
-          "isRequired": true,
           "autocomplete": "family-name"
         },
         {
@@ -17,7 +16,6 @@
           "name": "date_of_birth",
           "startWithNewLine": false,
           "title": "Date of Birth",
-          "requiredIf": "{employee_id} empty",
           "inputType": "date",
           "autocomplete": "bday"
         },
@@ -25,8 +23,7 @@
           "type": "text",
           "name": "employee_id",
           "startWithNewLine": false,
-          "title": "Employee ID",
-          "requiredIf": "{date_of_birth} empty"
+          "title": "Employee ID"
         }
       ]
     }

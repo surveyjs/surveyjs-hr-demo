@@ -28,7 +28,7 @@ export default function EmployeeSearchForm() {
       <Box>
         <Typography variant="h4" gutterBottom>Manage Employees</Typography>
         <Typography color="text.secondary">
-          Find an employee by surname together with a date of birth or an employee ID.
+          Search by last name, date of birth, or employee ID. Every field is optional.
         </Typography>
       </Box>
       <Paper sx={{ p: { xs: 2, md: 3 } }}>
@@ -60,14 +60,14 @@ export default function EmployeeSearchForm() {
       {searchResults == null ? (
         <Paper sx={{ p: 3 }}>
           <Typography color="text.secondary">
-            Results appear here after a search. Try surname Thompson and employee ID EMP-1002.
+            Results appear here after a search. Leave the fields empty to list everyone, or try surname Thompson.
           </Typography>
         </Paper>
       ) : searchResults.length === 0 ? (
         <Paper sx={{ p: 3 }}>
           <Typography variant="h6">No employees found</Typography>
           <Typography color="text.secondary">
-            No records match this surname and date of birth or employee ID. Check the criteria, or clear the form and search again.
+            No records match these criteria. Clear the form and search again.
           </Typography>
         </Paper>
       ) : (

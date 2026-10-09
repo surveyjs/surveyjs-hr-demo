@@ -36,7 +36,7 @@ Creator writes the edited schema back into application state. The next time that
 
 ## Demo data
 
-Emma Thompson (`EMP-1002`, born April 12, 1990) is the sample profile. Search for surname `Thompson` and employee ID `EMP-1002`. Liam Thompson is also in the directory, so a surname-only match is not enough: the search form requires a date of birth or an employee ID as well.
+Emma Thompson (`EMP-1002`, born April 12, 1990) is the sample profile. Every search field is optional. An empty search lists the directory. Surname `Thompson` lists Emma and Liam Thompson. Employee ID `EMP-1002` or Emma’s date of birth limits the result to Emma.
 
 ## Schema notes
 

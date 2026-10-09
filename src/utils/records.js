@@ -147,7 +147,7 @@ export function searchEmployees(employees, criteria) {
   const employeeId = String(criteria.employee_id || "").trim().toLowerCase();
   return employees.filter((employee) => {
     const lastName = String(employee.last_name || "").toLowerCase();
-    if (!surname || !lastName.includes(surname)) return false;
+    if (surname && !lastName.includes(surname)) return false;
     if (dateOfBirth && employee.date_of_birth !== dateOfBirth) return false;
     if (employeeId && String(employee.employee_id || "").toLowerCase() !== employeeId) return false;
     return true;
