@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { Model } from "survey-core";
+import { Model, Serializer } from "survey-core";
 import { Survey } from "survey-react-ui";
 
 export default function SurveyForm({
@@ -22,6 +22,8 @@ export default function SurveyForm({
   const dataKey = JSON.stringify(data ?? null);
   const survey = useMemo(() => {
     if (!schema) return null;
+    Serializer.findProperty("survey", "questionDescriptionLocation").defaultValue = "underInput";
+    Serializer.findProperty("survey", "questionErrorLocation").defaultValue = "bottom";
     const model = new Model(structuredClone(schema));
     model.elementIdPrefix = elementIdPrefix;
     model.showCompletedPage = false;

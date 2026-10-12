@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+import { Serializer } from "survey-core";
 import { SurveyCreator, SurveyCreatorComponent } from "survey-creator-react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -15,6 +16,8 @@ export default function SurveyCreatorModal() {
 
   const creator = useMemo(() => {
     if (!creatorRequest) return null;
+    Serializer.findProperty("survey", "questionDescriptionLocation").defaultValue = "underInput";
+    Serializer.findProperty("survey", "questionErrorLocation").defaultValue = "bottom";
     const instance = new SurveyCreator({ autoSaveEnabled: false });
     instance.JSON = structuredClone(creatorRequest.schema);
     instance.saveSurveyFunc = (saveNo, callback) => {
