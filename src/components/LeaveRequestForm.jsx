@@ -1,4 +1,5 @@
 import { useApp } from "../app/AppContext.jsx";
+import { leaveDemoData } from "../data/demoFormData.js";
 import { datesAreOrdered } from "../utils/records.js";
 import FormDrawer from "./FormDrawer.jsx";
 
@@ -15,6 +16,7 @@ export default function LeaveRequestForm({ open, onClose }) {
       schema={schema}
       elementIdPrefix={`add_leave_${selectedEmployee.id}_`}
       completeLabel={schema?.completeText || "Save Leave Request"}
+      prefillData={leaveDemoData}
       customizeLabel="Customize in Builder"
       onClose={onClose}
       onCustomize={() => openSchemaCreator("addLeave", "Customize Leave Request Form")}

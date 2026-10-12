@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import SurveyForm, { completeSurvey } from "./SurveyForm.jsx";
+import SurveyForm, { completeSurvey, prefillSurvey } from "./SurveyForm.jsx";
 
 export default function FormDrawer({
   open,
@@ -16,6 +16,7 @@ export default function FormDrawer({
   data,
   elementIdPrefix,
   completeLabel,
+  prefillData = null,
   cancelLabel = "Cancel",
   customizeLabel,
   onComplete,
@@ -41,6 +42,11 @@ export default function FormDrawer({
             <Button type="button" variant="contained" onClick={() => completeSurvey(surveyRef.current)}>
               {completeLabel || schema?.completeText || "Save"}
             </Button>
+            {prefillData ? (
+              <Button type="button" variant="outlined" onClick={() => prefillSurvey(surveyRef.current, prefillData)}>
+                Prefill demo data
+              </Button>
+            ) : null}
             <Button type="button" variant="outlined" onClick={onClose}>{cancelLabel}</Button>
             {onCustomize ? (
               <Button type="button" onClick={onCustomize}>{customizeLabel || "Customize in Builder"}</Button>

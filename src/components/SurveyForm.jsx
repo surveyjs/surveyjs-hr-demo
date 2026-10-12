@@ -62,11 +62,23 @@ export default function SurveyForm({
   );
 }
 
-export function completeSurvey(model) {
+function blurActiveField() {
   const active = document.activeElement;
   if (active instanceof HTMLElement) active.blur();
+}
+
+export function completeSurvey(model) {
+  blurActiveField();
   if (!model) return false;
   if (typeof model.tryComplete === "function") return model.tryComplete();
   if (typeof model.completeLastPage === "function") return model.completeLastPage();
   return false;
+}
+
+export function prefillSurvey(model, data) {
+  if (!model || !data) return false;
+  blurActiveField();
+  model.data = structuredClone(data);
+  if (typeof model.clearErrors === "function") model.clearErrors();
+  return true;
 }

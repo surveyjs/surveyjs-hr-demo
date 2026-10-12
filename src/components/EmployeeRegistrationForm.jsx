@@ -7,7 +7,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useApp } from "../app/AppContext.jsx";
 import { employeeIdTaken, fullName } from "../utils/records.js";
-import SurveyForm, { completeSurvey } from "./SurveyForm.jsx";
+import { registrationDemoData } from "../data/demoFormData.js";
+import SurveyForm, { completeSurvey, prefillSurvey } from "./SurveyForm.jsx";
 
 export default function EmployeeRegistrationForm() {
   const { employees, schemas, registerEmployee, openProfile, openSchemaCreator, notify } = useApp();
@@ -40,6 +41,9 @@ export default function EmployeeRegistrationForm() {
         <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" sx={{ mb: 1 }}>
           <Button type="button" variant="contained" onClick={() => completeSurvey(surveyRef.current)}>
             {schema?.completeText || "Save Employee"}
+          </Button>
+          <Button type="button" variant="outlined" onClick={() => prefillSurvey(surveyRef.current, registrationDemoData)}>
+            Prefill demo data
           </Button>
           <Button
             type="button"

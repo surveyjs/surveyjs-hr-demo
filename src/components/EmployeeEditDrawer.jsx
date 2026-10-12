@@ -1,4 +1,5 @@
 import { useApp } from "../app/AppContext.jsx";
+import { editDemoData } from "../data/demoFormData.js";
 import { employeeIdTaken, maskNotes, toSurveyEmployee } from "../utils/records.js";
 import FormDrawer from "./FormDrawer.jsx";
 
@@ -17,6 +18,7 @@ export default function EmployeeEditDrawer({ open, onClose }) {
       data={toSurveyEmployee(selectedEmployee)}
       elementIdPrefix={`edit_${selectedEmployee.id}_`}
       completeLabel={schema?.completeText || "Save Changes"}
+      prefillData={{ ...editDemoData, employee_id: selectedEmployee.employee_id }}
       customizeLabel="Customize Employee Form"
       onClose={onClose}
       onCustomize={() => openSchemaCreator("editEmployee", "Customize Employee Form")}

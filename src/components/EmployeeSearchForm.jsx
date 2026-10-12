@@ -7,7 +7,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useApp } from "../app/AppContext.jsx";
 import EmployeeCard from "./EmployeeCard.jsx";
-import SurveyForm, { completeSurvey } from "./SurveyForm.jsx";
+import { searchDemoData } from "../data/demoFormData.js";
+import SurveyForm, { completeSurvey, prefillSurvey } from "./SurveyForm.jsx";
 
 export default function EmployeeSearchForm() {
   const {
@@ -50,6 +51,9 @@ export default function EmployeeSearchForm() {
         <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
           <Button type="button" variant="contained" onClick={() => completeSurvey(surveyRef.current)}>
             {schema?.completeText || "Search"}
+          </Button>
+          <Button type="button" variant="outlined" onClick={() => prefillSurvey(surveyRef.current, searchDemoData)}>
+            Prefill demo data
           </Button>
           <Button type="button" variant="outlined" onClick={clearSearch}>Clear</Button>
           <Button type="button" onClick={() => openSchemaCreator("search", "Customize Search Form")}>

@@ -1,4 +1,5 @@
 import { useApp } from "../app/AppContext.jsx";
+import { reviewDemoData } from "../data/demoFormData.js";
 import FormDrawer from "./FormDrawer.jsx";
 
 export default function PerformanceReviewForm({ open, onClose }) {
@@ -14,6 +15,7 @@ export default function PerformanceReviewForm({ open, onClose }) {
       schema={schema}
       elementIdPrefix={`add_review_${selectedEmployee.id}_`}
       completeLabel={schema?.completeText || "Save Review"}
+      prefillData={reviewDemoData}
       customizeLabel="Customize in Builder"
       onClose={onClose}
       onCustomize={() => openSchemaCreator("addReview", "Customize Review Form")}
