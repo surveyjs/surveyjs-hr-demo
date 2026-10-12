@@ -64,7 +64,7 @@ export default function EmployeeSearchForm() {
       {searchResults == null ? (
         <Paper sx={{ p: 3 }}>
           <Typography color="text.secondary">
-            Results appear here after a search. Leave the fields empty to list everyone, or try surname Thompson.
+            The directory lists every employee while the search fields stay empty. Try surname Thompson to narrow it.
           </Typography>
         </Paper>
       ) : searchResults.length === 0 ? (

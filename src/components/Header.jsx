@@ -18,7 +18,7 @@ const NAV = [
 ];
 
 export default function Header() {
-  const { view, setView, notify } = useApp();
+  const { view, setView, notify, openIndex } = useApp();
 
   const select = (item) => {
     if (item.id === "logout") {
@@ -32,7 +32,24 @@ export default function Header() {
   return (
     <AppBar position="sticky" color="inherit" elevation={0} sx={{ borderBottom: 1, borderColor: "divider" }}>
       <Toolbar sx={{ gap: 2, flexWrap: "wrap", py: 1 }}>
-        <Stack direction="row" spacing={1} alignItems="center" sx={{ mr: 1 }}>
+        <Stack
+          component="button"
+          type="button"
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          onClick={openIndex}
+          aria-label="Acme HR"
+          sx={{
+            mr: 1,
+            p: 0,
+            border: 0,
+            bgcolor: "transparent",
+            color: "inherit",
+            font: "inherit",
+            cursor: "pointer"
+          }}
+        >
           <Avatar sx={{ bgcolor: "primary.main", width: 36, height: 36 }}>
             <GroupsIcon fontSize="small" />
           </Avatar>

@@ -162,6 +162,20 @@ export function employeeIdTaken(employees, employeeId, exceptId) {
   );
 }
 
+export function nextDemoEmployeeId(employees, currentId) {
+  const used = new Set(
+    (employees || []).map((employee) => String(employee.employee_id || "").trim().toUpperCase())
+  );
+  if (currentId) used.add(String(currentId).trim().toUpperCase());
+  let number = 9001;
+  let id = `EMP-${number}`;
+  while (used.has(id)) {
+    number += 1;
+    id = `EMP-${number}`;
+  }
+  return id;
+}
+
 export function datesAreOrdered(start, end) {
   if (!start || !end) return true;
   return String(end) >= String(start);

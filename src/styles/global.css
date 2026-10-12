@@ -11,17 +11,24 @@ body {
 .creator-host,
 .creator-host .svc-creator {
   height: 100%;
+  --sjs2-color-project-brand-600: color(srgb 0.0980392 0.462745 0.823529);
+  --sjs2-color-utility-shadow-surface-focused: color(srgb 0.0980392 0.462745 0.823529);
   --sjs2-color-utility-surface-designer: color(srgb 0.0980392 0.462745 0.823529 / 0.1);
 }
 
 .creator-host .svc-creator {
+  --sjs2-color-project-brand-600: color(srgb 0.0980392 0.462745 0.823529) !important;
+  --sjs2-color-utility-shadow-surface-focused: color(srgb 0.0980392 0.462745 0.823529) !important;
   --sjs2-color-utility-surface-designer: color(srgb 0.0980392 0.462745 0.823529 / 0.1) !important;
 }
 
 .creator-host .svc-tab-designer,
 .creator-host svc-tab-designer,
 .creator-host .svc-tab-designer .sd-theme-root,
-.creator-host .svc-page__content--selected.svc-page__content--selected {
+.creator-host .svc-page__content--selected.svc-page__content--selected,
+.creator-host .svc-question__content--selected {
+  --sjs2-color-project-brand-600: color(srgb 0.0980392 0.462745 0.823529) !important;
+  --sjs2-color-utility-shadow-surface-focused: color(srgb 0.0980392 0.462745 0.823529) !important;
   --sjs2-color-utility-surface-designer: color(srgb 0.0980392 0.462745 0.823529 / 0.1) !important;
 }
 

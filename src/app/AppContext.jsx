@@ -44,7 +44,7 @@ export function AppProvider({ children }) {
   const [customForms, setCustomForms] = useState(initial.customForms);
   const [view, setView] = useState("manage");
   const [selectedId, setSelectedId] = useState("emp-1002");
-  const [criteria, setCriteria] = useState(null);
+  const [criteria, setCriteria] = useState({});
   const [searchResetKey, setSearchResetKey] = useState(0);
   const [notice, setNotice] = useState(null);
   const [creatorRequest, setCreatorRequest] = useState(null);
@@ -165,7 +165,13 @@ export function AppProvider({ children }) {
   };
 
   const clearSearch = () => {
-    setCriteria(null);
+    setCriteria({});
+    setSearchResetKey((value) => value + 1);
+  };
+
+  const openIndex = () => {
+    setView("manage");
+    setCriteria({});
     setSearchResetKey((value) => value + 1);
   };
 
@@ -182,6 +188,7 @@ export function AppProvider({ children }) {
     searchResetKey,
     searchResults,
     clearSearch,
+    openIndex,
     notice,
     notify,
     clearNotice,

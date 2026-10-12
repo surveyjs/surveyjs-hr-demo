@@ -19,8 +19,7 @@ const employeeDemo = {
 };
 
 export const registrationDemoData = {
-  ...employeeDemo,
-  employee_id: "EMP-9001"
+  ...employeeDemo
 };
 
 export const editDemoData = {

@@ -6,7 +6,7 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useApp } from "../app/AppContext.jsx";
-import { employeeIdTaken, fullName } from "../utils/records.js";
+import { employeeIdTaken, fullName, nextDemoEmployeeId } from "../utils/records.js";
 import { registrationDemoData } from "../data/demoFormData.js";
 import SurveyForm, { completeSurvey, prefillSurvey } from "./SurveyForm.jsx";
 
@@ -42,7 +42,17 @@ export default function EmployeeRegistrationForm() {
           <Button type="button" variant="contained" onClick={() => completeSurvey(surveyRef.current)}>
             {schema?.completeText || "Save Employee"}
           </Button>
-          <Button type="button" variant="outlined" onClick={() => prefillSurvey(surveyRef.current, registrationDemoData)}>
+          <Button
+            type="button"
+            variant="outlined"
+            onClick={() => {
+              const currentId = surveyRef.current?.getValue("employee_id");
+              prefillSurvey(surveyRef.current, {
+                ...registrationDemoData,
+                employee_id: nextDemoEmployeeId(employees, currentId)
+              });
+            }}
+          >
             Prefill demo data
           </Button>
           <Button
