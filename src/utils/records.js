@@ -149,7 +149,7 @@ export function searchEmployees(employees, criteria) {
     const lastName = String(employee.last_name || "").toLowerCase();
     if (surname && !lastName.includes(surname)) return false;
     if (dateOfBirth && employee.date_of_birth !== dateOfBirth) return false;
-    if (employeeId && String(employee.employee_id || "").toLowerCase() !== employeeId) return false;
+    if (employeeId && !String(employee.employee_id || "").toLowerCase().includes(employeeId)) return false;
     return true;
   });
 }

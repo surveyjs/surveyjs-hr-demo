@@ -59,7 +59,7 @@ export default function SurveyCreatorModal() {
             <Button type="button" variant="outlined" onClick={closeCreator}>Close</Button>
           </Toolbar>
         </AppBar>
-        <Box className="creator-host" sx={{ flex: 1, minHeight: 0 }}>
+        <Box className="creator-host" data-survey-component="SurveyJS Creator" sx={{ flex: 1, minHeight: 0 }}>
           {creator ? <SurveyCreatorComponent creator={creator} /> : null}
         </Box>
       </Box>

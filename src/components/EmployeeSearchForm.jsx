@@ -1,14 +1,19 @@
 import { useRef } from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { ActionContainer, SvgRegistry } from "survey-core";
 import { useApp } from "../app/AppContext.jsx";
 import EmployeeCard from "./EmployeeCard.jsx";
 import { searchDemoData } from "../data/demoFormData.js";
-import SurveyForm, { completeSurvey, prefillSurvey } from "./SurveyForm.jsx";
+import SurveyForm, { prefillSurvey } from "./SurveyForm.jsx";
+
+SvgRegistry.registerIcon(
+  "icon-hr-settings",
+  `<svg viewBox="0 0 24 24"><g fill="none" stroke="var(--sd-action-icon-color, currentColor)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></g></svg>`
+);
 
 export default function EmployeeSearchForm() {
   const {
@@ -21,7 +26,15 @@ export default function EmployeeSearchForm() {
     openProfile,
     openSchemaCreator
   } = useApp();
-  const surveyRef = useRef(null);
+  handlers.setCriteria = setCriteria;
+  handlers.clearSearch = clearSearch;
+  handlers.openSchemaCreator = openSchemaCreator;
+  const formDataRef = useRef(criteria);
+  const formResetRef = useRef(searchResetKey);
+  if (formResetRef.current !== searchResetKey) {
+    formResetRef.current = searchResetKey;
+    formDataRef.current = criteria;
+  }
   const schema = schemas.search;
 
   return (
@@ -36,30 +49,17 @@ export default function EmployeeSearchForm() {
         {schema ? (
           <SurveyForm
             schema={schema}
-            data={criteria}
+            data={formDataRef.current}
             resetKey={searchResetKey}
             elementIdPrefix="search_"
-            onModel={(model) => { surveyRef.current = model; }}
-            onCompleting={(data) => {
-              setCriteria(structuredClone(data));
-              return { allow: false };
-            }}
+            hostId="survey-search"
+            configure={configureSearch}
+            onValueChanged={(data) => setCriteria(data)}
+            onCompleting={() => ({ allow: false })}
           />
         ) : (
           <Alert severity="error">Search for an Employee.json is missing.</Alert>
         )}
-        <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
-          <Button type="button" variant="contained" onClick={() => completeSurvey(surveyRef.current)}>
-            {schema?.completeText || "Search"}
-          </Button>
-          <Button type="button" variant="outlined" onClick={() => prefillSurvey(surveyRef.current, searchDemoData)}>
-            Prefill demo data
-          </Button>
-          <Button type="button" variant="outlined" onClick={clearSearch}>Clear</Button>
-          <Button type="button" onClick={() => openSchemaCreator("search", "Customize Search Form")}>
-            Customize Search Form
-          </Button>
-        </Stack>
       </Paper>
       {searchResults == null ? (
         <Paper sx={{ p: 3 }}>
@@ -71,7 +71,7 @@ export default function EmployeeSearchForm() {
         <Paper sx={{ p: 3 }}>
           <Typography variant="h6">No employees found</Typography>
           <Typography color="text.secondary">
-            No records match these criteria. Clear the form and search again.
+            No records match these criteria. Clear the fields to list everyone.
           </Typography>
         </Paper>
       ) : (
@@ -92,3 +92,49 @@ export default function EmployeeSearchForm() {
     </Stack>
   );
 }
+
+function configureSearch(model) {
+  const toolbar = new ActionContainer();
+  toolbar.setActionsAppearance({ mode: "tertiary-surface", size: "large", style: "brand", showBorder: true });
+  toolbar.cssClasses = { ...model.navigationBar.cssClasses, root: "sd-action-bar search-header-actions" };
+  toolbar.setItems([
+    {
+      id: "prefill-search",
+      title: "Prefill demo data",
+      showTitle: true,
+      disableShrink: true,
+      action: () => {
+        const data = structuredClone(searchDemoData);
+        prefillSurvey(model, data);
+        handlers.setCriteria(data);
+      }
+    },
+    {
+      id: "edit-search-form",
+      title: "Edit Search Form",
+      iconName: "icon-hr-settings",
+      iconSize: 17,
+      showTitle: true,
+      disableShrink: true,
+      action: () => handlers.openSchemaCreator("search", "Edit Search Form")
+    }
+  ]);
+  model.addLayoutElement({
+    id: "search-header-actions",
+    container: "header",
+    component: "sv-action-bar",
+    data: toolbar
+  });
+  model.addNavigationItem({
+    id: "clear-filters",
+    title: "Clear filters",
+    css: "search-clear",
+    action: () => handlers.clearSearch()
+  });
+}
+
+const handlers = {
+  setCriteria() {},
+  clearSearch() {},
+  openSchemaCreator() {}
+};

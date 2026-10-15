@@ -8,16 +8,23 @@ export default function SurveyForm({
   readOnly = false,
   resetKey = 0,
   elementIdPrefix = "survey_",
+  hostId,
   onComplete,
   onCompleting,
-  onModel
+  onValueChanged,
+  onModel,
+  configure
 }) {
   const onCompleteRef = useRef(onComplete);
   const onCompletingRef = useRef(onCompleting);
+  const onValueChangedRef = useRef(onValueChanged);
   const onModelRef = useRef(onModel);
+  const configureRef = useRef(configure);
   onCompleteRef.current = onComplete;
   onCompletingRef.current = onCompleting;
+  onValueChangedRef.current = onValueChanged;
   onModelRef.current = onModel;
+  configureRef.current = configure;
 
   const dataKey = JSON.stringify(data ?? null);
   const survey = useMemo(() => {
@@ -31,6 +38,9 @@ export default function SurveyForm({
     model.focusFirstQuestionAutomatic = false;
     if (!readOnly) model.textUpdateMode = "onTyping";
     if (data) model.data = structuredClone(data);
+    model.onValueChanged.add((sender) => {
+      onValueChangedRef.current?.(structuredClone(sender.data));
+    });
     if (readOnly) {
       model.mode = "display";
       model.getAllQuestions().forEach((question) => {
@@ -44,6 +54,7 @@ export default function SurveyForm({
     model.onComplete.add((sender) => {
       onCompleteRef.current?.(structuredClone(sender.data));
     });
+    configureRef.current?.(model);
     return model;
   }, [schema, dataKey, readOnly, resetKey, elementIdPrefix]);
 
@@ -56,7 +67,7 @@ export default function SurveyForm({
   }
 
   return (
-    <div className="survey-host">
+    <div id={hostId} className="survey-host" data-survey-component="SurveyJS renders this">
       <Survey model={survey} />
     </div>
   );

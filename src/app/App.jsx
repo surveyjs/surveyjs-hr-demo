@@ -3,6 +3,7 @@ import { AppProvider, useApp } from "./AppContext.jsx";
 import EmployeeProfile from "../components/EmployeeProfile.jsx";
 import EmployeeRegistrationForm from "../components/EmployeeRegistrationForm.jsx";
 import EmployeeSearchForm from "../components/EmployeeSearchForm.jsx";
+import DemoDock from "../components/DemoDock.jsx";
 import Header from "../components/Header.jsx";
 import Notification from "../components/Notification.jsx";
 import SurveyCreatorModal from "../components/SurveyCreatorModal.jsx";
@@ -19,6 +20,7 @@ function Shell() {
       </Container>
       <SurveyCreatorModal />
       <Notification />
+      <DemoDock />
     </>
   );
 }

@@ -12,9 +12,16 @@ import "./styles/global.css";
 
 const licenseKey = import.meta.env.SURVEYJS_KEY?.trim();
 if (licenseKey) slk(licenseKey);
+document.documentElement.dataset.surveyOutlines = "true";
 
 createRoot(document.getElementById("root")).render(
-  <ThemeProvider theme={theme}>
+  <ThemeProvider
+    theme={theme}
+    defaultMode="light"
+    modeStorageKey="acme-hr-display-v1"
+    disableTransitionOnChange
+    noSsr
+  >
     <CssBaseline />
     <App />
   </ThemeProvider>
