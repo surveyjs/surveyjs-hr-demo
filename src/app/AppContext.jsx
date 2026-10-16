@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { clearStoredUser, getStoredUser, storeUser } from "../auth.js";
 import { blankOnboardingSchema, schemaCatalog } from "../schemas/index.js";
 import { mockEmployees } from "../data/mockEmployees.js";
 import { employeeIdTaken, mergeEmployee, searchEmployees } from "../utils/records.js";
@@ -39,11 +40,12 @@ function loadPersistedState() {
 
 export function AppProvider({ children }) {
   const [initial] = useState(loadPersistedState);
+  const [currentUser, setCurrentUser] = useState(getStoredUser);
   const [employees, setEmployees] = useState(initial.employees);
   const [schemas, setSchemas] = useState(initial.schemas);
   const [customForms, setCustomForms] = useState(initial.customForms);
-  const [view, setView] = useState("manage");
-  const [selectedId, setSelectedId] = useState("emp-1002");
+  const [view, setView] = useState(() => (getStoredUser()?.role === "employee" ? "profile" : "manage"));
+  const [selectedId, setSelectedId] = useState(() => getStoredUser()?.employeeId || "emp-1002");
   const [criteria, setCriteria] = useState({});
   const [searchResetKey, setSearchResetKey] = useState(0);
   const [notice, setNotice] = useState(null);
@@ -170,12 +172,35 @@ export function AppProvider({ children }) {
   };
 
   const openIndex = () => {
+    if (currentUser?.role === "employee") {
+      setView("profile");
+      return;
+    }
     setView("manage");
     setCriteria({});
     setSearchResetKey((value) => value + 1);
   };
 
+  const login = (user, remember) => {
+    storeUser(user, remember);
+    setCurrentUser(user);
+    if (user.role === "employee" && user.employeeId) {
+      setSelectedId(user.employeeId);
+      setView("profile");
+      return;
+    }
+    setView("manage");
+  };
+
+  const logout = () => {
+    clearStoredUser();
+    setCurrentUser(null);
+  };
+
   const value = {
+    currentUser,
+    login,
+    logout,
     employees,
     schemas,
     customForms,

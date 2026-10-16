@@ -43,6 +43,7 @@ function Section({ title, children }) {
 
 export default function EmployeeProfile() {
   const {
+    currentUser,
     selectedEmployee,
     schemas,
     customForms,
@@ -50,6 +51,7 @@ export default function EmployeeProfile() {
     openSchemaCreator,
     openCustomCreator
   } = useApp();
+  const isEmployee = currentUser?.role === "employee";
   const [editOpen, setEditOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
@@ -57,8 +59,12 @@ export default function EmployeeProfile() {
   if (!selectedEmployee) {
     return (
       <Paper sx={{ p: 3 }}>
-        <Typography variant="h5" gutterBottom>No employee selected</Typography>
-        <Button type="button" variant="contained" onClick={() => setView("manage")}>Manage Employees</Button>
+        <Typography variant="h5" gutterBottom>
+          {isEmployee ? "No employee record is linked to this account." : "No employee selected"}
+        </Typography>
+        {isEmployee ? null : (
+          <Button type="button" variant="contained" onClick={() => setView("manage")}>Manage Employees</Button>
+        )}
       </Paper>
     );
   }
@@ -74,9 +80,11 @@ export default function EmployeeProfile() {
 
   return (
     <Stack spacing={3}>
-      <Button type="button" startIcon={<ArrowBackIcon />} onClick={() => setView("manage")} sx={{ alignSelf: "flex-start" }}>
-        Manage Employees
-      </Button>
+      {isEmployee ? null : (
+        <Button type="button" startIcon={<ArrowBackIcon />} onClick={() => setView("manage")} sx={{ alignSelf: "flex-start" }}>
+          Manage Employees
+        </Button>
+      )}
       <Paper sx={{ p: { xs: 2, md: 3 } }}>
         <Stack direction={{ xs: "column", md: "row" }} spacing={2} alignItems={{ md: "center" }}>
           <Avatar sx={{ width: 72, height: 72, bgcolor: "primary.main", fontSize: 28 }}>{initials(employee)}</Avatar>
@@ -97,9 +105,15 @@ export default function EmployeeProfile() {
           </Box>
         </Stack>
         <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" sx={{ mt: 2 }}>
-          <Button type="button" variant="contained" onClick={() => setEditOpen(true)}>Edit Employee</Button>
-          <Button type="button" variant="outlined" onClick={() => setReviewOpen(true)}>Add Performance Review</Button>
-          <Button type="button" variant="outlined" onClick={() => setLeaveOpen(true)}>Add Leave Request</Button>
+          {isEmployee ? null : (
+            <Button type="button" variant="contained" onClick={() => setEditOpen(true)}>Edit Employee</Button>
+          )}
+          {isEmployee ? null : (
+            <Button type="button" variant="outlined" onClick={() => setReviewOpen(true)}>Add Performance Review</Button>
+          )}
+          <Button type="button" variant={isEmployee ? "contained" : "outlined"} onClick={() => setLeaveOpen(true)}>
+            Add Leave Request
+          </Button>
         </Stack>
       </Paper>
 
@@ -147,6 +161,7 @@ export default function EmployeeProfile() {
         />
       </Section>
 
+      {isEmployee ? null : (
       <Section title="Form Builder Tools">
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
           Open SurveyJS Creator to change a form. Saved schemas stay in effect for this browser session.
@@ -177,6 +192,7 @@ export default function EmployeeProfile() {
           </Stack>
         ) : null}
       </Section>
+      )}
 
       <EmployeeEditDrawer open={editOpen} onClose={() => setEditOpen(false)} />
       <PerformanceReviewForm open={reviewOpen} onClose={() => setReviewOpen(false)} />

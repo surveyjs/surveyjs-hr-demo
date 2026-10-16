@@ -8,8 +8,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useApp } from "../app/AppContext.jsx";
+import { userInitials } from "../data/demoUsers.js";
 
-const NAV = [
+const HR_NAV = [
   { id: "register", label: "Register Employee", view: "register" },
   { id: "manage", label: "Manage Employees", view: "manage" },
   { id: "payroll", label: "Payroll", disabled: true, reason: "Payroll is outside this demo." },
@@ -17,15 +18,21 @@ const NAV = [
   { id: "logout", label: "Log out" }
 ];
 
+const EMPLOYEE_NAV = [
+  { id: "profile", label: "My Profile", view: "profile" },
+  { id: "logout", label: "Log out" }
+];
+
 export default function Header() {
-  const { view, setView, notify, openIndex } = useApp();
+  const { view, setView, openIndex, currentUser, logout } = useApp();
+  const nav = currentUser?.role === "employee" ? EMPLOYEE_NAV : HR_NAV;
 
   const select = (item) => {
     if (item.id === "logout") {
-      notify("Sign-out is unavailable in this demo.", "info");
+      logout();
       return;
     }
-    if (item.view === "manage") setView(view === "profile" ? "manage" : "manage");
+    if (item.view === "manage") setView("manage");
     else setView(item.view);
   };
 
@@ -55,8 +62,9 @@ export default function Header() {
           </Avatar>
           <Typography variant="h6" component="div">Acme HR</Typography>
         </Stack>
+        {currentUser ? (
         <Stack direction="row" spacing={0.5} useFlexGap flexWrap="wrap" component="nav" aria-label="Primary">
-          {NAV.map((item) => {
+          {nav.map((item) => {
             const selected = item.view && (view === item.view || (item.view === "manage" && view === "profile"));
             const button = (
               <Button
@@ -79,11 +87,18 @@ export default function Header() {
             );
           })}
         </Stack>
+        ) : null}
         <Box sx={{ flexGrow: 1 }} />
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Avatar sx={{ width: 32, height: 32, bgcolor: "secondary.main", fontSize: 13 }}>OC</Avatar>
-          <Typography variant="body2">Olivia Carter</Typography>
-        </Stack>
+        {currentUser ? (
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Avatar sx={{ width: 32, height: 32, bgcolor: "secondary.main", fontSize: 13 }}>
+              {userInitials(currentUser)}
+            </Avatar>
+            <Typography variant="body2">{currentUser.fullName}</Typography>
+          </Stack>
+        ) : (
+          <Typography variant="body2" color="text.secondary">Local demo</Typography>
+        )}
       </Toolbar>
     </AppBar>
   );

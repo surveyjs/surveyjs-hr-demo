@@ -1,0 +1,60 @@
+{
+  "title": "Acme HR Sign In",
+  "pages": [
+    {
+      "name": "sign_in",
+      "elements": [
+        {
+          "type": "dropdown",
+          "name": "roster_user",
+          "title": "Demo roster",
+          "description": "Select a pre-registered HR manager or employee. The form fills in that account.",
+          "placeholder": "Select a roster account...",
+          "choices": []
+        },
+        {
+          "type": "text",
+          "name": "username",
+          "title": "Username",
+          "isRequired": true,
+          "placeholder": "e.g. olivia.carter",
+          "autocomplete": "username"
+        },
+        {
+          "type": "text",
+          "name": "password",
+          "title": "Password",
+          "description": "Every demo account uses the password demo1234.",
+          "isRequired": true,
+          "inputType": "password",
+          "placeholder": "Enter your password",
+          "autocomplete": "current-password"
+        },
+        {
+          "type": "boolean",
+          "name": "remember_me",
+          "title": "Keep me signed in on this device",
+          "titleLocation": "hidden",
+          "displayMode": "checkbox",
+          "defaultValue": false
+        }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "type": "copyvalue",
+      "expression": "{roster_user} notempty",
+      "fromName": "roster_user",
+      "setToName": "username"
+    },
+    {
+      "type": "setvalue",
+      "expression": "{roster_user} notempty",
+      "setToName": "password",
+      "setValue": "demo1234"
+    }
+  ],
+  "completeText": "Sign In",
+  "headerView": "basic"
+}

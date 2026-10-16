@@ -48,7 +48,7 @@ export default function SurveyForm({
       });
     }
     model.onCompleting.add((sender, options) => {
-      const verdict = onCompletingRef.current?.(sender.data);
+      const verdict = onCompletingRef.current?.(sender.data, sender);
       if (verdict?.allow === false) options.allow = false;
     });
     model.onComplete.add((sender) => {

@@ -5,20 +5,26 @@ import EmployeeRegistrationForm from "../components/EmployeeRegistrationForm.jsx
 import EmployeeSearchForm from "../components/EmployeeSearchForm.jsx";
 import DemoDock from "../components/DemoDock.jsx";
 import Header from "../components/Header.jsx";
+import LoginPage from "../components/LoginPage.jsx";
 import Notification from "../components/Notification.jsx";
 import SurveyCreatorModal from "../components/SurveyCreatorModal.jsx";
 
 function Shell() {
-  const { view } = useApp();
+  const { view, currentUser } = useApp();
+  const employeeView = currentUser?.role === "employee";
   return (
     <>
       <Header />
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        {view === "register" ? <EmployeeRegistrationForm /> : null}
-        {view === "manage" ? <EmployeeSearchForm /> : null}
-        {view === "profile" ? <EmployeeProfile /> : null}
-      </Container>
-      <SurveyCreatorModal />
+      {currentUser ? (
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+          {!employeeView && view === "register" ? <EmployeeRegistrationForm /> : null}
+          {!employeeView && view === "manage" ? <EmployeeSearchForm /> : null}
+          {employeeView || view === "profile" ? <EmployeeProfile /> : null}
+        </Container>
+      ) : (
+        <LoginPage />
+      )}
+      {currentUser?.role === "hr" ? <SurveyCreatorModal /> : null}
       <Notification />
       <DemoDock />
     </>

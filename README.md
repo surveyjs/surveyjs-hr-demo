@@ -11,7 +11,18 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173.
+Open http://localhost:5173. A new visit opens the employee directory signed in as Olivia Carter (HR). Log out returns to the sign-in form for the rest of that tab. Every account uses the password `demo1234`.
+
+| Username | Role | Opens |
+| --- | --- | --- |
+| `olivia.carter` | HR | Employee directory |
+| `james.patel` | HR | Employee directory |
+| `emma.thompson` | Employee | Emma Thompson (`EMP-1002`) |
+| `daniel.okonkwo` | Employee | Daniel Okonkwo (`EMP-1044`) |
+| `priya.shah` | Employee | Priya Shah (`EMP-1108`) |
+| `liam.thompson` | Employee | Liam Thompson (`EMP-1077`) |
+
+The roster dropdown fills the username and password. “Keep me signed in on this device” stores the account in `localStorage`. Otherwise the session ends when the tab closes. Log out returns to the sign-in form. HR accounts can register and edit employees and open Survey Creator. Employee accounts see only their own profile and can add a leave request.
 
 ```bash
 npm run build
