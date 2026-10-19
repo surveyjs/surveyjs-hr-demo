@@ -1,18 +1,15 @@
-import { useRef } from "react";
 import { SurveyError } from "survey-core";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { useApp } from "../app/AppContext.jsx";
 import { authenticate, listRoster } from "../data/demoUsers.js";
 import signInSchema from "../schemas/Sign In.json";
-import SurveyForm, { completeSurvey } from "./SurveyForm.jsx";
+import SurveyForm from "./SurveyForm.jsx";
 
 export default function LoginPage() {
   const { login } = useApp();
-  const surveyRef = useRef(null);
 
   return (
     <Container maxWidth="sm" sx={{ py: { xs: 4, md: 8 } }}>
@@ -27,8 +24,8 @@ export default function LoginPage() {
           schema={signInSchema}
           elementIdPrefix="signin_"
           hostId="signin-form"
-          onModel={(model) => { surveyRef.current = model; }}
           configure={(model) => {
+            model.showCompleteButton = true;
             const roster = model.getQuestionByName("roster_user");
             if (roster) roster.choices = listRoster();
           }}
@@ -47,9 +44,6 @@ export default function LoginPage() {
             if (user) login(user, !!data.remember_me);
           }}
         />
-        <Button type="button" variant="contained" sx={{ mt: 2 }} onClick={() => completeSurvey(surveyRef.current)}>
-          {signInSchema.completeText}
-        </Button>
       </Paper>
     </Container>
   );

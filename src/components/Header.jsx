@@ -1,8 +1,10 @@
 import GroupsIcon from "@mui/icons-material/Groups";
+import LogoutIcon from "@mui/icons-material/Logout";
 import Avatar from "@mui/material/Avatar";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
@@ -14,13 +16,11 @@ const HR_NAV = [
   { id: "register", label: "Register Employee", view: "register" },
   { id: "manage", label: "Manage Employees", view: "manage" },
   { id: "payroll", label: "Payroll", disabled: true, reason: "Payroll is outside this demo." },
-  { id: "benefits", label: "Benefits", disabled: true, reason: "Benefits is outside this demo." },
-  { id: "logout", label: "Log out" }
+  { id: "benefits", label: "Benefits", disabled: true, reason: "Benefits is outside this demo." }
 ];
 
 const EMPLOYEE_NAV = [
-  { id: "profile", label: "My Profile", view: "profile" },
-  { id: "logout", label: "Log out" }
+  { id: "profile", label: "My Profile", view: "profile" }
 ];
 
 export default function Header() {
@@ -28,10 +28,6 @@ export default function Header() {
   const nav = currentUser?.role === "employee" ? EMPLOYEE_NAV : HR_NAV;
 
   const select = (item) => {
-    if (item.id === "logout") {
-      logout();
-      return;
-    }
     if (item.view === "manage") setView("manage");
     else setView(item.view);
   };
@@ -90,11 +86,24 @@ export default function Header() {
         ) : null}
         <Box sx={{ flexGrow: 1 }} />
         {currentUser ? (
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack direction="row" spacing={1.5} alignItems="center" sx={{ ml: "auto" }}>
             <Avatar sx={{ width: 32, height: 32, bgcolor: "secondary.main", fontSize: 13 }}>
               {userInitials(currentUser)}
             </Avatar>
             <Typography variant="body2">{currentUser.fullName}</Typography>
+            <Box aria-hidden="true" sx={{ width: "1px", height: 18, bgcolor: "divider" }} />
+            <IconButton
+              type="button"
+              aria-label="Log out"
+              onClick={logout}
+              size="small"
+              sx={{
+                color: "text.secondary",
+                "&:hover": { color: "primary.main", bgcolor: "transparent" }
+              }}
+            >
+              <LogoutIcon fontSize="small" />
+            </IconButton>
           </Stack>
         ) : (
           <Typography variant="body2" color="text.secondary">Local demo</Typography>

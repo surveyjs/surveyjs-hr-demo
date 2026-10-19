@@ -237,3 +237,28 @@ body {
     grid-template-columns: minmax(0, 1fr) auto;
   }
 }
+
+#signin-form .sd-root-modern.sjs-theme-overrides {
+  --sjs2-layout-component-survey-box-padding-bottom: 24px;
+  --sjs2-layout-component-survey-footer-padding-top: 0px;
+  --sjs2-layout-component-survey-footer-padding-bottom: 0px;
+}
+
+#signin-form .sd-root-modern--mobile .sd-body__navigation .sd-action-bar__item,
+#signin-form .sd-root-modern--mobile .sd-body__navigation .sd-action {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+#signin-form .sd-root-modern--mobile .sd-body__navigation .sd-action {
+  padding: var(--sjs2-layout-component-action-large-box-padding-vertical)
+    var(--sjs2-layout-component-action-large-box-padding-horizontal);
+}
+
+#signin-form .sd-navigation__complete-btn .sd-action__title {
+  text-transform: none;
+}
+
+#signin-form .sd-row:has([data-name="remember_me"]) {
+  margin-top: -24px;
+}

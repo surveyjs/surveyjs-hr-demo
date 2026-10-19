@@ -3,13 +3,14 @@
   "pages": [
     {
       "name": "search_for_employee",
-      "description": "Last name, date of birth, and employee ID are all optional.",
+      "description": "Name, date of birth, and employee ID are all optional.",
       "elements": [
         {
           "type": "text",
-          "name": "last_name",
-          "title": "Last Name",
-          "autocomplete": "family-name"
+          "name": "employee_name",
+          "title": "Employee Name",
+          "placeholder": "First name, last name, or both",
+          "autocomplete": "name"
         },
         {
           "type": "text",

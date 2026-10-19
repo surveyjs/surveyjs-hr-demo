@@ -42,7 +42,7 @@ export default function EmployeeSearchForm() {
       <Box>
         <Typography variant="h4" gutterBottom>Manage Employees</Typography>
         <Typography color="text.secondary">
-          Search by last name, date of birth, or employee ID. Every field is optional.
+          Search by name, date of birth, or employee ID. A first name, a last name, or both will match. Every field is optional.
         </Typography>
       </Box>
       <Paper sx={{ p: 0 }}>
@@ -64,7 +64,7 @@ export default function EmployeeSearchForm() {
       {searchResults == null ? (
         <Paper sx={{ p: 3 }}>
           <Typography color="text.secondary">
-            The directory lists every employee while the search fields stay empty. Try surname Thompson to narrow it.
+            The directory lists every employee while the search fields stay empty. Try Emma or Thompson to narrow it.
           </Typography>
         </Paper>
       ) : searchResults.length === 0 ? (

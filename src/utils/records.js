@@ -142,12 +142,16 @@ export function mergeEmployee(employee, data) {
 }
 
 export function searchEmployees(employees, criteria) {
-  const surname = String(criteria.last_name || "").trim().toLowerCase();
+  const nameTerms = String(criteria.employee_name || criteria.last_name || "")
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
   const dateOfBirth = criteria.date_of_birth || "";
   const employeeId = String(criteria.employee_id || "").trim().toLowerCase();
   return employees.filter((employee) => {
-    const lastName = String(employee.last_name || "").toLowerCase();
-    if (surname && !lastName.includes(surname)) return false;
+    const fullName = `${employee.first_name || ""} ${employee.last_name || ""}`.toLowerCase();
+    if (nameTerms.some((term) => !fullName.includes(term))) return false;
     if (dateOfBirth && employee.date_of_birth !== dateOfBirth) return false;
     if (employeeId && !String(employee.employee_id || "").toLowerCase().includes(employeeId)) return false;
     return true;

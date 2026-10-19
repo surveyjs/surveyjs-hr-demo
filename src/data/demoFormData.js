@@ -28,7 +28,7 @@ export const editDemoData = {
 };
 
 export const searchDemoData = {
-  last_name: "Thompson",
+  employee_name: "Emma Thompson",
   date_of_birth: "1990-04-12",
   employee_id: "EMP-1002"
 };
