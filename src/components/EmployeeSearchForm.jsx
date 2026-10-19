@@ -45,7 +45,7 @@ export default function EmployeeSearchForm() {
           Search by last name, date of birth, or employee ID. Every field is optional.
         </Typography>
       </Box>
-      <Paper sx={{ p: { xs: 2, md: 3 } }}>
+      <Paper sx={{ p: 0 }}>
         {schema ? (
           <SurveyForm
             schema={schema}
@@ -94,6 +94,12 @@ export default function EmployeeSearchForm() {
 }
 
 function configureSearch(model) {
+  const page = model.pages[0];
+  if (page?.description && !model.description) {
+    model.description = page.description;
+    page.description = "";
+  }
+  model.headerView = "basic";
   const toolbar = new ActionContainer();
   toolbar.setActionsAppearance({ mode: "tertiary-surface", size: "large", style: "brand", showBorder: true });
   toolbar.cssClasses = { ...model.navigationBar.cssClasses, root: "sd-action-bar search-header-actions" };

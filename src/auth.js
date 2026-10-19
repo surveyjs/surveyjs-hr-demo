@@ -2,7 +2,6 @@ import { demoUsers, toPublicUser } from "./data/demoUsers.js";
 
 const STORAGE_KEY = "acme-hr-auth-user";
 const SIGNED_OUT_KEY = "acme-hr-auth-signed-out";
-const DEFAULT_HR_USERNAME = "olivia.carter";
 
 export function storeUser(user, remember) {
   const target = remember ? window.localStorage : window.sessionStorage;
@@ -24,12 +23,8 @@ function readKnownUser(raw) {
 
 export function getStoredUser() {
   const raw = window.localStorage.getItem(STORAGE_KEY) ?? window.sessionStorage.getItem(STORAGE_KEY);
-  if (raw) return readKnownUser(raw);
-  if (window.sessionStorage.getItem(SIGNED_OUT_KEY)) return null;
-  const hrUser = demoUsers.find((item) => item.username === DEFAULT_HR_USERNAME && item.role === "hr");
-  if (!hrUser) return null;
-  storeUser(hrUser, false);
-  return toPublicUser(hrUser);
+  if (!raw) return null;
+  return readKnownUser(raw);
 }
 
 export function clearStoredUser() {
