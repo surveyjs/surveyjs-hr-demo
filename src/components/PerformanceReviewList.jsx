@@ -53,6 +53,7 @@ export default function PerformanceReviewList({ employee, panelSchema, labelSche
             data={panelData}
             readOnly
             elementIdPrefix={`reviews_${employee.id}_`}
+            configure={(model) => { model.showTitle = false; }}
           />
         </Box>
       ) : null}

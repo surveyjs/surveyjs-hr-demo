@@ -3,7 +3,6 @@
   "pages": [
     {
       "name": "search_for_employee",
-      "description": "Name, date of birth, and employee ID are all optional.",
       "elements": [
         {
           "type": "text",

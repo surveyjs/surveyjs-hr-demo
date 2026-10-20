@@ -13,8 +13,8 @@ import { useApp } from "../app/AppContext.jsx";
 import { userInitials } from "../data/demoUsers.js";
 
 const HR_NAV = [
-  { id: "register", label: "Register Employee", view: "register" },
   { id: "manage", label: "Manage Employees", view: "manage" },
+  { id: "register", label: "Register Employee", view: "register" },
   { id: "payroll", label: "Payroll", disabled: true, reason: "Payroll is outside this demo." },
   { id: "benefits", label: "Benefits", disabled: true, reason: "Benefits is outside this demo." }
 ];
@@ -66,11 +66,21 @@ export default function Header() {
               <Button
                 key={item.id}
                 type="button"
-                color="primary"
-                variant={selected ? "contained" : "text"}
+                variant="text"
                 disabled={item.disabled}
                 aria-current={selected ? "page" : undefined}
                 onClick={() => select(item)}
+                sx={item.disabled ? undefined : {
+                  color: selected ? "primary.main" : "text.primary",
+                  bgcolor: selected
+                    ? "color-mix(in srgb, var(--mui-palette-primary-main) 14%, transparent)"
+                    : "transparent",
+                  "&:hover": {
+                    bgcolor: selected
+                      ? "color-mix(in srgb, var(--mui-palette-primary-main) 14%, transparent)"
+                      : "action.hover"
+                  }
+                }}
               >
                 {item.label}
               </Button>

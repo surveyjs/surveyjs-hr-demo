@@ -169,14 +169,11 @@ body {
   --sjs2-layout-component-page-content-area-gap-horizontal: var(--search-inset);
 }
 
-:root[data-survey-outlines="true"] #survey-search .sd-container-modern {
-  padding-top: 16px;
-}
-
 #survey-search .sd-container-modern > .sd-container-modern__title {
   box-shadow: none;
   background: transparent;
   min-width: 0;
+  padding-block: 8px;
 }
 
 #survey-search .sd-header__text {
@@ -228,7 +225,8 @@ body {
   }
 
   #survey-search .search-header-actions {
-    padding: var(--search-inset);
+    padding-block: 8px;
+    padding-inline: var(--search-inset);
   }
 }
 

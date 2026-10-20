@@ -96,11 +96,9 @@ export default function EmployeeSearchForm() {
 }
 
 function configureSearch(model) {
+  model.description = "";
   const page = model.pages[0];
-  if (page?.description && !model.description) {
-    model.description = page.description;
-    page.description = "";
-  }
+  if (page) page.description = "";
   model.headerView = "basic";
   const toolbar = new ActionContainer();
   toolbar.setActionsAppearance({ mode: "tertiary-surface", size: "large", style: "brand", showBorder: true });

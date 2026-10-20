@@ -59,6 +59,7 @@ export default function LeaveRequestList({ employee, panelSchema, labelSchema })
             data={panelData}
             readOnly
             elementIdPrefix={`leave_${employee.id}_`}
+            configure={(model) => { model.showTitle = false; }}
           />
         </Box>
       ) : null}

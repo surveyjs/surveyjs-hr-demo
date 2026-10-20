@@ -25,6 +25,7 @@ export default function LoginPage() {
           elementIdPrefix="signin_"
           hostId="signin-form"
           configure={(model) => {
+            model.showTitle = false;
             model.showCompleteButton = true;
             const roster = model.getQuestionByName("roster_user");
             if (roster) roster.choices = listRoster();
