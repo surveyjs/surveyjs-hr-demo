@@ -56,6 +56,18 @@ export default function EmployeeProfile() {
   const [editOpen, setEditOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
+  const [leaveRequest, setLeaveRequest] = useState(null);
+  const openNewLeave = () => {
+    setLeaveRequest(null);
+    setLeaveOpen(true);
+  };
+  const openLeave = (request) => {
+    setLeaveRequest(request);
+    setLeaveOpen(true);
+  };
+  const closeLeave = () => {
+    setLeaveOpen(false);
+  };
 
   if (!selectedEmployee) {
     return (
@@ -112,7 +124,7 @@ export default function EmployeeProfile() {
           {isEmployee ? null : (
             <Button type="button" variant="outlined" onClick={() => setReviewOpen(true)}>Add Performance Review</Button>
           )}
-          <Button type="button" variant={isEmployee ? "contained" : "outlined"} onClick={() => setLeaveOpen(true)}>
+          <Button type="button" variant={isEmployee ? "contained" : "outlined"} onClick={openNewLeave}>
             Add Leave Request
           </Button>
         </Stack>
@@ -159,6 +171,7 @@ export default function EmployeeProfile() {
           employee={employee}
           panelSchema={schemas.leavePanel}
           labelSchema={schemas.addLeave}
+          onSelect={isEmployee ? undefined : openLeave}
         />
       </Section>
 
@@ -198,7 +211,7 @@ export default function EmployeeProfile() {
 
       <EmployeeEditDrawer open={editOpen} onClose={() => setEditOpen(false)} />
       <PerformanceReviewForm open={reviewOpen} onClose={() => setReviewOpen(false)} />
-      <LeaveRequestForm open={leaveOpen} onClose={() => setLeaveOpen(false)} />
+      <LeaveRequestForm open={leaveOpen} request={leaveRequest} onClose={closeLeave} />
     </Stack>
   );
 }

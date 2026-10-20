@@ -23,7 +23,8 @@ export default function FormDrawer({
   onComplete,
   onCompleting,
   onClose,
-  onCustomize
+  onCustomize,
+  configure
 }) {
   const { currentUser } = useApp();
   const surveyRef = useRef(null);
@@ -68,6 +69,7 @@ export default function FormDrawer({
               onModel={(model) => { surveyRef.current = model; }}
               onComplete={onComplete}
               onCompleting={onCompleting}
+              configure={configure}
             />
           ) : null}
         </Box>

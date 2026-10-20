@@ -117,6 +117,18 @@ export function AppProvider({ children }) {
     }));
   };
 
+  const updateLeave = (employeeId, requestId, data) => {
+    setEmployees((current) => current.map((employee) => {
+      if (employee.id !== employeeId) return employee;
+      return {
+        ...employee,
+        leaveRequests: (employee.leaveRequests || []).map((request) => (
+          request.id === requestId ? { ...request, ...data, id: request.id } : request
+        ))
+      };
+    }));
+  };
+
   const openSchemaCreator = (key, title) => {
     const schema = schemasRef.current[key];
     const defaultSchema = schemaCatalog[key];
@@ -239,6 +251,7 @@ export function AppProvider({ children }) {
     updateEmployee,
     addReview,
     addLeave,
+    updateLeave,
     creatorRequest,
     openSchemaCreator,
     openCustomCreator,
