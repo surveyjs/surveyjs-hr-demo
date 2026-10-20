@@ -22,11 +22,6 @@ export const registrationDemoData = {
   ...employeeDemo
 };
 
-export const editDemoData = {
-  ...employeeDemo,
-  employee_id: "EMP-9002"
-};
-
 export const searchDemoData = {
   employee_name: "Emma Thompson",
   date_of_birth: "1990-04-12",

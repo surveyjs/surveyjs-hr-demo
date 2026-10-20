@@ -17,6 +17,7 @@ import {
   fullName,
   initials
 } from "../utils/records.js";
+import DemoResetPanel from "./DemoResetPanel.jsx";
 import EmployeeEditDrawer from "./EmployeeEditDrawer.jsx";
 import LeaveRequestForm from "./LeaveRequestForm.jsx";
 import LeaveRequestList from "./LeaveRequestList.jsx";
@@ -193,6 +194,7 @@ export default function EmployeeProfile() {
         ) : null}
       </Section>
       )}
+      {isEmployee ? null : <DemoResetPanel />}
 
       <EmployeeEditDrawer open={editOpen} onClose={() => setEditOpen(false)} />
       <PerformanceReviewForm open={reviewOpen} onClose={() => setReviewOpen(false)} />

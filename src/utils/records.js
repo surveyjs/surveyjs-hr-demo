@@ -95,19 +95,23 @@ function isMaskedPostcode(value) {
   return typeof value === "string" && POSTCODE_MASK.test(value.replace(/\s+/g, ""));
 }
 
-export function maskNotes(employee) {
-  const notes = [];
-  if (employee.phone_number && !isMaskedPhone(employee.phone_number)) {
-    notes.push(
-      `Saved phone number: ${employee.phone_number}. The form mask expects 11 digits, for example 41555 50147.`
-    );
+export function repairContactFields(employee, seed) {
+  if (!seed) return employee;
+  const next = { ...employee };
+  if (next.phone_number && !isMaskedPhone(next.phone_number) && isMaskedPhone(seed.phone_number)) {
+    next.phone_number = seed.phone_number;
   }
-  if (employee.postcode && !isMaskedPostcode(employee.postcode)) {
-    notes.push(
-      `Saved postcode: ${employee.postcode}. The form mask expects a UK postcode such as AB12 3CD. Leave Postcode empty to keep the saved value.`
-    );
+  if (
+    next.emergency_contact_phone_number
+    && !isMaskedPhone(next.emergency_contact_phone_number)
+    && isMaskedPhone(seed.emergency_contact_phone_number)
+  ) {
+    next.emergency_contact_phone_number = seed.emergency_contact_phone_number;
   }
-  return notes;
+  if (next.postcode && !isMaskedPostcode(next.postcode) && isMaskedPostcode(seed.postcode)) {
+    next.postcode = seed.postcode;
+  }
+  return next;
 }
 
 export function toSurveyEmployee(employee) {

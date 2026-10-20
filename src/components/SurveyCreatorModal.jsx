@@ -42,6 +42,11 @@ export default function SurveyCreatorModal() {
     closeCreator();
   };
 
+  const resetToDefault = () => {
+    if (!creator || !creatorRequest?.defaultSchema) return;
+    creator.JSON = structuredClone(creatorRequest.defaultSchema);
+  };
+
   return (
     <Dialog fullScreen open={Boolean(creatorRequest)} onClose={closeCreator}>
       <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -55,6 +60,7 @@ export default function SurveyCreatorModal() {
                 </Typography>
               )}
             </Box>
+            <Button type="button" onClick={resetToDefault}>Reset to Default</Button>
             <Button type="button" variant="contained" onClick={saveAndClose}>Save schema</Button>
             <Button type="button" variant="outlined" onClick={closeCreator}>Close</Button>
           </Toolbar>

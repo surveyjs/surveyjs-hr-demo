@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState } from 
 import { clearStoredUser, getStoredUser, storeUser } from "../auth.js";
 import { blankOnboardingSchema, schemaCatalog } from "../schemas/index.js";
 import { mockEmployees } from "../data/mockEmployees.js";
-import { employeeIdTaken, mergeEmployee, searchEmployees } from "../utils/records.js";
+import { employeeIdTaken, mergeEmployee, repairContactFields, searchEmployees } from "../utils/records.js";
 
 const STORAGE_KEY = "acme-hr-demo-v1";
 const AppContext = createContext(null);
@@ -22,11 +22,11 @@ function loadPersistedState() {
     if (!raw) return fallback;
     const parsed = JSON.parse(raw);
     const employees = Array.isArray(parsed.employees) && parsed.employees.length
-      ? parsed.employees.map((employee) => ({
+      ? parsed.employees.map((employee) => repairContactFields({
           ...employee,
           reviews: employee.reviews || [],
           leaveRequests: employee.leaveRequests || []
-        }))
+        }, mockEmployees.find((seed) => seed.id === employee.id)))
       : fallback.employees;
     return {
       employees,
@@ -119,7 +119,8 @@ export function AppProvider({ children }) {
 
   const openSchemaCreator = (key, title) => {
     const schema = schemasRef.current[key];
-    if (!schema) {
+    const defaultSchema = schemaCatalog[key];
+    if (!schema || !defaultSchema) {
       notify(`The ${title} schema is missing.`, "error");
       return;
     }
@@ -129,7 +130,8 @@ export function AppProvider({ children }) {
       kind: "schema",
       key,
       title,
-      schema: clone(schema)
+      schema: clone(schema),
+      defaultSchema: clone(defaultSchema)
     });
   };
 
@@ -139,8 +141,24 @@ export function AppProvider({ children }) {
       token: Date.now(),
       kind: "custom",
       title: form ? `Edit ${form.title || "Onboarding form"}` : "Create New Onboarding Form",
-      schema: clone(form?.schema || blankOnboardingSchema)
+      schema: clone(form?.schema || blankOnboardingSchema),
+      defaultSchema: clone(blankOnboardingSchema)
     });
+  };
+
+  const resetDemoData = () => {
+    const nextEmployees = clone(mockEmployees);
+    setEmployees(nextEmployees);
+    setSchemas(clone(schemaCatalog));
+    setCustomForms([]);
+    setCriteria({});
+    setSearchResetKey((value) => value + 1);
+    setCreatorRequest(null);
+    customIdRef.current = null;
+    setSelectedId((current) => (
+      nextEmployees.some((employee) => employee.id === current) ? current : "emp-1002"
+    ));
+    notify("Local demo restored.");
   };
 
   const closeCreator = () => setCreatorRequest(null);
@@ -224,6 +242,7 @@ export function AppProvider({ children }) {
     creatorRequest,
     openSchemaCreator,
     openCustomCreator,
+    resetDemoData,
     closeCreator,
     saveCreatorSchema
   };

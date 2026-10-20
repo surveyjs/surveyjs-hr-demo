@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { useApp } from "../app/AppContext.jsx";
 import SurveyForm, { completeSurvey, prefillSurvey } from "./SurveyForm.jsx";
 
 export default function FormDrawer({
@@ -24,7 +25,9 @@ export default function FormDrawer({
   onClose,
   onCustomize
 }) {
+  const { currentUser } = useApp();
   const surveyRef = useRef(null);
+  const canCustomize = currentUser?.role === "hr" && typeof onCustomize === "function";
   return (
     <Drawer
       anchor="right"
@@ -48,7 +51,7 @@ export default function FormDrawer({
               </Button>
             ) : null}
             <Button type="button" variant="outlined" onClick={onClose}>{cancelLabel}</Button>
-            {onCustomize ? (
+            {canCustomize ? (
               <Button type="button" onClick={onCustomize}>{customizeLabel || "Customize in Builder"}</Button>
             ) : null}
           </Stack>
