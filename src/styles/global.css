@@ -275,8 +275,25 @@ body {
   }
 }
 
-#signin-form .sd-root-modern.sjs-theme-overrides {
-  --sjs2-layout-component-survey-footer-padding-top: 16px;
+#signin-form,
+#survey-register {
+  --form-inset: 16px;
+}
+
+#signin-form .sd-root-modern.sjs-theme-overrides,
+#survey-register .sd-root-modern.sjs-theme-overrides {
+  --sjs2-layout-component-survey-box-gap-vertical: var(--form-inset);
+  --sjs2-layout-component-survey-box-padding-bottom: var(--form-inset);
+  --sjs2-layout-component-page-content-area-padding-horizontal: var(--form-inset);
+  --sjs2-layout-component-survey-footer-padding-horizontal: var(--form-inset);
+  --sjs2-layout-component-survey-footer-padding-top: var(--form-inset);
+}
+
+@media (min-width: 768px) {
+  #signin-form,
+  #survey-register {
+    --form-inset: 24px;
+  }
 }
 
 #signin-form .sd-root-modern--mobile .sd-body__navigation .sd-action-bar__item,

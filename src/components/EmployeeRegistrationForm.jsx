@@ -84,6 +84,7 @@ export default function EmployeeRegistrationForm() {
             schema={schema}
             resetKey={resetKey}
             elementIdPrefix="register_"
+            hostId="survey-register"
             configure={(model) => { model.showTitle = false; }}
             onModel={(model) => { surveyRef.current = model; }}
             onCompleting={(data) => {
