@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
@@ -43,10 +42,6 @@ const STATUS_COLOR = {
 export default function LeaveRequestList({ employee, panelSchema, labelSchema, onSelect }) {
   const requests = [...(employee.leaveRequests || [])].sort(byDateDesc("start_date"));
   const panelData = { leave_list: toPanelRecords(requests) };
-  const requestsRef = useRef(requests);
-  const onSelectRef = useRef(onSelect);
-  requestsRef.current = requests;
-  onSelectRef.current = onSelect;
 
   return (
     <Stack spacing={2}>
@@ -73,37 +68,14 @@ export default function LeaveRequestList({ employee, panelSchema, labelSchema, o
       {requests.length > 0 && panelSchema ? (
         <Box>
           <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-            {onSelect
-              ? "Leave collection from the leave-request dynamic panel. Select a request to set Approved or Declined."
-              : "Leave collection from the leave-request dynamic panel. Saved requests are read-only here."}
+            Leave collection from the leave-request dynamic panel. Saved requests are read-only here.
           </Typography>
           <SurveyForm
             schema={panelSchema}
             data={panelData}
             readOnly
             elementIdPrefix={`leave_${employee.id}_`}
-            configure={(model) => {
-              model.showTitle = false;
-              if (!onSelect) return;
-              model.onAfterRenderPanel.add((_, options) => {
-                const parent = options.panel?.parentQuestion;
-                if (parent?.name !== "leave_list") return;
-                const element = options.htmlElement;
-                if (!element || element.dataset.leaveSelect === "true") return;
-                const index = parent.panels.indexOf(options.panel);
-                const request = requests[index];
-                if (!request) return;
-                element.dataset.leaveSelect = "true";
-                element.style.cursor = "pointer";
-                element.addEventListener("click", (event) => {
-                  if (event.target.closest("button")) return;
-                  event.preventDefault();
-                  const index = parent.panels.indexOf(options.panel);
-                  const current = requestsRef.current[index];
-                  if (current) onSelectRef.current?.(current);
-                });
-              });
-            }}
+            configure={(model) => { model.showTitle = false; }}
           />
         </Box>
       ) : null}

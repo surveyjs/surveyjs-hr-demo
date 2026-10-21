@@ -15,10 +15,10 @@
     "@mui/material": "^7.3.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "survey-core": "3.2.0",
-    "survey-creator-core": "3.2.0",
-    "survey-creator-react": "3.2.0",
-    "survey-react-ui": "3.2.0"
+    "survey-core": "3.2.2",
+    "survey-creator-core": "3.2.2",
+    "survey-creator-react": "3.2.2",
+    "survey-react-ui": "3.2.2"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.0.4",
