@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef } from "react";
-import { Serializer } from "survey-core";
 import { AceJsonEditorModel } from "survey-creator-core";
 import { SurveyCreator, SurveyCreatorComponent } from "survey-creator-react";
 import "ace-builds/src-noconflict/ace";
@@ -36,8 +35,6 @@ export default function SurveyCreatorModal() {
 
   const creator = useMemo(() => {
     if (!creatorRequest) return null;
-    Serializer.findProperty("survey", "questionDescriptionLocation").defaultValue = "underInput";
-    Serializer.findProperty("survey", "questionErrorLocation").defaultValue = "bottom";
     const instance = new SurveyCreator({ autoSaveEnabled: false });
     instance.JSON = structuredClone(creatorRequest.schema);
     instance.saveSurveyFunc = (saveNo, callback) => {
