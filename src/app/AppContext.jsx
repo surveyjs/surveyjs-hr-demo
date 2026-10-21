@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState } from 
 import { clearStoredUser, getStoredUser, storeUser } from "../auth.js";
 import { blankOnboardingSchema, schemaCatalog } from "../schemas/index.js";
 import { mockEmployees } from "../data/mockEmployees.js";
-import { employeeIdTaken, mergeEmployee, repairContactFields, searchEmployees } from "../utils/records.js";
+import { employeeIdTaken, ensureCompensation, mergeEmployee, repairContactFields, searchEmployees } from "../utils/records.js";
 
 const STORAGE_KEY = "acme-hr-demo-v1";
 const AppContext = createContext(null);
@@ -22,11 +22,14 @@ function loadPersistedState() {
     if (!raw) return fallback;
     const parsed = JSON.parse(raw);
     const employees = Array.isArray(parsed.employees) && parsed.employees.length
-      ? parsed.employees.map((employee) => repairContactFields({
-          ...employee,
-          reviews: employee.reviews || [],
-          leaveRequests: employee.leaveRequests || []
-        }, mockEmployees.find((seed) => seed.id === employee.id)))
+      ? parsed.employees.map((employee) => {
+          const seed = mockEmployees.find((item) => item.id === employee.id);
+          return ensureCompensation(repairContactFields({
+            ...employee,
+            reviews: employee.reviews || [],
+            leaveRequests: employee.leaveRequests || []
+          }, seed), seed);
+        })
       : fallback.employees;
     return {
       employees,
@@ -84,7 +87,10 @@ export function AppProvider({ children }) {
       id: crypto.randomUUID(),
       status: "active",
       reviews: [],
-      leaveRequests: []
+      leaveRequests: [],
+      salary: null,
+      payments: [],
+      benefits: []
     };
     setEmployees((current) => [...current, employee]);
     return { ok: true, employee };
@@ -124,6 +130,40 @@ export function AppProvider({ children }) {
         ...employee,
         leaveRequests: (employee.leaveRequests || []).map((request) => (
           request.id === requestId ? { ...request, ...data, id: request.id } : request
+        ))
+      };
+    }));
+  };
+
+  const updateSalary = (employeeId, data) => {
+    setEmployees((current) => current.map((employee) => {
+      if (employee.id !== employeeId) return employee;
+      return {
+        ...employee,
+        salary: {
+          amount: Number(data.salary_amount),
+          currency: data.currency || "USD",
+          pay_frequency: data.pay_frequency || "monthly"
+        }
+      };
+    }));
+  };
+
+  const addBenefit = (employeeId, data) => {
+    const benefit = { id: crypto.randomUUID(), status: "enrolled", ...data };
+    setEmployees((current) => current.map((employee) => {
+      if (employee.id !== employeeId) return employee;
+      return { ...employee, benefits: [benefit, ...(employee.benefits || [])] };
+    }));
+  };
+
+  const updateBenefit = (employeeId, benefitId, data) => {
+    setEmployees((current) => current.map((employee) => {
+      if (employee.id !== employeeId) return employee;
+      return {
+        ...employee,
+        benefits: (employee.benefits || []).map((benefit) => (
+          benefit.id === benefitId ? { ...benefit, ...data, id: benefit.id } : benefit
         ))
       };
     }));
@@ -252,6 +292,9 @@ export function AppProvider({ children }) {
     addReview,
     addLeave,
     updateLeave,
+    updateSalary,
+    addBenefit,
+    updateBenefit,
     creatorRequest,
     openSchemaCreator,
     openCustomCreator,

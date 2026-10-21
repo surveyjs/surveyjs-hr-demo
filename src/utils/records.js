@@ -1,4 +1,4 @@
-const SYSTEM_FIELDS = new Set(["id", "status", "reviews", "leaveRequests"]);
+const SYSTEM_FIELDS = new Set(["id", "status", "reviews", "leaveRequests", "salary", "payments", "benefits"]);
 const PHONE_MASK = /^\d{11}$/;
 const POSTCODE_MASK = /^[A-Za-z]{2}\d{3}[A-Za-z]{2}$/;
 
@@ -10,6 +10,15 @@ export function initials(employee) {
   const first = employee?.first_name?.[0] || "";
   const last = employee?.last_name?.[0] || "";
   return `${first}${last}`.toUpperCase() || "?";
+}
+
+export function formatMoney(amount, currency = "USD") {
+  if (amount == null || amount === "" || Number.isNaN(Number(amount))) return "—";
+  try {
+    return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(Number(amount));
+  } catch {
+    return String(amount);
+  }
 }
 
 export function formatDate(value) {
@@ -128,6 +137,18 @@ export function toSurveyEmployee(employee) {
   return data;
 }
 
+export function ensureCompensation(employee, seed) {
+  const next = { ...employee };
+  if (!next.salary && seed?.salary) next.salary = structuredClone(seed.salary);
+  if (!Array.isArray(next.payments) || next.payments.length === 0) {
+    next.payments = structuredClone(seed?.payments || []);
+  }
+  if (!Array.isArray(next.benefits) || next.benefits.length === 0) {
+    next.benefits = structuredClone(seed?.benefits || []);
+  }
+  return next;
+}
+
 export function mergeEmployee(employee, data) {
   const next = {
     ...employee,
@@ -135,7 +156,10 @@ export function mergeEmployee(employee, data) {
     id: employee.id,
     status: employee.status || "active",
     reviews: employee.reviews || [],
-    leaveRequests: employee.leaveRequests || []
+    leaveRequests: employee.leaveRequests || [],
+    salary: employee.salary || null,
+    payments: employee.payments || [],
+    benefits: employee.benefits || []
   };
   if (!data.phone_number) next.phone_number = employee.phone_number;
   if (!data.emergency_contact_phone_number) {

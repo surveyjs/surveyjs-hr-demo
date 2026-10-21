@@ -1,0 +1,35 @@
+{
+  "pages": [
+    {
+      "name": "payments",
+      "elements": [
+        {
+          "type": "paneldynamic",
+          "name": "payment_list",
+          "title": "Payment History",
+          "titleLocation": "hidden",
+          "templateElements": [
+            {
+              "type": "text",
+              "name": "pay_date",
+              "title": "Pay Date",
+              "inputType": "date"
+            },
+            {
+              "type": "text",
+              "name": "amount",
+              "startWithNewLine": false,
+              "title": "Amount",
+              "inputType": "number"
+            }
+          ],
+          "templateTitle": "{panel.pay_date}",
+          "allowAddPanel": false,
+          "allowRemovePanel": false,
+          "panelsState": "firstExpanded"
+        }
+      ]
+    }
+  ],
+  "headerView": "advanced"
+}

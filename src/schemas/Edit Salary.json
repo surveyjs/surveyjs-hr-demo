@@ -1,0 +1,64 @@
+{
+  "pages": [
+    {
+      "name": "salary",
+      "elements": [
+        {
+          "type": "text",
+          "name": "salary_amount",
+          "title": "Salary",
+          "isRequired": true,
+          "inputType": "number",
+          "validators": [
+            {
+              "type": "expression",
+              "text": "Salary must be zero or greater.",
+              "expression": "{salary_amount} >= 0"
+            }
+          ]
+        },
+        {
+          "type": "dropdown",
+          "name": "currency",
+          "startWithNewLine": false,
+          "title": "Currency",
+          "isRequired": true,
+          "defaultValue": "USD",
+          "choices": [
+            {
+              "value": "USD",
+              "text": "USD"
+            },
+            {
+              "value": "GBP",
+              "text": "GBP"
+            }
+          ]
+        },
+        {
+          "type": "dropdown",
+          "name": "pay_frequency",
+          "title": "Payment Frequency",
+          "isRequired": true,
+          "defaultValue": "monthly",
+          "choices": [
+            {
+              "value": "weekly",
+              "text": "Weekly"
+            },
+            {
+              "value": "biweekly",
+              "text": "Every two weeks"
+            },
+            {
+              "value": "monthly",
+              "text": "Monthly"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "completeText": "Save Salary",
+  "headerView": "advanced"
+}

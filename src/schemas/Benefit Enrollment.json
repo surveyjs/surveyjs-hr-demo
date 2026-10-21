@@ -1,0 +1,59 @@
+{
+  "pages": [
+    {
+      "name": "benefit",
+      "elements": [
+        {
+          "type": "dropdown",
+          "name": "benefit_type",
+          "title": "Benefit",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "health_insurance",
+              "text": "Health Insurance"
+            },
+            {
+              "value": "retirement",
+              "text": "Retirement Plan"
+            },
+            {
+              "value": "paid_time_off",
+              "text": "Paid Time Off"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "plan_name",
+          "title": "Plan Name",
+          "isRequired": true
+        },
+        {
+          "type": "comment",
+          "name": "coverage_detail",
+          "title": "Coverage"
+        },
+        {
+          "type": "radiogroup",
+          "name": "status",
+          "title": "Enrollment",
+          "defaultValue": "enrolled",
+          "choices": [
+            {
+              "value": "enrolled",
+              "text": "Enrolled"
+            },
+            {
+              "value": "waived",
+              "text": "Waived"
+            }
+          ],
+          "colCount": 2
+        }
+      ]
+    }
+  ],
+  "completeText": "Save Benefit",
+  "headerView": "advanced"
+}

@@ -1,9 +1,7 @@
 import { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
@@ -13,12 +11,11 @@ import {
   choiceLabel,
   formatAddress,
   formatDate,
-  formatPhone,
-  fullName,
-  initials
+  formatPhone
 } from "../utils/records.js";
 import DemoResetPanel from "./DemoResetPanel.jsx";
 import EmployeeEditDrawer from "./EmployeeEditDrawer.jsx";
+import EmployeeSummary from "./EmployeeSummary.jsx";
 import LeaveRequestForm from "./LeaveRequestForm.jsx";
 import LeaveRequestList from "./LeaveRequestList.jsx";
 import PerformanceReviewForm from "./PerformanceReviewForm.jsx";
@@ -99,24 +96,7 @@ export default function EmployeeProfile() {
         </Button>
       )}
       <Paper sx={{ p: { xs: 2, md: 3 } }}>
-        <Stack direction={{ xs: "column", md: "row" }} spacing={2} alignItems={{ md: "center" }}>
-          <Avatar sx={{ width: 72, height: 72, bgcolor: "primary.main", fontSize: 28 }}>{initials(employee)}</Avatar>
-          <Box sx={{ flex: 1 }}>
-            <Stack direction="row" spacing={1} alignItems="center" useFlexGap flexWrap="wrap">
-              <Typography variant="h4">{fullName(employee)}</Typography>
-              <Chip size="small" color="success" label={employee.status === "active" ? "Active" : employee.status || "Active"} />
-            </Stack>
-            <Typography color="text.secondary" sx={{ mt: 0.5 }}>
-              {choiceLabel(labelSchema, "job_title", employee.job_title, employee)}
-            </Typography>
-            <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap" sx={{ mt: 1 }}>
-              <Typography variant="body2">Born {formatDate(employee.date_of_birth)}</Typography>
-              <Typography variant="body2">ID {employee.employee_id}</Typography>
-              <Typography variant="body2">{choiceLabel(labelSchema, "department", employee.department, employee)}</Typography>
-              <Typography variant="body2">Hired {formatDate(employee.start_date)}</Typography>
-            </Stack>
-          </Box>
-        </Stack>
+        <EmployeeSummary employee={employee} labelSchema={labelSchema} />
         <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" sx={{ mt: 2 }}>
           {isEmployee ? null : (
             <Button type="button" variant="contained" onClick={() => setEditOpen(true)}>Edit Employee</Button>

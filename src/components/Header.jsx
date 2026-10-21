@@ -15,12 +15,14 @@ import { userInitials } from "../data/demoUsers.js";
 const HR_NAV = [
   { id: "manage", label: "Manage Employees", view: "manage" },
   { id: "register", label: "Register Employee", view: "register" },
-  { id: "payroll", label: "Payroll", disabled: true, reason: "Payroll is outside this demo." },
-  { id: "benefits", label: "Benefits", disabled: true, reason: "Benefits is outside this demo." }
+  { id: "payroll", label: "Payroll", view: "payroll", requiresProfile: true },
+  { id: "benefits", label: "Benefits", view: "benefits", requiresProfile: true }
 ];
 
 const EMPLOYEE_NAV = [
-  { id: "profile", label: "My Profile", view: "profile" }
+  { id: "profile", label: "My Profile", view: "profile" },
+  { id: "payroll", label: "Payroll", view: "payroll", requiresProfile: true },
+  { id: "benefits", label: "Benefits", view: "benefits", requiresProfile: true }
 ];
 
 export default function Header() {
@@ -61,16 +63,18 @@ export default function Header() {
         {currentUser ? (
         <Stack direction="row" spacing={0.5} useFlexGap flexWrap="wrap" component="nav" aria-label="Primary">
           {nav.map((item) => {
-            const selected = item.view && (view === item.view || (item.view === "manage" && view === "profile"));
+            const profileOpen = view === "profile" || view === "payroll" || view === "benefits";
+            const disabled = Boolean(item.requiresProfile && !profileOpen);
+            const selected = item.view === view || (item.id === "manage" && view === "profile");
             const button = (
               <Button
                 key={item.id}
                 type="button"
                 variant="text"
-                disabled={item.disabled}
+                disabled={disabled}
                 aria-current={selected ? "page" : undefined}
                 onClick={() => select(item)}
-                sx={item.disabled ? undefined : {
+                sx={disabled ? undefined : {
                   color: selected ? "primary.main" : "text.primary",
                   bgcolor: selected
                     ? "color-mix(in srgb, var(--mui-palette-primary-main) 14%, transparent)"
@@ -85,9 +89,9 @@ export default function Header() {
                 {item.label}
               </Button>
             );
-            if (!item.disabled) return button;
+            if (!disabled) return button;
             return (
-              <Tooltip key={item.id} title={item.reason}>
+              <Tooltip key={item.id} title="Open an employee profile first.">
                 <span>{button}</span>
               </Tooltip>
             );

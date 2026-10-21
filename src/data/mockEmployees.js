@@ -6,6 +6,23 @@ const quality = (accurate, pressure, issues, timely, details) => ({
   details: { rating: details }
 });
 
+function payroll(prefix, amount, currency, benefits) {
+  const installment = Math.round((amount / 12) * 100) / 100;
+  return {
+    salary: { amount, currency, pay_frequency: "monthly" },
+    payments: ["2026-07-31", "2026-08-31", "2026-09-30"].map((pay_date, index) => ({
+      id: `${prefix}-pay-${index + 1}`,
+      pay_date,
+      amount: installment
+    })),
+    benefits: benefits.map((benefit, index) => ({
+      id: `${prefix}-benefit-${index + 1}`,
+      status: "enrolled",
+      ...benefit
+    }))
+  };
+}
+
 export const mockEmployees = [
   {
     id: "emp-1002",
@@ -74,7 +91,12 @@ export const mockEmployees = [
         end_date: "2024-02-06",
         status: "approved"
       }
-    ]
+    ],
+    ...payroll("emma", 128000, "USD", [
+      { benefit_type: "health_insurance", plan_name: "Acme Medical PPO", coverage_detail: "Employee and family" },
+      { benefit_type: "retirement", plan_name: "Acme 401(k)", coverage_detail: "6% employer match" },
+      { benefit_type: "paid_time_off", plan_name: "Standard PTO", coverage_detail: "20 days" }
+    ])
   },
   {
     id: "emp-1044",
@@ -97,7 +119,12 @@ export const mockEmployees = [
     emergency_contact_phone_number: "02079460112",
     emergency_contact_relationship: "spouse-partner",
     reviews: [],
-    leaveRequests: []
+    leaveRequests: [],
+    ...payroll("daniel", 86000, "GBP", [
+      { benefit_type: "health_insurance", plan_name: "Private Medical", coverage_detail: "Employee" },
+      { benefit_type: "retirement", plan_name: "Workplace Pension", coverage_detail: "5% employee contribution" },
+      { benefit_type: "paid_time_off", plan_name: "Annual Leave", coverage_detail: "25 days" }
+    ])
   },
   {
     id: "emp-1108",
@@ -120,7 +147,12 @@ export const mockEmployees = [
     emergency_contact_phone_number: "01632960189",
     emergency_contact_relationship: "sibling",
     reviews: [],
-    leaveRequests: []
+    leaveRequests: [],
+    ...payroll("priya", 98000, "GBP", [
+      { benefit_type: "health_insurance", plan_name: "Private Medical", coverage_detail: "Employee and partner" },
+      { benefit_type: "retirement", plan_name: "Workplace Pension", coverage_detail: "8% employee contribution" },
+      { benefit_type: "paid_time_off", plan_name: "Annual Leave", coverage_detail: "25 days" }
+    ])
   },
   {
     id: "emp-1077",
@@ -144,6 +176,11 @@ export const mockEmployees = [
     emergency_contact_phone_number: "01134960124",
     emergency_contact_relationship: "parent",
     reviews: [],
-    leaveRequests: []
+    leaveRequests: [],
+    ...payroll("liam", 72000, "GBP", [
+      { benefit_type: "health_insurance", plan_name: "Private Medical", coverage_detail: "Employee" },
+      { benefit_type: "retirement", plan_name: "Workplace Pension", coverage_detail: "5% employee contribution" },
+      { benefit_type: "paid_time_off", plan_name: "Annual Leave", coverage_detail: "22 days" }
+    ])
   }
 ];

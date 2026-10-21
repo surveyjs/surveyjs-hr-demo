@@ -1,0 +1,68 @@
+{
+  "pages": [
+    {
+      "name": "benefits",
+      "elements": [
+        {
+          "type": "paneldynamic",
+          "name": "benefit_list",
+          "title": "Benefits",
+          "titleLocation": "hidden",
+          "templateElements": [
+            {
+              "type": "dropdown",
+              "name": "benefit_type",
+              "title": "Benefit",
+              "choices": [
+                {
+                  "value": "health_insurance",
+                  "text": "Health Insurance"
+                },
+                {
+                  "value": "retirement",
+                  "text": "Retirement Plan"
+                },
+                {
+                  "value": "paid_time_off",
+                  "text": "Paid Time Off"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "plan_name",
+              "startWithNewLine": false,
+              "title": "Plan Name"
+            },
+            {
+              "type": "comment",
+              "name": "coverage_detail",
+              "title": "Coverage"
+            },
+            {
+              "type": "radiogroup",
+              "name": "status",
+              "title": "Enrollment",
+              "choices": [
+                {
+                  "value": "enrolled",
+                  "text": "Enrolled"
+                },
+                {
+                  "value": "waived",
+                  "text": "Waived"
+                }
+              ],
+              "colCount": 2
+            }
+          ],
+          "templateTitle": "{panel.benefit_type}",
+          "allowAddPanel": false,
+          "allowRemovePanel": false,
+          "panelsState": "firstExpanded"
+        }
+      ]
+    }
+  ],
+  "headerView": "advanced"
+}
