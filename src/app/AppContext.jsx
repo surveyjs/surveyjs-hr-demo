@@ -24,11 +24,13 @@ function loadPersistedState() {
     const employees = Array.isArray(parsed.employees) && parsed.employees.length
       ? parsed.employees.map((employee) => {
           const seed = mockEmployees.find((item) => item.id === employee.id);
-          return ensureCompensation(repairContactFields({
+          const next = ensureCompensation(repairContactFields({
             ...employee,
             reviews: employee.reviews || [],
             leaveRequests: employee.leaveRequests || []
           }, seed), seed);
+          delete next.status;
+          return next;
         })
       : fallback.employees;
     return {
@@ -85,7 +87,6 @@ export function AppProvider({ children }) {
     const employee = {
       ...data,
       id: crypto.randomUUID(),
-      status: "active",
       reviews: [],
       leaveRequests: [],
       salary: null,

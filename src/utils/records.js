@@ -1,4 +1,4 @@
-const SYSTEM_FIELDS = new Set(["id", "status", "reviews", "leaveRequests", "salary", "payments", "benefits"]);
+const SYSTEM_FIELDS = new Set(["id", "reviews", "leaveRequests", "salary", "payments", "benefits"]);
 const PHONE_MASK = /^\d{11}$/;
 const POSTCODE_MASK = /^[A-Za-z]{2}\d{3}[A-Za-z]{2}$/;
 
@@ -154,7 +154,6 @@ export function mergeEmployee(employee, data) {
     ...employee,
     ...data,
     id: employee.id,
-    status: employee.status || "active",
     reviews: employee.reviews || [],
     leaveRequests: employee.leaveRequests || [],
     salary: employee.salary || null,
@@ -166,6 +165,7 @@ export function mergeEmployee(employee, data) {
     next.emergency_contact_phone_number = employee.emergency_contact_phone_number;
   }
   if (!data.postcode) next.postcode = employee.postcode;
+  delete next.status;
   return next;
 }
 

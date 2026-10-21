@@ -26,7 +26,6 @@ function payroll(prefix, amount, currency, benefits) {
 export const mockEmployees = [
   {
     id: "emp-1002",
-    status: "active",
     first_name: "Emma",
     last_name: "Thompson",
     date_of_birth: "1990-04-12",
@@ -100,7 +99,6 @@ export const mockEmployees = [
   },
   {
     id: "emp-1044",
-    status: "active",
     first_name: "Daniel",
     last_name: "Okonkwo",
     date_of_birth: "1988-11-02",
@@ -128,7 +126,6 @@ export const mockEmployees = [
   },
   {
     id: "emp-1108",
-    status: "active",
     first_name: "Priya",
     last_name: "Shah",
     date_of_birth: "1995-07-21",
@@ -156,7 +153,6 @@ export const mockEmployees = [
   },
   {
     id: "emp-1077",
-    status: "active",
     first_name: "Liam",
     last_name: "Thompson",
     date_of_birth: "1992-01-30",

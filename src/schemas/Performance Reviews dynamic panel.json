@@ -52,7 +52,6 @@
                   "name": "rating",
                   "cellType": "rating",
                   "width": "30%",
-                  "resetValueIf": "{row.checkbox} notempty",
                   "totalType": "avg",
                   "totalFormat": "Avg score: {0}",
                   "totalDisplayStyle": "decimal",
