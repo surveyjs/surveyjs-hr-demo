@@ -18,6 +18,7 @@
     "survey-core": "3.2.2",
     "survey-creator-core": "3.2.2",
     "survey-creator-react": "3.2.2",
+    "survey-pdf": "3.2.2",
     "survey-react-ui": "3.2.2"
   },
   "devDependencies": {

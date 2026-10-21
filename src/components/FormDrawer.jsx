@@ -6,6 +6,7 @@ import Drawer from "@mui/material/Drawer";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useApp } from "../app/AppContext.jsx";
+import { useFormPdfPreview } from "./FormPdfPreview.jsx";
 import SurveyForm, { completeSurvey, prefillSurvey } from "./SurveyForm.jsx";
 
 export default function FormDrawer({
@@ -28,13 +29,20 @@ export default function FormDrawer({
 }) {
   const { currentUser } = useApp();
   const surveyRef = useRef(null);
+  const pdf = useFormPdfPreview(title);
   const canCustomize = currentUser?.role === "hr" && typeof onCustomize === "function";
   return (
     <Drawer
       anchor="right"
       open={open}
-      onClose={onClose}
-      slotProps={{ paper: { sx: { width: { xs: "100%", sm: "min(920px, 100vw)" } } } }}
+      onClose={() => {
+        if (pdf.open) return;
+        onClose();
+      }}
+      slotProps={{
+        paper: { sx: { width: { xs: "100%", sm: "min(920px, 100vw)" } } },
+        modal: { disableEnforceFocus: pdf.open }
+      }}
     >
       <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
         <Box sx={{ px: 3, py: 2, borderBottom: 1, borderColor: "divider" }}>
@@ -52,6 +60,14 @@ export default function FormDrawer({
               </Button>
             ) : null}
             <Button type="button" variant="outlined" onClick={onClose}>{cancelLabel}</Button>
+            <Button
+              type="button"
+              variant="outlined"
+              disabled={pdf.busy}
+              onClick={() => pdf.openPreview(surveyRef.current)}
+            >
+              Preview PDF
+            </Button>
             {canCustomize ? (
               <Button type="button" onClick={onCustomize}>{customizeLabel || "Customize in Builder"}</Button>
             ) : null}
@@ -74,6 +90,7 @@ export default function FormDrawer({
           ) : null}
         </Box>
       </Box>
+      {pdf.dialog}
     </Drawer>
   );
 }

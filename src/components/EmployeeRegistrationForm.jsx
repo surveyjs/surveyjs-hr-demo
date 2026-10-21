@@ -8,11 +8,13 @@ import Typography from "@mui/material/Typography";
 import { useApp } from "../app/AppContext.jsx";
 import { employeeIdTaken, fullName, nextDemoEmployeeId } from "../utils/records.js";
 import { registrationDemoData } from "../data/demoFormData.js";
+import { useFormPdfPreview } from "./FormPdfPreview.jsx";
 import SurveyForm, { completeSurvey, prefillSurvey } from "./SurveyForm.jsx";
 
 export default function EmployeeRegistrationForm() {
   const { employees, schemas, registerEmployee, openProfile, openSchemaCreator, notify } = useApp();
   const surveyRef = useRef(null);
+  const pdf = useFormPdfPreview("Register Employee");
   const [resetKey, setResetKey] = useState(0);
   const [created, setCreated] = useState(null);
   const schema = schemas.registration;
@@ -65,6 +67,14 @@ export default function EmployeeRegistrationForm() {
           >
             Reset
           </Button>
+          <Button
+            type="button"
+            variant="outlined"
+            disabled={pdf.busy}
+            onClick={() => pdf.openPreview(surveyRef.current)}
+          >
+            Preview PDF
+          </Button>
           <Button type="button" onClick={() => openSchemaCreator("registration", "Customize Registration Form")}>
             Customize Registration Form
           </Button>
@@ -97,6 +107,7 @@ export default function EmployeeRegistrationForm() {
         ) : (
           <Alert severity="error">Employee Registration Form.json is missing.</Alert>
         )}
+        {pdf.dialog}
       </Paper>
     </Stack>
   );
