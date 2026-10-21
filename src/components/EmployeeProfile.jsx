@@ -23,7 +23,7 @@ import PerformanceReviewList from "./PerformanceReviewList.jsx";
 
 function Detail({ label, value }) {
   return (
-    <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "180px 1fr" }, gap: 0.5, py: 0.75 }}>
+    <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "180px 1fr" }, gap: 0.5, py: 1 }}>
       <Typography variant="body2" color="text.secondary">{label}</Typography>
       <Typography variant="body2">{value || "—"}</Typography>
     </Box>
@@ -68,8 +68,8 @@ export default function EmployeeProfile() {
 
   if (!selectedEmployee) {
     return (
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h5" gutterBottom>
+      <Paper sx={{ p: { xs: 2, md: 3 } }}>
+        <Typography variant="h5" sx={{ mb: isEmployee ? 0 : 1.5 }}>
           {isEmployee ? "No employee record is linked to this account." : "No employee selected"}
         </Typography>
         {isEmployee ? null : (
@@ -176,7 +176,7 @@ export default function EmployeeProfile() {
         </Stack>
         {customForms.length > 0 ? (
           <Stack spacing={1} sx={{ mt: 2 }}>
-            <Typography variant="subtitle2">Saved custom forms</Typography>
+            <Typography variant="subtitle2" component="p">Saved custom forms</Typography>
             {customForms.map((form) => (
               <Stack key={form.id} direction="row" spacing={1} alignItems="center">
                 <Typography variant="body2" sx={{ flex: 1 }}>{form.title || "Untitled form"}</Typography>

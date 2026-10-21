@@ -12,7 +12,7 @@ function PdfPreviewDialog({ open, title, url, onDownload, onClose }) {
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent sx={{ px: 3, pb: 1 }}>
+      <DialogContent sx={{ px: 3, pt: 0, pb: 3 }}>
         {url ? (
           <Box
             component="iframe"
@@ -22,7 +22,7 @@ function PdfPreviewDialog({ open, title, url, onDownload, onClose }) {
           />
         ) : null}
       </DialogContent>
-      <DialogActions sx={{ px: 3, pb: 2 }}>
+      <DialogActions sx={{ px: 3, py: 2 }}>
         <Button type="button" onClick={onClose}>Close</Button>
         <Button type="button" variant="contained" onClick={onDownload}>Download</Button>
       </DialogActions>

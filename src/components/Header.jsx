@@ -76,13 +76,9 @@ export default function Header() {
                 onClick={() => select(item)}
                 sx={disabled ? undefined : {
                   color: selected ? "primary.main" : "text.primary",
-                  bgcolor: selected
-                    ? "color-mix(in srgb, var(--mui-palette-primary-main) 14%, transparent)"
-                    : "transparent",
+                  bgcolor: selected ? "var(--hr-selected-wash)" : "transparent",
                   "&:hover": {
-                    bgcolor: selected
-                      ? "color-mix(in srgb, var(--mui-palette-primary-main) 14%, transparent)"
-                      : "action.hover"
+                    bgcolor: selected ? "var(--hr-selected-wash)" : "action.hover"
                   }
                 }}
               >
@@ -101,7 +97,7 @@ export default function Header() {
         <Box sx={{ flexGrow: 1 }} />
         {currentUser ? (
           <Stack direction="row" spacing={1.5} alignItems="center" sx={{ ml: "auto" }}>
-            <Avatar sx={{ width: 32, height: 32, bgcolor: "secondary.main", fontSize: 13 }}>
+            <Avatar sx={{ width: 32, height: 32, bgcolor: "primary.main", fontSize: 14 }}>
               {userInitials(currentUser)}
             </Avatar>
             <Typography variant="body2">{currentUser.fullName}</Typography>

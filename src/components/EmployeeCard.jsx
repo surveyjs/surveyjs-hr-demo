@@ -9,8 +9,8 @@ import { choiceLabel, formatDate, formatPhone, fullName, initials } from "../uti
 
 function Fact({ label, value }) {
   return (
-    <Typography variant="body2" color="text.secondary">
-      <Box component="span" sx={{ color: "text.primary", fontWeight: 600 }}>{label}: </Box>
+    <Typography variant="body2">
+      <Box component="span" sx={{ color: "text.secondary" }}>{label}: </Box>
       {value || "—"}
     </Typography>
   );
@@ -23,7 +23,7 @@ export default function EmployeeCard({ employee, schema, onOpen }) {
         <Stack direction={{ xs: "column", sm: "row" }} spacing={2} alignItems={{ sm: "flex-start" }}>
           <Avatar sx={{ bgcolor: "primary.main", width: 52, height: 52 }}>{initials(employee)}</Avatar>
           <Box sx={{ flex: 1 }}>
-            <Typography variant="h6">{fullName(employee)}</Typography>
+            <Typography variant="subtitle1" component="p">{fullName(employee)}</Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {choiceLabel(schema, "job_title", employee.job_title, employee)}
             </Typography>

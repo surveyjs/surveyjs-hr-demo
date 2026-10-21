@@ -14,8 +14,8 @@ export default function LoginPage() {
   return (
     <Container maxWidth="sm" sx={{ py: { xs: 4, md: 8 } }}>
       <Box sx={{ mb: 3 }}>
-        <Typography variant="h4" gutterBottom>Sign in</Typography>
-        <Typography color="text.secondary">
+        <Typography variant="h4" sx={{ mb: 1.5 }}>Sign in</Typography>
+        <Typography variant="body2" color="text.secondary">
           Select a demo account. HR managers open the directory. Employees open their own profile.
         </Typography>
       </Box>

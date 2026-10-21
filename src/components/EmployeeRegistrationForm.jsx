@@ -22,8 +22,8 @@ export default function EmployeeRegistrationForm() {
   return (
     <Stack spacing={3}>
       <Box>
-        <Typography variant="h4" gutterBottom>Register Employee</Typography>
-        <Typography color="text.secondary">
+        <Typography variant="h4" sx={{ mb: 1.5 }}>Register Employee</Typography>
+        <Typography variant="body2" color="text.secondary">
           Add a person to the Acme directory. Required fields and input masks come from the registration form.
         </Typography>
       </Box>

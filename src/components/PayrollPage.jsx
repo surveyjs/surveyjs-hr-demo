@@ -13,7 +13,7 @@ import SurveyForm from "./SurveyForm.jsx";
 
 function Detail({ label, value }) {
   return (
-    <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "180px 1fr" }, gap: 0.5, py: 0.75 }}>
+    <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "180px 1fr" }, gap: 0.5, py: 1 }}>
       <Typography variant="body2" color="text.secondary">{label}</Typography>
       <Typography variant="body2">{value || "—"}</Typography>
     </Box>
@@ -36,8 +36,8 @@ export default function PayrollPage() {
 
   if (!selectedEmployee) {
     return (
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h5" gutterBottom>No employee selected</Typography>
+      <Paper sx={{ p: { xs: 2, md: 3 } }}>
+        <Typography variant="h5" sx={{ mb: 1.5 }}>No employee selected</Typography>
         <Button type="button" variant="contained" onClick={() => setView("manage")}>Manage Employees</Button>
       </Paper>
     );
@@ -72,13 +72,13 @@ export default function PayrollPage() {
       </Section>
       <Section title="Payment History">
         {payments.length === 0 ? (
-          <Typography color="text.secondary">No payments yet.</Typography>
+          <Typography variant="body2" color="text.secondary">No payments yet.</Typography>
         ) : (
           <Stack spacing={2}>
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: 2 }}>
               {payments.map((payment) => (
                 <Paper key={payment.id} variant="outlined" sx={{ p: 2 }}>
-                  <Typography variant="subtitle1">{formatDate(payment.pay_date)}</Typography>
+                  <Typography variant="subtitle1" component="p">{formatDate(payment.pay_date)}</Typography>
                   <Typography variant="body2" sx={{ mt: 1 }}>
                     {formatMoney(payment.amount, salary?.currency)}
                   </Typography>
@@ -86,7 +86,7 @@ export default function PayrollPage() {
               ))}
             </Box>
             <Box>
-              <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+              <Typography variant="subtitle2" component="p" color="text.secondary" sx={{ mb: 1 }}>
                 Payment history from the payroll dynamic panel. Saved payments are read-only here.
               </Typography>
               <SurveyForm

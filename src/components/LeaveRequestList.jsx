@@ -12,7 +12,7 @@ function RequestCard({ request, labelSchema }) {
   return (
     <CardContent>
       <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
-        <Typography variant="subtitle1">
+        <Typography variant="subtitle1" component="p">
           {choiceLabel(labelSchema, "leave_type", request.leave_type, request)}
         </Typography>
         <Chip
@@ -26,7 +26,7 @@ function RequestCard({ request, labelSchema }) {
       </Typography>
       {request.reason ? (
         <Typography variant="body2" sx={{ mt: 1 }}>
-          <strong>Reason: </strong>{request.reason}
+          <Box component="span" sx={{ fontWeight: 600 }}>Reason: </Box>{request.reason}
         </Typography>
       ) : null}
     </CardContent>
@@ -46,7 +46,7 @@ export default function LeaveRequestList({ employee, panelSchema, labelSchema, o
   return (
     <Stack spacing={2}>
       {requests.length === 0 ? (
-        <Typography color="text.secondary">No leave requests yet.</Typography>
+        <Typography variant="body2" color="text.secondary">No leave requests yet.</Typography>
       ) : (
         <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: 2 }}>
           {requests.map((request) => (
@@ -67,7 +67,7 @@ export default function LeaveRequestList({ employee, panelSchema, labelSchema, o
       )}
       {requests.length > 0 && panelSchema ? (
         <Box>
-          <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+          <Typography variant="subtitle2" component="p" color="text.secondary" sx={{ mb: 1 }}>
             Leave collection from the leave-request dynamic panel. Saved requests are read-only here.
           </Typography>
           <SurveyForm

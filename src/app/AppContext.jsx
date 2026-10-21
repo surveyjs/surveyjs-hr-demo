@@ -11,6 +11,14 @@ function clone(value) {
   return structuredClone(value);
 }
 
+function nextOnboardingTitle(forms) {
+  const max = forms.reduce((highest, form) => {
+    const match = /^Onboarding form (\d+)$/.exec(form.title || "");
+    return Math.max(highest, match ? Number(match[1]) : 0);
+  }, 0);
+  return `Onboarding form ${max + 1}`;
+}
+
 function loadPersistedState() {
   const fallback = {
     employees: clone(mockEmployees),
@@ -223,18 +231,25 @@ export function AppProvider({ children }) {
       notify("Form schema saved for this session.");
       return;
     }
-    const title = json?.title || "Onboarding form";
     const existingId = customIdRef.current;
     if (existingId) {
+      const title = json?.title || "Onboarding form";
+      const schema = clone(json);
+      schema.title = title;
       setCustomForms((current) => current.map((form) => (
-        form.id === existingId ? { ...form, title, schema: clone(json) } : form
+        form.id === existingId ? { ...form, title, schema } : form
       )));
-    } else {
-      const id = crypto.randomUUID();
-      customIdRef.current = id;
-      setCustomForms((current) => [{ id, title, schema: clone(json) }, ...current]);
+      notify("Onboarding form saved. Open it again from Form Builder Tools.");
+      return title;
     }
+    const id = crypto.randomUUID();
+    const title = nextOnboardingTitle(customForms);
+    const schema = clone(json);
+    schema.title = title;
+    customIdRef.current = id;
+    setCustomForms((current) => [{ id, title, schema }, ...current]);
     notify("Onboarding form saved. Open it again from Form Builder Tools.");
+    return title;
   };
 
   const clearSearch = () => {

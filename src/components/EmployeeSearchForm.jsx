@@ -41,8 +41,8 @@ export default function EmployeeSearchForm() {
   return (
     <Stack spacing={3}>
       <Box>
-        <Typography variant="h4" gutterBottom>Manage Employees</Typography>
-        <Typography color="text.secondary">
+        <Typography variant="h4" sx={{ mb: 1.5 }}>Manage Employees</Typography>
+        <Typography variant="body2" color="text.secondary">
           Search by name, date of birth, or employee ID. A first name, a last name, or both will match. Every field is optional.
         </Typography>
       </Box>
@@ -63,15 +63,15 @@ export default function EmployeeSearchForm() {
         )}
       </Paper>
       {searchResults == null ? (
-        <Paper sx={{ p: 3 }}>
-          <Typography color="text.secondary">
+        <Paper sx={{ p: { xs: 2, md: 3 } }}>
+          <Typography variant="body2" color="text.secondary">
             The directory lists every employee while the search fields stay empty. Try Emma or Thompson to narrow it.
           </Typography>
         </Paper>
       ) : searchResults.length === 0 ? (
-        <Paper sx={{ p: 3 }}>
-          <Typography variant="h6">No employees found</Typography>
-          <Typography color="text.secondary">
+        <Paper sx={{ p: { xs: 2, md: 3 } }}>
+          <Typography variant="h5" sx={{ mb: 1.5 }}>No employees found</Typography>
+          <Typography variant="body2" color="text.secondary">
             No records match these criteria. Clear the fields to list everyone.
           </Typography>
         </Paper>
@@ -119,7 +119,7 @@ function configureSearch(model) {
       id: "edit-search-form",
       title: "Edit Search Form",
       iconName: "icon-hr-settings",
-      iconSize: 17,
+      iconSize: 20,
       showTitle: true,
       disableShrink: true,
       action: () => handlers.openSchemaCreator("search", "Edit Search Form")

@@ -58,7 +58,7 @@
             {
               "type": "comment",
               "name": "reason",
-              "visibleIf": "{leave_list[0].leave_type} = 'unpaid_leave'",
+              "visibleIf": "{panel.leave_type} = 'unpaid_leave'",
               "title": "Reason"
             },
             {

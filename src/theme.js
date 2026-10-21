@@ -12,7 +12,7 @@ const theme = createTheme({
         success: { main: "#137333" },
         warning: { main: "#B06000" },
         error: { main: "#B3261E" },
-        background: { default: "#FFFFFF", paper: "#FFFFFF" },
+        background: { default: "#F4F6F8", paper: "#FFFFFF" },
         text: { primary: "#1B2430", secondary: "#5C6773" },
         divider: "#E2E6EC"
       }
@@ -34,9 +34,14 @@ const theme = createTheme({
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     h4: { fontWeight: 600, letterSpacing: "-0.02em" },
-    h5: { fontWeight: 600 },
-    h6: { fontWeight: 600 },
-    button: { fontWeight: 600 }
+    h5: { fontWeight: 600, letterSpacing: 0 },
+    h6: { fontWeight: 600, letterSpacing: 0 },
+    subtitle1: { fontWeight: 600, letterSpacing: 0 },
+    subtitle2: { fontWeight: 400, letterSpacing: 0 },
+    body1: { letterSpacing: 0 },
+    body2: { letterSpacing: 0 },
+    button: { fontWeight: 600, letterSpacing: 0 },
+    caption: { letterSpacing: 0 }
   },
   components: {
     MuiButton: {
@@ -52,6 +57,14 @@ const theme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: { fontWeight: 600 }
+      }
+    },
+    MuiCardContent: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          padding: theme.spacing(2),
+          "&:last-child": { paddingBottom: theme.spacing(2) }
+        })
       }
     }
   }

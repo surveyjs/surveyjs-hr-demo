@@ -14,29 +14,29 @@ export default function PerformanceReviewList({ employee, panelSchema, labelSche
   return (
     <Stack spacing={2}>
       {reviews.length === 0 ? (
-        <Typography color="text.secondary">No performance reviews yet.</Typography>
+        <Typography variant="body2" color="text.secondary">No performance reviews yet.</Typography>
       ) : (
         <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: 2 }}>
           {reviews.map((review) => (
             <Card key={review.id} variant="outlined">
               <CardContent>
                 <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle1">{formatDate(review.review_date)}</Typography>
+                  <Typography variant="subtitle1" component="p">{formatDate(review.review_date)}</Typography>
                   <Chip size="small" color="primary" label={ratingLabel(labelSchema, review.rating)} />
                 </Stack>
                 <Typography variant="body2" sx={{ mt: 1 }}>
                   Reviewer: {choiceLabel(labelSchema, "reviewer", review.reviewer, review)}
                 </Typography>
                 <Typography variant="body2" sx={{ mt: 1 }}>
-                  <strong>Strengths: </strong>{review.strengths || "—"}
+                  <Box component="span" sx={{ fontWeight: 600 }}>Strengths: </Box>{review.strengths || "—"}
                 </Typography>
                 {review.areas_for_improvement ? (
                   <Typography variant="body2" sx={{ mt: 1 }}>
-                    <strong>Areas for improvement: </strong>{review.areas_for_improvement}
+                    <Box component="span" sx={{ fontWeight: 600 }}>Areas for improvement: </Box>{review.areas_for_improvement}
                   </Typography>
                 ) : null}
                 <Typography variant="body2" sx={{ mt: 1 }}>
-                  <strong>Next steps: </strong>{review.next_steps || "—"}
+                  <Box component="span" sx={{ fontWeight: 600 }}>Next steps: </Box>{review.next_steps || "—"}
                 </Typography>
               </CardContent>
             </Card>
@@ -45,7 +45,7 @@ export default function PerformanceReviewList({ employee, panelSchema, labelSche
       )}
       {reviews.length > 0 && panelSchema ? (
         <Box>
-          <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+          <Typography variant="subtitle2" component="p" color="text.secondary" sx={{ mb: 1 }}>
             Review collection from the performance-review dynamic panel. Historical rows are read-only.
           </Typography>
           <SurveyForm

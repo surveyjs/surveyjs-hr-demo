@@ -33,7 +33,7 @@ function BenefitCard({ benefit, labelSchema }) {
   return (
     <CardContent>
       <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
-        <Typography variant="subtitle1">
+        <Typography variant="subtitle1" component="p">
           {choiceLabel(labelSchema, "benefit_type", benefit.benefit_type, benefit)}
         </Typography>
         <Chip
@@ -68,8 +68,8 @@ export default function BenefitsPage() {
 
   if (!selectedEmployee) {
     return (
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h5" gutterBottom>No employee selected</Typography>
+      <Paper sx={{ p: { xs: 2, md: 3 } }}>
+        <Typography variant="h5" sx={{ mb: 1.5 }}>No employee selected</Typography>
         <Button type="button" variant="contained" onClick={() => setView("manage")}>Manage Employees</Button>
       </Paper>
     );
@@ -95,7 +95,7 @@ export default function BenefitsPage() {
       </Paper>
       <Section title="Enrolled Benefits">
         {benefits.length === 0 ? (
-          <Typography color="text.secondary">No benefits yet.</Typography>
+          <Typography variant="body2" color="text.secondary">No benefits yet.</Typography>
         ) : (
           <Stack spacing={2}>
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: 2 }}>
@@ -115,7 +115,7 @@ export default function BenefitsPage() {
               ))}
             </Box>
             <Box>
-              <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+              <Typography variant="subtitle2" component="p" color="text.secondary" sx={{ mb: 1 }}>
                 Enrollment from the benefits dynamic panel. Saved enrollments are read-only here.
               </Typography>
               <SurveyForm

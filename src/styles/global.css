@@ -12,6 +12,19 @@ body {
   margin: 0;
 }
 
+:root {
+  --hr-selected-wash: color-mix(
+    in srgb,
+    var(--mui-palette-primary-main) calc(var(--mui-palette-action-selectedOpacity) * 100%),
+    transparent
+  );
+  --hr-hover-wash: color-mix(
+    in srgb,
+    var(--mui-palette-primary-main) calc(var(--mui-palette-action-hoverOpacity) * 100%),
+    transparent
+  );
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-survey-component] {
     animation: none !important;
@@ -31,12 +44,12 @@ body {
   max-width: calc(100vw - 24px);
   height: auto;
   margin: 0;
-  padding: 6px 8px;
+  padding: 8px;
   overflow: visible;
-  border: 1px solid var(--mui-palette-divider, #e2e6ec);
+  border: 1px solid var(--mui-palette-divider);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--mui-palette-background-paper, #fff) 92%, transparent);
-  color: var(--mui-palette-text-primary, #1b2430);
+  background: color-mix(in srgb, var(--mui-palette-background-paper) 92%, transparent);
+  color: var(--mui-palette-text-primary);
   box-shadow: 0 8px 28px rgb(23 32 42 / 16%);
   backdrop-filter: blur(14px);
 }
@@ -52,7 +65,7 @@ body {
 }
 
 :root[data-survey-outlines="true"] [data-survey-component] {
-  --survey-glow: color-mix(in srgb, var(--mui-palette-primary-main, #0b57d0) 18%, transparent);
+  --survey-glow: var(--hr-selected-wash);
   box-shadow: 0 0 0 4px var(--survey-glow), 0 0 24px var(--survey-glow);
   animation: survey-component-glow 3.2s ease-in-out infinite;
 }
@@ -62,7 +75,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 6;
-  border: 2px dashed var(--mui-palette-primary-main, #0b57d0);
+  border: 2px dashed var(--mui-palette-primary-main);
   border-radius: inherit;
   pointer-events: none;
 }
@@ -75,10 +88,10 @@ body {
   z-index: 7;
   padding: 4px 8px;
   border-radius: 0 10px 0 8px;
-  background: var(--mui-palette-primary-main, #0b57d0);
-  color: var(--mui-palette-primary-contrastText, #fff);
-  font: 600 10px/15px Roboto, Helvetica, Arial, sans-serif;
-  letter-spacing: 0.8px;
+  background: var(--mui-palette-primary-main);
+  color: var(--mui-palette-primary-contrastText);
+  font: 600 12px/16px Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: 0;
   text-transform: uppercase;
   pointer-events: none;
 }
@@ -93,22 +106,22 @@ body {
 
 @keyframes survey-component-glow {
   50% {
-    box-shadow: 0 0 0 8px color-mix(in srgb, var(--mui-palette-primary-main, #0b57d0) 5%, transparent), 0 0 30px var(--survey-glow);
+    box-shadow: 0 0 0 8px var(--hr-hover-wash), 0 0 30px var(--survey-glow);
   }
 }
 
 .creator-host,
 .creator-host .svc-creator {
   height: 100%;
-  --sjs2-color-project-brand-600: color(srgb 0.0980392 0.462745 0.823529);
-  --sjs2-color-utility-shadow-surface-focused: color(srgb 0.0980392 0.462745 0.823529);
-  --sjs2-color-utility-surface-designer: color(srgb 0.0980392 0.462745 0.823529 / 0.1);
+  --sjs2-color-project-brand-600: var(--mui-palette-primary-main);
+  --sjs2-color-utility-shadow-surface-focused: var(--mui-palette-primary-main);
+  --sjs2-color-utility-surface-designer: var(--hr-selected-wash);
 }
 
 .creator-host .svc-creator {
-  --sjs2-color-project-brand-600: color(srgb 0.0980392 0.462745 0.823529) !important;
-  --sjs2-color-utility-shadow-surface-focused: color(srgb 0.0980392 0.462745 0.823529) !important;
-  --sjs2-color-utility-surface-designer: color(srgb 0.0980392 0.462745 0.823529 / 0.1) !important;
+  --sjs2-color-project-brand-600: var(--mui-palette-primary-main) !important;
+  --sjs2-color-utility-shadow-surface-focused: var(--mui-palette-primary-main) !important;
+  --sjs2-color-utility-surface-designer: var(--hr-selected-wash) !important;
 }
 
 .creator-host .svc-tab-designer,
@@ -116,9 +129,9 @@ body {
 .creator-host .svc-tab-designer .sd-theme-root,
 .creator-host .svc-page__content--selected.svc-page__content--selected,
 .creator-host .svc-question__content--selected {
-  --sjs2-color-project-brand-600: color(srgb 0.0980392 0.462745 0.823529) !important;
-  --sjs2-color-utility-shadow-surface-focused: color(srgb 0.0980392 0.462745 0.823529) !important;
-  --sjs2-color-utility-surface-designer: color(srgb 0.0980392 0.462745 0.823529 / 0.1) !important;
+  --sjs2-color-project-brand-600: var(--mui-palette-primary-main) !important;
+  --sjs2-color-utility-shadow-surface-focused: var(--mui-palette-primary-main) !important;
+  --sjs2-color-utility-surface-designer: var(--hr-selected-wash) !important;
 }
 
 .creator-host .svc-tab-designer,
@@ -134,17 +147,47 @@ body {
 
 .survey-host {
   width: 100%;
+  --mui-palette-background-default: var(--mui-palette-background-paper);
+}
+
+.survey-host .sd-root-modern.sjs-theme-overrides {
+  --sd-page-vertical-padding: 0px;
+  --sjs2-layout-component-survey-box-padding-top: 0px;
+  --sjs2-layout-component-survey-box-padding-bottom: 0px;
+  --sjs2-layout-component-survey-box-padding-horizontal: 0px;
+  --sjs2-layout-component-survey-box-gap-vertical: 16px;
+  --sjs2-layout-component-page-box-gap-vertical: 0px;
+  --sjs2-layout-component-page-content-area-padding-horizontal: 0px;
+  --sjs2-layout-component-page-content-area-padding-top: 0px;
+  --sjs2-layout-component-page-content-area-padding-bottom: 0px;
+  --sjs2-layout-component-page-content-area-gap-horizontal: 16px;
+  --sjs2-layout-component-page-content-area-gap-vertical: 16px;
+  --sjs2-layout-component-survey-header-padding-horizontal: 0px;
+  --sjs2-layout-component-survey-header-gap-vertical: 8px;
+  --sjs2-layout-component-survey-footer-padding-horizontal: 0px;
+  --sjs2-layout-component-survey-footer-padding-top: 0px;
+  --sjs2-layout-component-survey-footer-padding-bottom: 0px;
+  --sjs2-typography-font-weight-component-action-large-content: 600;
+  --sjs2-typography-font-weight-component-action-small-content: 600;
+  --sjs2-typography-font-weight-component-panel-title: 600;
+  --sjs2-typography-font-weight-component-page-title: 600;
+  --sjs2-typography-font-weight-component-survey-header-title: 600;
+  --sjs2-typography-font-size-component-survey-header-title: 20px;
+  --sjs2-typography-line-height-component-survey-header-title: 32px;
+  --sjs2-typography-font-size-component-survey-header-description: 0.875rem;
+  --sjs2-typography-line-height-component-survey-header-description: 1.43;
+  --sjs2-typography-font-weight-component-survey-header-description: 400;
 }
 
 #survey-search {
-  --search-inset: 20px;
+  --search-inset: 16px;
 }
 
 #survey-search .sd-root-modern.sjs-theme-overrides {
   --sjs2-layout-component-survey-box-padding-top: var(--search-inset);
   --sjs2-layout-component-survey-box-padding-bottom: var(--search-inset);
   --sjs2-layout-component-survey-box-gap-vertical: var(--search-inset);
-  --sjs2-layout-component-survey-header-gap-vertical: 6px;
+  --sjs2-layout-component-survey-header-gap-vertical: 8px;
   --sjs2-layout-component-survey-header-padding-horizontal: var(--search-inset);
   --sjs2-layout-component-page-box-gap-vertical: 0px;
   --sjs2-layout-component-page-content-area-padding-horizontal: 0px;
@@ -155,10 +198,6 @@ body {
   --sjs2-layout-component-survey-footer-padding-bottom: 0px;
   --sjs2-layout-component-question-header-padding-bottom: 0px;
   --sjs2-layout-component-question-box-gap-vertical: 8px;
-  --sjs2-typography-font-size-component-survey-header-title: 18px;
-  --sjs2-typography-line-height-component-survey-header-title: 26px;
-  --sjs2-typography-font-size-component-survey-header-description: 1rem;
-  --sjs2-typography-font-weight-component-survey-header-description: 400;
   --sd-page-vertical-padding: var(--search-inset);
 }
 
@@ -177,12 +216,12 @@ body {
 }
 
 #survey-search .sd-header__text {
-  gap: 6px;
+  gap: 8px;
 }
 
 #survey-search .sd-container-modern > .sv-components-row {
   grid-column: 1 / -1;
-  border-top: 1px solid var(--mui-palette-divider, #e2e6ec);
+  border-top: 1px solid var(--mui-palette-divider);
 }
 
 #survey-search .search-header-actions {
@@ -199,7 +238,7 @@ body {
 #survey-search .sd-body {
   display: grid;
   align-items: end;
-  gap: 20px;
+  gap: var(--search-inset);
   padding-inline: var(--search-inset);
 }
 
@@ -237,9 +276,7 @@ body {
 }
 
 #signin-form .sd-root-modern.sjs-theme-overrides {
-  --sjs2-layout-component-survey-box-padding-bottom: 24px;
-  --sjs2-layout-component-survey-footer-padding-top: 0px;
-  --sjs2-layout-component-survey-footer-padding-bottom: 0px;
+  --sjs2-layout-component-survey-footer-padding-top: 16px;
 }
 
 #signin-form .sd-root-modern--mobile .sd-body__navigation .sd-action-bar__item,
@@ -255,8 +292,4 @@ body {
 
 #signin-form .sd-navigation__complete-btn .sd-action__title {
   text-transform: none;
-}
-
-#signin-form .sd-row:has([data-name="remember_me"]) {
-  margin-top: -24px;
 }

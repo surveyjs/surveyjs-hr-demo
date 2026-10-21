@@ -8,17 +8,17 @@ import { useColorScheme } from "@mui/material/styles";
 
 const dockButtonSx = {
   minHeight: 44,
-  px: 1.75,
+  px: 1.5,
   borderRadius: 999,
   color: "text.primary",
   fontSize: 12,
   fontWeight: 600,
-  lineHeight: "20px",
+  lineHeight: 1.66,
   whiteSpace: "nowrap",
-  "& .MuiSvgIcon-root": { fontSize: 18 },
+  "& .MuiSvgIcon-root": { fontSize: 20 },
   "&:hover": { bgcolor: "action.hover" },
   '&[aria-pressed="true"]': {
-    bgcolor: "color-mix(in srgb, var(--mui-palette-primary-main) 14%, transparent)",
+    bgcolor: "var(--hr-selected-wash)",
     color: "primary.main"
   }
 };

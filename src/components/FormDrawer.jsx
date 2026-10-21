@@ -45,10 +45,10 @@ export default function FormDrawer({
       }}
     >
       <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-        <Box sx={{ px: 3, py: 2, borderBottom: 1, borderColor: "divider" }}>
-          <Typography variant="h5">{title}</Typography>
+        <Box sx={{ p: { xs: 2, md: 3 }, borderBottom: 1, borderColor: "divider" }}>
+          <Typography variant="h5" sx={{ mb: description ? 1.5 : 0 }}>{title}</Typography>
           {description ? (
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>{description}</Typography>
+            <Typography variant="body2" color="text.secondary">{description}</Typography>
           ) : null}
           <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" sx={{ mt: 2 }}>
             <Button type="button" variant="contained" onClick={() => completeSurvey(surveyRef.current)}>
@@ -73,7 +73,7 @@ export default function FormDrawer({
             ) : null}
           </Stack>
         </Box>
-        <Box sx={{ px: 3, py: 2, overflow: "auto" }}>
+        <Box sx={{ p: { xs: 2, md: 3 }, overflow: "auto" }}>
           {notes.map((note) => (
             <Alert key={note} severity="info" sx={{ mb: 2 }}>{note}</Alert>
           ))}

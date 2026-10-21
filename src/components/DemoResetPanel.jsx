@@ -24,7 +24,7 @@ export default function DemoResetPanel() {
       <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
         Employee records and customized forms are saved in this browser.
       </Typography>
-      <Button type="button" color="error" sx={{ mt: 2, px: 0 }} onClick={() => setOpen(true)}>
+      <Button type="button" color="error" sx={{ mt: 2 }} onClick={() => setOpen(true)}>
         Reset All Demo Data to Default
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="reset-demo-title">
