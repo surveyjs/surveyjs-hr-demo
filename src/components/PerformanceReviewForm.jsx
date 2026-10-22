@@ -17,6 +17,7 @@ export default function PerformanceReviewForm({ open, onClose }) {
       completeLabel={schema?.completeText || "Save Review"}
       prefillData={reviewDemoData}
       customizeLabel="Customize in Builder"
+      configure={(model) => { model.showTitle = false; }}
       onClose={onClose}
       onCustomize={() => openSchemaCreator("addReview", "Customize Review Form")}
       onComplete={(data) => {

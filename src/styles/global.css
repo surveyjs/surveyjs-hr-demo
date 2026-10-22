@@ -276,12 +276,14 @@ body {
 }
 
 #signin-form,
-#survey-register {
+#survey-register,
+#survey-drawer {
   --form-inset: 16px;
 }
 
 #signin-form .sd-root-modern.sjs-theme-overrides,
-#survey-register .sd-root-modern.sjs-theme-overrides {
+#survey-register .sd-root-modern.sjs-theme-overrides,
+#survey-drawer .sd-root-modern.sjs-theme-overrides {
   --sjs2-layout-component-survey-box-gap-vertical: var(--form-inset);
   --sjs2-layout-component-survey-box-padding-bottom: var(--form-inset);
   --sjs2-layout-component-page-content-area-padding-horizontal: var(--form-inset);
@@ -291,7 +293,8 @@ body {
 
 @media (min-width: 768px) {
   #signin-form,
-  #survey-register {
+  #survey-register,
+  #survey-drawer {
     --form-inset: 24px;
   }
 }

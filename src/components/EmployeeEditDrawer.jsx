@@ -18,6 +18,7 @@ export default function EmployeeEditDrawer({ open, onClose }) {
       completeLabel={schema?.completeText || "Save Changes"}
       prefillData={toSurveyEmployee(selectedEmployee)}
       customizeLabel="Customize Employee Form"
+      configure={(model) => { model.showTitle = false; }}
       onClose={onClose}
       onCustomize={() => openSchemaCreator("editEmployee", "Customize Employee Form")}
       onCompleting={(data) => {

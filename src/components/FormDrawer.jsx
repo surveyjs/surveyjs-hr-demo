@@ -82,6 +82,7 @@ export default function FormDrawer({
               schema={schema}
               data={data}
               elementIdPrefix={elementIdPrefix}
+              hostId="survey-drawer"
               onModel={(model) => { surveyRef.current = model; }}
               onComplete={onComplete}
               onCompleting={onCompleting}
