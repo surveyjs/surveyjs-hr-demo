@@ -7,32 +7,29 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useApp } from "../app/AppContext.jsx";
 import { userInitials } from "../data/demoUsers.js";
 
 const HR_NAV = [
-  { id: "manage", label: "Manage Employees", view: "manage" },
-  { id: "register", label: "Register Employee", view: "register" },
-  { id: "payroll", label: "Payroll", view: "payroll", requiresProfile: true },
-  { id: "benefits", label: "Benefits", view: "benefits", requiresProfile: true }
+  { id: "manage", label: "Manage Employees", to: "/manage", match: (path) => path === "/manage" || path.startsWith("/employees/") },
+  { id: "register", label: "Register Employee", to: "/register" },
+  { id: "payroll", label: "Payroll", to: "/payroll", match: (path) => path === "/payroll" || path.startsWith("/payroll/") },
+  { id: "benefits", label: "Benefits", to: "/benefits", match: (path) => path === "/benefits" || path.startsWith("/benefits/") },
+  { id: "settings", label: "Settings", to: "/settings" }
 ];
 
 const EMPLOYEE_NAV = [
-  { id: "profile", label: "My Profile", view: "profile" },
-  { id: "payroll", label: "Payroll", view: "payroll", requiresProfile: true },
-  { id: "benefits", label: "Benefits", view: "benefits", requiresProfile: true }
+  { id: "profile", label: "My Profile", to: "/profile" },
+  { id: "payroll", label: "Payroll", to: "/payroll", match: (path) => path === "/payroll" || path.startsWith("/payroll/") },
+  { id: "benefits", label: "Benefits", to: "/benefits", match: (path) => path === "/benefits" || path.startsWith("/benefits/") }
 ];
 
 export default function Header() {
-  const { view, setView, openIndex, currentUser, logout } = useApp();
+  const { openIndex, currentUser, logout } = useApp();
+  const { pathname } = useLocation();
   const nav = currentUser?.role === "employee" ? EMPLOYEE_NAV : HR_NAV;
-
-  const select = (item) => {
-    if (item.view === "manage") setView("manage");
-    else setView(item.view);
-  };
 
   return (
     <AppBar position="sticky" color="inherit" elevation={0} sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -63,18 +60,15 @@ export default function Header() {
         {currentUser ? (
         <Stack direction="row" spacing={0.5} useFlexGap flexWrap="wrap" component="nav" aria-label="Primary">
           {nav.map((item) => {
-            const profileOpen = view === "profile" || view === "payroll" || view === "benefits";
-            const disabled = Boolean(item.requiresProfile && !profileOpen);
-            const selected = item.view === view || (item.id === "manage" && view === "profile");
-            const button = (
+            const selected = item.match ? item.match(pathname) : pathname === item.to;
+            return (
               <Button
                 key={item.id}
-                type="button"
+                component={RouterLink}
+                to={item.to}
                 variant="text"
-                disabled={disabled}
                 aria-current={selected ? "page" : undefined}
-                onClick={() => select(item)}
-                sx={disabled ? undefined : {
+                sx={{
                   color: selected ? "primary.main" : "text.primary",
                   bgcolor: selected ? "var(--hr-selected-wash)" : "transparent",
                   "&:hover": {
@@ -84,12 +78,6 @@ export default function Header() {
               >
                 {item.label}
               </Button>
-            );
-            if (!disabled) return button;
-            return (
-              <Tooltip key={item.id} title="Open an employee profile first.">
-                <span>{button}</span>
-              </Tooltip>
             );
           })}
         </Stack>

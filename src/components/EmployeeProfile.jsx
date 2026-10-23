@@ -6,6 +6,7 @@ import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { Link as RouterLink } from "react-router-dom";
 import { useApp } from "../app/AppContext.jsx";
 import {
   choiceLabel,
@@ -13,13 +14,14 @@ import {
   formatDate,
   formatPhone
 } from "../utils/records.js";
-import DemoResetPanel from "./DemoResetPanel.jsx";
+import BenefitForm from "./BenefitForm.jsx";
 import EmployeeEditDrawer from "./EmployeeEditDrawer.jsx";
 import EmployeeSummary from "./EmployeeSummary.jsx";
 import LeaveRequestForm from "./LeaveRequestForm.jsx";
 import LeaveRequestList from "./LeaveRequestList.jsx";
 import PerformanceReviewForm from "./PerformanceReviewForm.jsx";
 import PerformanceReviewList from "./PerformanceReviewList.jsx";
+import SalaryForm from "./SalaryForm.jsx";
 
 function Detail({ label, value }) {
   return (
@@ -43,17 +45,15 @@ export default function EmployeeProfile() {
   const {
     currentUser,
     selectedEmployee,
-    schemas,
-    customForms,
-    setView,
-    openSchemaCreator,
-    openCustomCreator
+    schemas
   } = useApp();
   const isEmployee = currentUser?.role === "employee";
   const [editOpen, setEditOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
   const [leaveRequest, setLeaveRequest] = useState(null);
+  const [salaryOpen, setSalaryOpen] = useState(false);
+  const [benefitOpen, setBenefitOpen] = useState(false);
   const openNewLeave = () => {
     setLeaveRequest(null);
     setLeaveOpen(true);
@@ -73,7 +73,7 @@ export default function EmployeeProfile() {
           {isEmployee ? "No employee record is linked to this account." : "No employee selected"}
         </Typography>
         {isEmployee ? null : (
-          <Button type="button" variant="contained" onClick={() => setView("manage")}>Manage Employees</Button>
+          <Button component={RouterLink} to="/manage" variant="contained">Manage Employees</Button>
         )}
       </Paper>
     );
@@ -91,7 +91,7 @@ export default function EmployeeProfile() {
   return (
     <Stack spacing={3}>
       {isEmployee ? null : (
-        <Button type="button" startIcon={<ArrowBackIcon />} onClick={() => setView("manage")} sx={{ alignSelf: "flex-start" }}>
+        <Button component={RouterLink} to="/manage" startIcon={<ArrowBackIcon />} sx={{ alignSelf: "flex-start" }}>
           Manage Employees
         </Button>
       )}
@@ -100,6 +100,12 @@ export default function EmployeeProfile() {
         <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" sx={{ mt: 2 }}>
           {isEmployee ? null : (
             <Button type="button" variant="contained" onClick={() => setEditOpen(true)}>Edit Employee</Button>
+          )}
+          {isEmployee ? null : (
+            <Button type="button" variant="outlined" onClick={() => setSalaryOpen(true)}>Edit Salary</Button>
+          )}
+          {isEmployee ? null : (
+            <Button type="button" variant="outlined" onClick={() => setBenefitOpen(true)}>Add Benefit</Button>
           )}
           {isEmployee ? null : (
             <Button type="button" variant="outlined" onClick={() => setReviewOpen(true)}>Add Performance Review</Button>
@@ -155,41 +161,9 @@ export default function EmployeeProfile() {
         />
       </Section>
 
-      {isEmployee ? null : (
-      <Section title="Form Builder Tools">
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Open SurveyJS Creator to change a form. Saved schemas stay in effect for this browser session.
-        </Typography>
-        <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
-          <Button type="button" variant="outlined" onClick={() => openSchemaCreator("editEmployee", "Customize Employee Form")}>
-            Customize Employee Form
-          </Button>
-          <Button type="button" variant="outlined" onClick={() => openSchemaCreator("addReview", "Customize Review Form")}>
-            Customize Review Form
-          </Button>
-          <Button type="button" variant="outlined" onClick={() => openSchemaCreator("addLeave", "Customize Leave Request Form")}>
-            Customize Leave Request Form
-          </Button>
-          <Button type="button" variant="contained" onClick={() => openCustomCreator(null)}>
-            Create New Onboarding Form
-          </Button>
-        </Stack>
-        {customForms.length > 0 ? (
-          <Stack spacing={1} sx={{ mt: 2 }}>
-            <Typography variant="subtitle2" component="p">Saved custom forms</Typography>
-            {customForms.map((form) => (
-              <Stack key={form.id} direction="row" spacing={1} alignItems="center">
-                <Typography variant="body2" sx={{ flex: 1 }}>{form.title || "Untitled form"}</Typography>
-                <Button type="button" size="small" onClick={() => openCustomCreator(form)}>Reopen</Button>
-              </Stack>
-            ))}
-          </Stack>
-        ) : null}
-      </Section>
-      )}
-      {isEmployee ? null : <DemoResetPanel />}
-
       <EmployeeEditDrawer open={editOpen} onClose={() => setEditOpen(false)} />
+      {isEmployee ? null : <SalaryForm open={salaryOpen} onClose={() => setSalaryOpen(false)} />}
+      {isEmployee ? null : <BenefitForm open={benefitOpen} benefit={null} onClose={() => setBenefitOpen(false)} />}
       <PerformanceReviewForm open={reviewOpen} onClose={() => setReviewOpen(false)} />
       <LeaveRequestForm open={leaveOpen} request={leaveRequest} onClose={closeLeave} />
     </Stack>

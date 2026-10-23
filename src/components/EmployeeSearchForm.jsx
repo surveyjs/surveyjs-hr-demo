@@ -6,7 +6,6 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { ActionContainer, SvgRegistry } from "survey-core";
 import { useApp } from "../app/AppContext.jsx";
-import DemoResetPanel from "./DemoResetPanel.jsx";
 import EmployeeCard from "./EmployeeCard.jsx";
 import { searchDemoData } from "../data/demoFormData.js";
 import SurveyForm, { prefillSurvey } from "./SurveyForm.jsx";
@@ -90,7 +89,6 @@ export default function EmployeeSearchForm() {
           ))}
         </Stack>
       )}
-      <DemoResetPanel />
     </Stack>
   );
 }

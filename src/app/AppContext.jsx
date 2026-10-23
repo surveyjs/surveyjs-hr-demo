@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { clearStoredUser, getStoredUser, storeUser } from "../auth.js";
 import { blankOnboardingSchema, schemaCatalog } from "../schemas/index.js";
 import { mockEmployees } from "../data/mockEmployees.js";
@@ -17,6 +18,11 @@ function nextOnboardingTitle(forms) {
     return Math.max(highest, match ? Number(match[1]) : 0);
   }, 0);
   return `Onboarding form ${max + 1}`;
+}
+
+function employeeIdFromPath(pathname) {
+  const match = /^\/(?:employees|payroll|benefits)\/([^/]+)$/.exec(pathname);
+  return match ? decodeURIComponent(match[1]) : null;
 }
 
 function loadPersistedState() {
@@ -52,12 +58,13 @@ function loadPersistedState() {
 }
 
 export function AppProvider({ children }) {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [initial] = useState(loadPersistedState);
   const [currentUser, setCurrentUser] = useState(getStoredUser);
   const [employees, setEmployees] = useState(initial.employees);
   const [schemas, setSchemas] = useState(initial.schemas);
   const [customForms, setCustomForms] = useState(initial.customForms);
-  const [view, setView] = useState(() => (getStoredUser()?.role === "employee" ? "profile" : "manage"));
   const [selectedId, setSelectedId] = useState(() => getStoredUser()?.employeeId || "emp-1002");
   const [criteria, setCriteria] = useState({});
   const [searchResetKey, setSearchResetKey] = useState(0);
@@ -75,7 +82,10 @@ export function AppProvider({ children }) {
     () => (criteria ? searchEmployees(employees, criteria) : null),
     [criteria, employees]
   );
-  const selectedEmployee = employees.find((employee) => employee.id === selectedId) || null;
+  const routedEmployeeId = employeeIdFromPath(pathname);
+  const activeId = routedEmployeeId
+    || (currentUser?.role === "employee" ? currentUser.employeeId : selectedId);
+  const selectedEmployee = employees.find((employee) => employee.id === activeId) || null;
 
   const notify = (message, severity = "success") => {
     setNotice({ message, severity, id: Date.now() });
@@ -85,7 +95,17 @@ export function AppProvider({ children }) {
 
   const openProfile = (id) => {
     setSelectedId(id);
-    setView("profile");
+    navigate(`/employees/${id}`);
+  };
+
+  const openPayroll = (id) => {
+    setSelectedId(id);
+    navigate(`/payroll/${id}`);
+  };
+
+  const openBenefits = (id) => {
+    setSelectedId(id);
+    navigate(`/benefits/${id}`);
   };
 
   const registerEmployee = (data) => {
@@ -239,7 +259,7 @@ export function AppProvider({ children }) {
       setCustomForms((current) => current.map((form) => (
         form.id === existingId ? { ...form, title, schema } : form
       )));
-      notify("Onboarding form saved. Open it again from Form Builder Tools.");
+      notify("Onboarding form saved. Open it again from Settings.");
       return title;
     }
     const id = crypto.randomUUID();
@@ -248,7 +268,7 @@ export function AppProvider({ children }) {
     schema.title = title;
     customIdRef.current = id;
     setCustomForms((current) => [{ id, title, schema }, ...current]);
-    notify("Onboarding form saved. Open it again from Form Builder Tools.");
+    notify("Onboarding form saved. Open it again from Settings.");
     return title;
   };
 
@@ -258,13 +278,17 @@ export function AppProvider({ children }) {
   };
 
   const openIndex = () => {
-    if (currentUser?.role === "employee") {
-      setView("profile");
+    if (!currentUser) {
+      navigate("/login");
       return;
     }
-    setView("manage");
+    if (currentUser.role === "employee") {
+      navigate("/profile");
+      return;
+    }
     setCriteria({});
     setSearchResetKey((value) => value + 1);
+    navigate("/manage");
   };
 
   const login = (user, remember) => {
@@ -272,15 +296,16 @@ export function AppProvider({ children }) {
     setCurrentUser(user);
     if (user.role === "employee" && user.employeeId) {
       setSelectedId(user.employeeId);
-      setView("profile");
+      navigate("/profile", { replace: true });
       return;
     }
-    setView("manage");
+    navigate("/manage", { replace: true });
   };
 
   const logout = () => {
     clearStoredUser();
     setCurrentUser(null);
+    navigate("/login", { replace: true });
   };
 
   const value = {
@@ -290,10 +315,10 @@ export function AppProvider({ children }) {
     employees,
     schemas,
     customForms,
-    view,
-    setView,
     selectedEmployee,
     openProfile,
+    openPayroll,
+    openBenefits,
     criteria,
     setCriteria,
     searchResetKey,

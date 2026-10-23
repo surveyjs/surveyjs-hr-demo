@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { Link as RouterLink } from "react-router-dom";
 import { useApp } from "../app/AppContext.jsx";
 import { byDateDesc, choiceLabel, formatDate, formatMoney, toPanelRecords } from "../utils/records.js";
 import EmployeeSummary from "./EmployeeSummary.jsx";
@@ -30,7 +31,7 @@ function Section({ title, children }) {
 }
 
 export default function PayrollPage() {
-  const { currentUser, selectedEmployee, schemas, setView } = useApp();
+  const { currentUser, selectedEmployee, schemas } = useApp();
   const [salaryOpen, setSalaryOpen] = useState(false);
   const isEmployee = currentUser?.role === "employee";
 
@@ -38,7 +39,7 @@ export default function PayrollPage() {
     return (
       <Paper sx={{ p: { xs: 2, md: 3 } }}>
         <Typography variant="h5" sx={{ mb: 1.5 }}>No employee selected</Typography>
-        <Button type="button" variant="contained" onClick={() => setView("manage")}>Manage Employees</Button>
+        <Button component={RouterLink} to="/manage" variant="contained">Manage Employees</Button>
       </Paper>
     );
   }
@@ -51,8 +52,8 @@ export default function PayrollPage() {
 
   return (
     <Stack spacing={3}>
-      <Button type="button" startIcon={<ArrowBackIcon />} onClick={() => setView("profile")} sx={{ alignSelf: "flex-start" }}>
-        Profile
+      <Button component={RouterLink} to="/payroll" startIcon={<ArrowBackIcon />} sx={{ alignSelf: "flex-start" }}>
+        Payroll
       </Button>
       <Paper sx={{ p: { xs: 2, md: 3 } }}>
         <EmployeeSummary employee={employee} labelSchema={labelSchema} />
