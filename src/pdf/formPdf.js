@@ -1,3 +1,4 @@
+import { DefaultDark } from "survey-core/themes";
 import { SurveyPDF } from "survey-pdf";
 
 export function pdfFileName(title) {
@@ -62,37 +63,48 @@ function applyDocument(json, data, profile) {
   ];
 }
 
-function drawHeader(profile) {
+function isDarkTheme() {
+  return typeof document !== "undefined" && document.documentElement.dataset.theme === "dark";
+}
+
+function drawText(canvas, options, color) {
+  canvas.drawText(options);
+  if (!color) return;
+  const brick = canvas.packs[canvas.packs.length - 1];
+  if (brick?.style) brick.style.fontColor = color;
+}
+
+function drawHeader(profile, textColor) {
   return (_, canvas) => {
-    canvas.drawText({
+    drawText(canvas, {
       text: "Acme HR",
       fontSize: 11,
       horizontalAlign: "left",
       margins: { left: 16, top: 8 }
-    });
-    canvas.drawText({
+    }, textColor);
+    drawText(canvas, {
       text: profile.title,
       fontSize: 11,
       horizontalAlign: "right",
       margins: { right: 16, top: 8 }
-    });
+    }, textColor);
   };
 }
 
-function drawFooter(profile) {
+function drawFooter(profile, textColor) {
   return (_, canvas) => {
-    canvas.drawText({
+    drawText(canvas, {
       text: profile.footer,
       fontSize: 9,
       horizontalAlign: "left",
       margins: { left: 16, bot: 8 }
-    });
-    canvas.drawText({
+    }, textColor);
+    drawText(canvas, {
       text: `Page ${canvas.pageNumber} of ${canvas.pageCount}`,
       fontSize: 9,
       horizontalAlign: "right",
       margins: { right: 16, bot: 8 }
-    });
+    }, textColor);
   };
 }
 
@@ -104,10 +116,15 @@ export async function buildFormPdf(survey, profile) {
     margins: { top: 18, bot: 16, left: 14, right: 14 }
   } : undefined);
   pdf.data = data;
+  let textColor = null;
+  if (isDarkTheme()) {
+    pdf.applyTheme(DefaultDark);
+    textColor = pdf.style.survey.title.fontColor;
+  }
   if (profile) {
     pdf.showTitle = true;
-    pdf.onRenderHeader.add(drawHeader(profile));
-    pdf.onRenderFooter.add(drawFooter(profile));
+    pdf.onRenderHeader.add(drawHeader(profile, textColor));
+    pdf.onRenderFooter.add(drawFooter(profile, textColor));
   }
   return pdf.raw("blob");
 }
