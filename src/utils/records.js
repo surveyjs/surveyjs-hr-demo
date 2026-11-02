@@ -175,12 +175,12 @@ export function searchEmployees(employees, criteria) {
     .toLowerCase()
     .split(/\s+/)
     .filter(Boolean);
-  const dateOfBirth = criteria.date_of_birth || "";
+  const department = criteria.department || "";
   const employeeId = String(criteria.employee_id || "").trim().toLowerCase();
   return employees.filter((employee) => {
     const fullName = `${employee.first_name || ""} ${employee.last_name || ""}`.toLowerCase();
     if (nameTerms.some((term) => !fullName.includes(term))) return false;
-    if (dateOfBirth && employee.date_of_birth !== dateOfBirth) return false;
+    if (department && employee.department !== department) return false;
     if (employeeId && !String(employee.employee_id || "").toLowerCase().includes(employeeId)) return false;
     return true;
   });

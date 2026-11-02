@@ -12,12 +12,31 @@
           "autocomplete": "name"
         },
         {
-          "type": "text",
-          "name": "date_of_birth",
+          "type": "dropdown",
+          "name": "department",
           "startWithNewLine": false,
-          "title": "Date of Birth",
-          "inputType": "date",
-          "autocomplete": "bday"
+          "title": "Department",
+          "placeholder": "All departments",
+          "choices": [
+            {
+              "value": "engineering",
+              "text": "Engineering"
+            },
+            {
+              "value": "marketing",
+              "text": "Marketing"
+            },
+            {
+              "value": "product",
+              "text": "Product"
+            },
+            {
+              "value": "finance",
+              "text": "Finance"
+            }
+          ],
+          "showOtherItem": true,
+          "otherText": "Other"
         },
         {
           "type": "text",

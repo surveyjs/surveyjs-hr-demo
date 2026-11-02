@@ -6,6 +6,7 @@ import Drawer from "@mui/material/Drawer";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useApp } from "../app/AppContext.jsx";
+import { choiceLabel, fullName } from "../utils/records.js";
 import { useFormPdfPreview } from "./FormPdfPreview.jsx";
 import SurveyForm, { completeSurvey, prefillSurvey } from "./SurveyForm.jsx";
 
@@ -21,15 +22,28 @@ export default function FormDrawer({
   prefillData = null,
   cancelLabel = "Cancel",
   customizeLabel,
+  pdfDocument = null,
   onComplete,
   onCompleting,
   onClose,
   onCustomize,
   configure
 }) {
-  const { currentUser } = useApp();
+  const { currentUser, selectedEmployee, schemas } = useApp();
   const surveyRef = useRef(null);
-  const pdf = useFormPdfPreview(title);
+  const pdf = useFormPdfPreview(pdfDocument?.title || title);
+  const openPdf = () => {
+    const employee = selectedEmployee;
+    const profile = pdfDocument && employee ? {
+      ...pdfDocument,
+      employee,
+      employeeName: fullName(employee),
+      jobTitle: choiceLabel(schemas.editEmployee, "job_title", employee.job_title, employee),
+      department: choiceLabel(schemas.editEmployee, "department", employee.department, employee),
+      fileTitle: `${pdfDocument.title} ${employee.employee_id || ""}`.trim()
+    } : null;
+    pdf.openPreview(surveyRef.current, profile);
+  };
   const canCustomize = currentUser?.role === "hr" && typeof onCustomize === "function";
   return (
     <Drawer
@@ -64,7 +78,7 @@ export default function FormDrawer({
               type="button"
               variant="outlined"
               disabled={pdf.busy}
-              onClick={() => pdf.openPreview(surveyRef.current)}
+              onClick={openPdf}
             >
               Preview PDF
             </Button>

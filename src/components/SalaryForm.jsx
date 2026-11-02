@@ -24,6 +24,12 @@ export default function SalaryForm({ open, onClose }) {
       schema={schema}
       data={toSalaryData(selectedEmployee)}
       elementIdPrefix={`edit_salary_${selectedEmployee.id}_`}
+      pdfDocument={{
+        title: "Salary record",
+        description: "This document records the salary payable to the employee, including the amount, the currency, and the payment frequency.",
+        sectionTitle: "Compensation",
+        footer: "Acme HR salary record."
+      }}
       completeLabel={schema?.completeText || "Save Salary"}
       customizeLabel="Customize in Builder"
       onClose={onClose}

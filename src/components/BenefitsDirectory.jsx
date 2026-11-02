@@ -1,5 +1,7 @@
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,7 +10,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import { useApp } from "../app/AppContext.jsx";
-import { choiceLabel, fullName } from "../utils/records.js";
+import { choiceLabel, fullName, searchEmployees } from "../utils/records.js";
+import EmployeeSearchPanel from "./EmployeeSearchPanel.jsx";
 
 function benefitSummary(employee, schema) {
   const benefits = employee.benefits || [];
@@ -20,20 +23,35 @@ function benefitSummary(employee, schema) {
 
 export default function BenefitsDirectory() {
   const { employees, schemas, openBenefits, currentUser } = useApp();
+  const [criteria, setCriteria] = useState({});
+  const [resetKey, setResetKey] = useState(0);
   const ownRecord = currentUser?.role === "employee";
   const visible = ownRecord
     ? employees.filter((employee) => employee.id === currentUser.employeeId)
     : employees;
-  const rows = [...visible].sort((a, b) => fullName(a).localeCompare(fullName(b)));
+  const rows = searchEmployees(visible, criteria)
+    .sort((a, b) => fullName(a).localeCompare(fullName(b)));
 
   return (
-    <>
-      <Typography variant="h4" sx={{ mb: 1.5 }}>Benefits</Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        {ownRecord
-          ? "Your benefit enrollments."
-          : "Benefit enrollments for every employee. Open a row to review or change that employee's benefits."}
-      </Typography>
+    <Stack spacing={3}>
+      <div>
+        <Typography variant="h4" sx={{ mb: 1.5 }}>Benefits</Typography>
+        <Typography variant="body2" color="text.secondary">
+          {ownRecord
+            ? "Your benefit enrollments."
+            : "Benefit enrollments for every employee. Open a row to review or change that employee's benefits."}
+        </Typography>
+      </div>
+      <EmployeeSearchPanel
+        criteria={criteria}
+        resetKey={resetKey}
+        onChange={setCriteria}
+        onClear={() => {
+          setCriteria({});
+          setResetKey((value) => value + 1);
+        }}
+        elementIdPrefix="benefits_search_"
+      />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -46,6 +64,11 @@ export default function BenefitsDirectory() {
             </TableRow>
           </TableHead>
           <TableBody>
+            {rows.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5}>No records match these criteria. Clear the fields to list everyone.</TableCell>
+              </TableRow>
+            ) : null}
             {rows.map((employee) => (
               <TableRow key={employee.id} hover>
                 <TableCell>{fullName(employee)}</TableCell>
@@ -62,6 +85,6 @@ export default function BenefitsDirectory() {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Stack>
   );
 }

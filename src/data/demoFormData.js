@@ -24,7 +24,7 @@ export const registrationDemoData = {
 
 export const searchDemoData = {
   employee_name: "Emma Thompson",
-  date_of_birth: "1990-04-12",
+  department: "marketing",
   employee_id: "EMP-1002"
 };
 

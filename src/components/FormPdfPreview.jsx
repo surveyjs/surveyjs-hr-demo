@@ -46,15 +46,21 @@ export function useFormPdfPreview(title) {
     if (urlRef.current) URL.revokeObjectURL(urlRef.current);
   }, []);
 
-  const openPreview = async (survey) => {
+  const openPreview = async (survey, profile) => {
     if (!survey || busy) return;
     setBusy(true);
     try {
-      const blob = await buildFormPdf(survey);
+      const blob = await buildFormPdf(survey, profile);
       if (urlRef.current) URL.revokeObjectURL(urlRef.current);
       const url = URL.createObjectURL(blob);
       urlRef.current = url;
-      setPreview({ url, blob, fileName: pdfFileName(title) });
+      const documentTitle = profile?.title || title;
+      setPreview({
+        url,
+        blob,
+        title: documentTitle,
+        fileName: pdfFileName(profile?.fileTitle || documentTitle)
+      });
     } catch (error) {
       console.error(error);
       notify("The PDF could not be created.", "error");
@@ -71,7 +77,7 @@ export function useFormPdfPreview(title) {
   const dialog = (
     <PdfPreviewDialog
       open={Boolean(preview)}
-      title={title || "Preview PDF"}
+      title={preview?.title || title || "Preview PDF"}
       url={preview?.url}
       onDownload={download}
       onClose={close}
