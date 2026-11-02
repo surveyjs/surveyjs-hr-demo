@@ -108,7 +108,7 @@ function drawFooter(profile, textColor) {
   };
 }
 
-export async function buildFormPdf(survey, profile) {
+export async function buildFormPdf(survey, profile, dark = isDarkTheme()) {
   const json = structuredClone(survey.toJSON());
   const data = structuredClone(survey.data || {});
   if (profile) applyDocument(json, data, profile);
@@ -117,7 +117,7 @@ export async function buildFormPdf(survey, profile) {
   } : undefined);
   pdf.data = data;
   let textColor = null;
-  if (isDarkTheme()) {
+  if (dark) {
     pdf.applyTheme(DefaultDark);
     textColor = pdf.style.survey.title.fontColor;
   }

@@ -5,6 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useColorScheme } from "@mui/material/styles";
 import { useApp } from "../app/AppContext.jsx";
 import { buildFormPdf, downloadBlob, pdfFileName } from "../pdf/formPdf.js";
 
@@ -15,6 +16,7 @@ function PdfPreviewDialog({ open, title, url, onDownload, onClose }) {
       <DialogContent sx={{ px: 3, pt: 0, pb: 3 }}>
         {url ? (
           <Box
+            key={url}
             component="iframe"
             title={`${title} PDF`}
             src={url}
@@ -32,25 +34,22 @@ function PdfPreviewDialog({ open, title, url, onDownload, onClose }) {
 
 export function useFormPdfPreview(title) {
   const { notify } = useApp();
+  const { mode, systemMode } = useColorScheme();
+  const scheme = mode === "system" ? systemMode : mode;
   const [busy, setBusy] = useState(false);
   const [preview, setPreview] = useState(null);
   const urlRef = useRef(null);
+  const sourceRef = useRef(null);
+  const requestRef = useRef(0);
+  const renderPdfRef = useRef(async () => {});
 
-  const close = () => {
-    if (urlRef.current) URL.revokeObjectURL(urlRef.current);
-    urlRef.current = null;
-    setPreview(null);
-  };
-
-  useEffect(() => () => {
-    if (urlRef.current) URL.revokeObjectURL(urlRef.current);
-  }, []);
-
-  const openPreview = async (survey, profile) => {
-    if (!survey || busy) return;
+  renderPdfRef.current = async (survey, profile, dark) => {
+    const request = requestRef.current + 1;
+    requestRef.current = request;
     setBusy(true);
     try {
-      const blob = await buildFormPdf(survey, profile);
+      const blob = await buildFormPdf(survey, profile, dark);
+      if (requestRef.current !== request) return;
       if (urlRef.current) URL.revokeObjectURL(urlRef.current);
       const url = URL.createObjectURL(blob);
       urlRef.current = url;
@@ -62,11 +61,36 @@ export function useFormPdfPreview(title) {
         fileName: pdfFileName(profile?.fileTitle || documentTitle)
       });
     } catch (error) {
+      if (requestRef.current !== request) return;
       console.error(error);
       notify("The PDF could not be created.", "error");
     } finally {
-      setBusy(false);
+      if (requestRef.current === request) setBusy(false);
     }
+  };
+
+  const close = () => {
+    requestRef.current += 1;
+    sourceRef.current = null;
+    if (urlRef.current) URL.revokeObjectURL(urlRef.current);
+    urlRef.current = null;
+    setPreview(null);
+  };
+
+  useEffect(() => () => {
+    if (urlRef.current) URL.revokeObjectURL(urlRef.current);
+  }, []);
+
+  useEffect(() => {
+    const source = sourceRef.current;
+    if (!source || !urlRef.current) return;
+    renderPdfRef.current(source.survey, source.profile, scheme === "dark");
+  }, [scheme]);
+
+  const openPreview = (survey, profile) => {
+    if (!survey || busy) return;
+    sourceRef.current = { survey, profile: profile ?? null };
+    return renderPdfRef.current(survey, profile, scheme === "dark");
   };
 
   const download = () => {
