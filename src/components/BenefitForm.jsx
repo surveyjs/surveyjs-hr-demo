@@ -29,9 +29,9 @@ export default function BenefitForm({ open, benefit = null, onClose }) {
       elementIdPrefix={editing ? `edit_benefit_${benefit.id}_` : `add_benefit_${selectedEmployee.id}_`}
       pdfDocument={{
         title: "Benefit enrollment",
-        description: "This document records one benefit for this employee: the plan, the coverage, and whether the employee is enrolled or has waived it. It is not a contract, and it does not start a payment.",
+        description: "This document records a benefit for the employee, including the plan, the coverage, and the enrollment status.",
         sectionTitle: "Enrollment",
-        footer: "Acme HR benefit enrollment. This is not a contract."
+        footer: "Acme HR benefit enrollment."
       }}
       completeLabel={editing ? "Save Changes" : (schema?.completeText || "Save Benefit")}
       customizeLabel="Customize in Builder"
