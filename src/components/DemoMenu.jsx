@@ -37,7 +37,7 @@ export default function DemoMenu({ dockRef, buttonRef, buttonSx, open, setOpen }
       >
         <Button
           ref={buttonRef}
-          sx={{ ...buttonSx, width: "auto", minWidth: 0, maxWidth: "calc(100vw - 138px)", px: 1.25, gap: 0.75, "& .MuiSvgIcon-root": { fontSize: 18 }, fontSize: 11, fontWeight: 500, letterSpacing: 0.5, textTransform: "uppercase" }}
+          sx={{ ...buttonSx, width: "auto", minWidth: 0, maxWidth: "calc(100vw - 138px)", px: 1.25, gap: 0.75, fontSize: 11, letterSpacing: 0.5, textTransform: "uppercase" }}
           aria-label="Human Resources"
           aria-haspopup="menu"
           aria-controls={open ? "demo-examples" : undefined}
@@ -56,7 +56,7 @@ export default function DemoMenu({ dockRef, buttonRef, buttonSx, open, setOpen }
         >
           <MenuIcon />
           <Box component="span" sx={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>Human Resources</Box>
-          <KeyboardArrowDownIcon sx={{ opacity: 0.6 }} />
+          <KeyboardArrowDownIcon className="demo-dock-chevron" sx={{ opacity: 0.6 }} />
         </Button>
       </Tooltip>
       <Popper

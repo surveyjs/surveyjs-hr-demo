@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import CropFreeIcon from "@mui/icons-material/CropFree";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Portal from "@mui/material/Portal";
 import Tooltip from "@mui/material/Tooltip";
 import { useColorScheme } from "@mui/material/styles";
@@ -10,13 +11,20 @@ import DemoMenu from "./DemoMenu";
 
 const dockButtonSx = {
   minHeight: 44,
+  height: 44,
   minWidth: 44,
   width: 44,
   px: 0,
+  py: 0,
+  fontSize: 14,
+  fontWeight: 500,
+  lineHeight: "20px",
+  letterSpacing: 0,
   borderRadius: 999,
   cursor: "default",
   color: "text.primary",
-  "& .MuiSvgIcon-root": { fontSize: 20 },
+  "& .MuiSvgIcon-root": { fontSize: 18 },
+  "& .demo-dock-chevron": { fontSize: 14 },
   "&:hover": { bgcolor: "action.hover" },
   "&.Mui-focusVisible": {
     outline: "2px solid",
@@ -27,6 +35,16 @@ const dockButtonSx = {
     bgcolor: "action.selected"
   }
 };
+
+const dockActionSx = {
+  ...dockButtonSx,
+  // MUI's xl starts at 1536px, the same as the shadcn dock's 2xl.
+  width: { xs: 44, xl: "auto" },
+  px: { xs: 0, xl: 1.5 },
+  gap: 0.75,
+  textTransform: "none"
+};
+const dockActionLabelSx = { display: { xs: "none", xl: "inline" }, whiteSpace: "nowrap" };
 
 export default function DemoDock() {
   const dockRef = useRef(null);
@@ -128,17 +146,18 @@ export default function DemoDock() {
             describeChild
             slotProps={{ popper: { container: () => dockRef.current } }}
           >
-            <IconButton
+            <Button
               ref={outlinesButtonRef}
               type="button"
               className="demo-dock__button"
-              sx={dockButtonSx}
+              sx={dockActionSx}
               aria-pressed={outlines}
               aria-label="Highlight SurveyJS"
               onClick={() => setOutlines((value) => !value)}
             >
               <CropFreeIcon />
-            </IconButton>
+              <Box component="span" sx={dockActionLabelSx}>Highlight SurveyJS</Box>
+            </Button>
           </Tooltip>
           <Tooltip
             title="Switch Theme"
@@ -151,16 +170,17 @@ export default function DemoDock() {
             describeChild
             slotProps={{ popper: { container: () => dockRef.current } }}
           >
-            <IconButton
+            <Button
               ref={themeButtonRef}
               type="button"
               className="demo-dock__button"
-              sx={dockButtonSx}
+              sx={dockActionSx}
               aria-label="Switch Theme"
               onClick={() => setMode(dark ? "light" : "dark")}
             >
               {dark ? <DarkModeIcon /> : <LightModeIcon />}
-            </IconButton>
+              <Box component="span" sx={dockActionLabelSx}>Switch Theme</Box>
+            </Button>
           </Tooltip>
         </div>
       </div>
