@@ -118,7 +118,7 @@ export default function DemoMenu({ dockRef, buttonRef, buttonSx, open, setOpen }
                 ];
               })}
               <Divider />
-              <MenuItem component="a" href="https://surveyjs.io/use-cases" target="_blank" rel="noreferrer" onClick={() => close()} sx={{ cursor: "default", typography: "body2", gap: 0.75 }}>
+              <MenuItem component="a" href="https://surveyjs.io/use-cases" target="_blank" rel="noreferrer" onClick={() => close()} sx={{ cursor: "default", typography: "body2", fontWeight: 500, gap: 0.75 }}>
                 More Use Cases
                 <OpenInNewIcon sx={{ fontSize: 12, color: "text.secondary" }} />
               </MenuItem>
