@@ -107,7 +107,7 @@ export default function DemoMenu({ dockRef, buttonRef, buttonSx, open, setOpen }
                     selected={current}
                     aria-current={current ? "page" : undefined}
                     onClick={() => close()}
-                    sx={{ display: "block", whiteSpace: "normal", cursor: "default", py: 1 }}
+                    sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: "2px", whiteSpace: "normal", cursor: "default", py: 1 }}
                   >
                     <Typography variant="body2" fontWeight={500} color={current ? "primary" : "text.primary"} sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
                       {example.name}
