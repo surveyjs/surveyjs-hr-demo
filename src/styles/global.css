@@ -34,28 +34,68 @@ body {
 .demo-dock,
 .demo-dock:popover-open {
   position: fixed;
-  inset: auto 16px 16px auto;
+  inset: auto auto calc(16px + env(safe-area-inset-bottom, 0px)) 50%;
+  transform: translateX(-50%);
   z-index: 20000;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  display: block;
   box-sizing: border-box;
   width: max-content;
   max-width: calc(100vw - 24px);
   height: auto;
   margin: 0;
-  padding: 8px;
+  padding: 0;
   overflow: visible;
-  border: 1px solid var(--mui-palette-divider);
+  border: 0;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--mui-palette-background-paper) 92%, transparent);
+  background: transparent;
   color: var(--mui-palette-text-primary);
-  box-shadow: 0 8px 28px rgb(23 32 42 / 16%);
-  backdrop-filter: blur(14px);
 }
 
-:root[data-theme="dark"] .demo-dock {
+.demo-dock-panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1px solid var(--mui-palette-divider);
+  border-radius: inherit;
+  background: var(--mui-palette-background-paper);
+  box-shadow: 0 8px 28px rgb(23 32 42 / 16%);
+  transition: opacity 150ms ease;
+}
+
+:root[data-theme="dark"] .demo-dock-panel {
   box-shadow: 0 8px 32px #0007;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* The backdrop stays separate from the fading panel to keep blur stable. */
+  .demo-dock::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    backdrop-filter: blur(14px);
+    pointer-events: none;
+  }
+
+  .demo-dock-panel {
+    opacity: 0.75;
+    will-change: opacity;
+  }
+
+  .demo-dock:hover > .demo-dock-panel,
+  .demo-dock:focus-within > .demo-dock-panel,
+  .demo-dock[data-tooltip-open="true"] > .demo-dock-panel {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .demo-dock-panel {
+    transition: none;
+  }
 }
 
 [data-survey-component] {
