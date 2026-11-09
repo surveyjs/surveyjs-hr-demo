@@ -42,6 +42,12 @@ export default function DemoDock() {
   }, [outlines]);
 
   useEffect(() => {
+    const dismissOutlines = () => setOutlines(false);
+    document.addEventListener("survey-outlines-dismiss", dismissOutlines);
+    return () => document.removeEventListener("survey-outlines-dismiss", dismissOutlines);
+  }, []);
+
+  useEffect(() => {
     // Keep the dock inside MUI's active focus trap while a form is open.
     const attachToDialog = () => {
       const dialogs = Array.from(document.querySelectorAll(".MuiModal-root [role='dialog']"))

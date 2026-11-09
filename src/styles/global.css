@@ -120,12 +120,57 @@ body {
   pointer-events: none;
 }
 
-:root[data-survey-outlines="true"] [data-survey-component]::after {
-  content: attr(data-survey-component);
+/* Keep Creator panes below the frame without changing their internal stacking. */
+[data-survey-component] > .svc-creator {
+  isolation: isolate;
+}
+
+/* Only the label and narrow outer edge catch clicks; the form stays interactive. */
+[data-survey-outline-dismiss] {
+  display: none;
+}
+:root[data-survey-outlines="true"] [data-survey-component] > [data-survey-outline-dismiss] {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: default;
+  pointer-events: none;
+}
+[data-survey-outline-dismiss]:focus-visible {
+  outline: 2px solid var(--mui-palette-primary-main);
+  outline-offset: 2px;
+}
+[data-survey-outline-edge] {
+  position: absolute;
+  pointer-events: auto;
+}
+[data-survey-outline-edge="top"],
+[data-survey-outline-edge="bottom"] {
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+[data-survey-outline-edge="left"],
+[data-survey-outline-edge="right"] {
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+[data-survey-outline-edge="top"] { top: 0; }
+[data-survey-outline-edge="right"] { right: 0; }
+[data-survey-outline-edge="bottom"] { bottom: 0; }
+[data-survey-outline-edge="left"] { left: 0; }
+[data-survey-outline-label] {
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 7;
   padding: 4px 8px;
   border-radius: 0 10px 0 8px;
   background: var(--mui-palette-primary-main);
@@ -133,10 +178,10 @@ body {
   font: 600 12px/16px Roboto, Helvetica, Arial, sans-serif;
   letter-spacing: 0;
   text-transform: uppercase;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
-:root[data-survey-outlines="true"] .creator-host[data-survey-component]::after {
+.creator-host > [data-survey-outline-dismiss] > [data-survey-outline-label] {
   top: auto;
   right: auto;
   bottom: 12px;

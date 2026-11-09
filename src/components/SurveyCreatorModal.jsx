@@ -1,3 +1,4 @@
+import SurveyOutlineLabel from "./SurveyOutlineLabel";
 import { useEffect, useMemo, useRef } from "react";
 import { AceJsonEditorModel } from "survey-creator-core";
 import { SurveyCreator, SurveyCreatorComponent } from "survey-creator-react";
@@ -98,6 +99,7 @@ export default function SurveyCreatorModal() {
           </Toolbar>
         </AppBar>
         <Box className="creator-host" data-survey-component="SurveyJS Creator" sx={{ flex: 1, minHeight: 0 }}>
+          <SurveyOutlineLabel label="SurveyJS Creator" />
           {creator ? <SurveyCreatorComponent creator={creator} /> : null}
         </Box>
       </Box>
