@@ -313,12 +313,34 @@ body {
 #survey-search .search-header-actions {
   align-self: center;
   justify-content: flex-end;
-  width: max-content;
+  box-sizing: border-box;
+  width: 100%;
   justify-self: end;
   gap: 8px;
   padding: 0 var(--search-inset) var(--search-inset);
   overflow: visible;
   --sjs2-layout-component-action-large-box-gap: 8px;
+}
+
+#survey-search .search-header-actions .sd-action-bar__item {
+  flex: 1;
+}
+
+#survey-search .search-footer-actions {
+  grid-column: 1 / -1;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  gap: 8px;
+  padding-inline: var(--search-inset);
+  padding-bottom: var(--search-inset);
+}
+
+#survey-search .search-header-actions .sd-action,
+#survey-search .search-footer-actions .sd-action {
+  box-sizing: border-box;
+  width: 100%;
 }
 
 #survey-search .sd-body {
@@ -328,19 +350,7 @@ body {
   padding-inline: var(--search-inset);
 }
 
-#survey-search .sv-components-container-contentBottom,
-#survey-search .sd-footer {
-  width: max-content;
-  justify-self: end;
-}
-
-#survey-search .sd-footer .search-clear {
-  margin: 0;
-  flex: 0 0 auto;
-  width: auto;
-}
-
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   #survey-search {
     --search-inset: 24px;
   }
@@ -350,14 +360,14 @@ body {
   }
 
   #survey-search .search-header-actions {
+    width: max-content;
     padding-block: 8px;
     padding-inline: var(--search-inset);
   }
-}
 
-@media (min-width: 1024px) {
-  #survey-search .sd-body {
-    grid-template-columns: minmax(0, 1fr) auto;
+  #survey-search .search-footer-actions {
+    flex-direction: row;
+    justify-content: flex-end;
   }
 }
 
@@ -377,7 +387,7 @@ body {
   --sjs2-layout-component-survey-footer-padding-top: var(--form-inset);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   #signin-form,
   #survey-register,
   #survey-drawer {

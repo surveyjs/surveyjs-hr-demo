@@ -40,7 +40,7 @@ export default function EmployeeSearchPanel({
     model.headerView = "basic";
     const toolbar = new ActionContainer();
     toolbar.setActionsAppearance({ mode: "tertiary-surface", size: "large", style: "brand", showBorder: true });
-    toolbar.cssClasses = { ...model.navigationBar.cssClasses, root: "sd-action-bar search-header-actions" };
+    toolbar.cssClasses = { ...model.navigationBar.cssClasses, root: "sd-action-bar search-footer-actions" };
     const items = [
       {
         id: "prefill-search",
@@ -52,10 +52,20 @@ export default function EmployeeSearchPanel({
           prefillSurvey(model, data);
           actionsRef.current.onChange(data);
         }
+      },
+      {
+        id: "clear-filters",
+        title: "Clear filters",
+        showTitle: true,
+        disableShrink: true,
+        action: () => actionsRef.current.onClear()
       }
     ];
     if (actionsRef.current.isHr) {
-      items.push({
+      const headerToolbar = new ActionContainer();
+      headerToolbar.setActionsAppearance({ mode: "tertiary-surface", size: "large", style: "brand", showBorder: true });
+      headerToolbar.cssClasses = { ...model.navigationBar.cssClasses, root: "sd-action-bar search-header-actions" };
+      headerToolbar.setItems([{
         id: "edit-search-form",
         title: "Edit Search Form",
         iconName: "icon-hr-settings",
@@ -63,20 +73,20 @@ export default function EmployeeSearchPanel({
         showTitle: true,
         disableShrink: true,
         action: () => actionsRef.current.openSchemaCreator("search", "Edit Search Form")
+      }]);
+      model.addLayoutElement({
+        id: "search-header-actions",
+        container: "header",
+        component: "sv-action-bar",
+        data: headerToolbar
       });
     }
     toolbar.setItems(items);
     model.addLayoutElement({
-      id: "search-header-actions",
-      container: "header",
+      id: "search-footer-actions",
+      container: "footer",
       component: "sv-action-bar",
       data: toolbar
-    });
-    model.addNavigationItem({
-      id: "clear-filters",
-      title: "Clear filters",
-      css: "search-clear",
-      action: () => actionsRef.current.onClear()
     });
   };
 

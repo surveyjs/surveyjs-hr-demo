@@ -102,11 +102,11 @@ export default function Header() {
         </Stack>
         ) : null}
         {currentUser ? (
-          <Stack direction="row" spacing={{ xs: 1, sm: 1.5 }} alignItems="center" sx={{ order: { xs: 2, lg: 3 }, ml: "auto", minWidth: 0, maxWidth: { xs: "calc(100% - 132px)", sm: "none" } }}>
-            <Avatar sx={(theme) => ({ display: { xs: "none", sm: "flex" }, width: theme.spacing(3), height: theme.spacing(3), bgcolor: "primary.main", fontSize: theme.typography.caption.fontSize })}>
+          <Stack direction="row" spacing={{ xs: 1, md: 1.5 }} alignItems="center" sx={{ order: { xs: 2, lg: 3 }, ml: "auto", minWidth: 0, maxWidth: { xs: "calc(100% - 132px)", md: "none" } }}>
+            <Avatar sx={(theme) => ({ display: { xs: "none", md: "flex" }, width: theme.spacing(3), height: theme.spacing(3), bgcolor: "primary.main", fontSize: theme.typography.caption.fontSize })}>
               {userInitials(currentUser)}
             </Avatar>
-            <Typography variant="body2" noWrap sx={{ fontSize: { xs: 12, sm: 14 } }}>{currentUser.fullName}</Typography>
+            <Typography variant="body2" noWrap sx={{ fontSize: { xs: 12, md: 14 } }}>{currentUser.fullName}</Typography>
             <Box aria-hidden="true" sx={{ width: "1px", height: 18, bgcolor: "divider", flexShrink: 0 }} />
             <IconButton
               type="button"
