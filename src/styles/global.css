@@ -87,6 +87,7 @@ body {
 
   .demo-dock:hover > .demo-dock-panel,
   .demo-dock:focus-within > .demo-dock-panel,
+  .demo-dock[data-menu-open="true"] > .demo-dock-panel,
   .demo-dock[data-tooltip-open="true"] > .demo-dock-panel {
     opacity: 1;
   }

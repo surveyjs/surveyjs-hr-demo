@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Portal from "@mui/material/Portal";
 import Tooltip from "@mui/material/Tooltip";
 import { useColorScheme } from "@mui/material/styles";
+import DemoMenu from "./DemoMenu";
 
 const dockButtonSx = {
   minHeight: 44,
@@ -31,10 +32,12 @@ export default function DemoDock() {
   const dockRef = useRef(null);
   const themeButtonRef = useRef(null);
   const outlinesButtonRef = useRef(null);
+  const menuButtonRef = useRef(null);
   const { mode, systemMode, setMode } = useColorScheme();
   const [container, setContainer] = useState(null);
   const [outlines, setOutlines] = useState(true);
   const [tooltip, setTooltip] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const dark = (mode === "system" ? systemMode : mode) === "dark";
 
   useEffect(() => {
@@ -67,6 +70,7 @@ export default function DemoDock() {
 
   useEffect(() => {
     setTooltip(null);
+    setMenuOpen(false);
   }, [container]);
 
   const setDock = useCallback((node) => {
@@ -81,6 +85,7 @@ export default function DemoDock() {
   }, []);
 
   const moveFocus = (event) => {
+    if (event.target.closest('[role="menu"]')) return;
     if (event.key === "Escape" && tooltip) {
       setTooltip(null);
       event.stopPropagation();
@@ -90,11 +95,11 @@ export default function DemoDock() {
     event.preventDefault();
     const themeButton = themeButtonRef.current;
     const outlinesButton = outlinesButtonRef.current;
-    const buttons = [outlinesButton, themeButton];
+    const buttons = [menuButtonRef.current, outlinesButton, themeButton];
     const index = buttons.indexOf(document.activeElement);
     const step = event.key === "ArrowRight" ? 1 : -1;
     const next = buttons[(index + step + buttons.length) % buttons.length];
-    const target = event.key === "Home" ? outlinesButton : event.key === "End" ? themeButton : next;
+    const target = event.key === "Home" ? menuButtonRef.current : event.key === "End" ? themeButton : next;
     target?.focus();
   };
 
@@ -107,9 +112,11 @@ export default function DemoDock() {
         role="toolbar"
         aria-label="Demo Tools"
         data-tooltip-open={Boolean(tooltip)}
+        data-menu-open={menuOpen}
         onKeyDown={moveFocus}
       >
         <div className="demo-dock-panel">
+          <DemoMenu dockRef={dockRef} buttonRef={menuButtonRef} buttonSx={dockButtonSx} open={menuOpen} setOpen={setMenuOpen} />
           <Tooltip
             title={`${outlines ? "Hide" : "Show"} SurveyJS Outlines`}
             open={tooltip === "outlines"}
