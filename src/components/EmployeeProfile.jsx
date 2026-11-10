@@ -97,7 +97,7 @@ export default function EmployeeProfile() {
       )}
       <Paper sx={{ p: { xs: 2, md: 3 } }}>
         <EmployeeSummary employee={employee} labelSchema={labelSchema} />
-        <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" sx={{ mt: 2 }}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={1} useFlexGap flexWrap="wrap" sx={{ mt: 2 }}>
           {isEmployee ? null : (
             <Button type="button" variant="contained" onClick={() => setEditOpen(true)}>Edit Employee</Button>
           )}

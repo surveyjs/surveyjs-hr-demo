@@ -17,10 +17,10 @@ export default function EmployeeEditDrawer({ open, onClose }) {
       elementIdPrefix={`edit_${selectedEmployee.id}_`}
       completeLabel={schema?.completeText || "Save Changes"}
       prefillData={toSurveyEmployee(selectedEmployee)}
-      customizeLabel="Customize Employee Form"
+      customizeLabel="Edit Employee Form"
       configure={(model) => { model.showTitle = false; }}
       onClose={onClose}
-      onCustomize={() => openSchemaCreator("editEmployee", "Customize Employee Form")}
+      onCustomize={() => openSchemaCreator("editEmployee", "Edit Employee Form")}
       onCompleting={(data) => {
         if (employeeIdTaken(employees, data.employee_id, selectedEmployee.id)) {
           notify("An employee with this Employee ID already exists.", "error");

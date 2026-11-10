@@ -34,9 +34,9 @@ export default function BenefitForm({ open, benefit = null, onClose }) {
         footer: "Acme HR benefit enrollment."
       }}
       completeLabel={editing ? "Save Changes" : (schema?.completeText || "Save Benefit")}
-      customizeLabel="Customize in Builder"
+      customizeLabel="Edit Benefit Form"
       onClose={onClose}
-      onCustomize={() => openSchemaCreator("addBenefit", "Customize Benefit Form")}
+      onCustomize={() => openSchemaCreator("addBenefit", "Edit Benefit Form")}
       configure={(model) => { model.showTitle = false; }}
       onComplete={(data) => {
         const next = { ...data, status: data.status || "enrolled" };

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
+import SurveyOutlineLabel from "./SurveyOutlineLabel";
 
 export default function SurveyForm({
   schema,
@@ -66,6 +67,7 @@ export default function SurveyForm({
 
   return (
     <div id={hostId} className="survey-host" data-survey-component="SurveyJS renders this">
+      <SurveyOutlineLabel />
       <Survey model={survey} />
     </div>
   );

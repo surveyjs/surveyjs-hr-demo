@@ -1,4 +1,4 @@
-import Button from "@mui/material/Button";
+import CreatorButton from "./CreatorButton.jsx";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -21,27 +21,27 @@ export default function SettingsPage() {
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
           Open SurveyJS Creator to change a form. Saved schemas stay in effect for this browser session.
         </Typography>
-        <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
-          <Button type="button" variant="outlined" onClick={() => openSchemaCreator("editEmployee", "Customize Employee Form")}>
-            Customize Employee Form
-          </Button>
-          <Button type="button" variant="outlined" onClick={() => openSchemaCreator("addReview", "Customize Review Form")}>
-            Customize Review Form
-          </Button>
-          <Button type="button" variant="outlined" onClick={() => openSchemaCreator("addLeave", "Customize Leave Request Form")}>
-            Customize Leave Request Form
-          </Button>
-          <Button type="button" variant="contained" onClick={() => openCustomCreator(null)}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={1} useFlexGap flexWrap="wrap">
+          <CreatorButton onClick={() => openSchemaCreator("editEmployee", "Edit Employee Form")}>
+            Edit Employee Form
+          </CreatorButton>
+          <CreatorButton onClick={() => openSchemaCreator("addReview", "Edit Review Form")}>
+            Edit Review Form
+          </CreatorButton>
+          <CreatorButton onClick={() => openSchemaCreator("addLeave", "Edit Leave Request Form")}>
+            Edit Leave Request Form
+          </CreatorButton>
+          <CreatorButton onClick={() => openCustomCreator(null)}>
             Create New Onboarding Form
-          </Button>
+          </CreatorButton>
         </Stack>
         {customForms.length > 0 ? (
           <Stack spacing={1} sx={{ mt: 2 }}>
             <Typography variant="subtitle2" component="p">Saved custom forms</Typography>
             {customForms.map((form) => (
-              <Stack key={form.id} direction="row" spacing={1} alignItems="center">
+              <Stack key={form.id} direction={{ xs: "column", sm: "row" }} spacing={1} alignItems={{ xs: "stretch", sm: "center" }}>
                 <Typography variant="body2" sx={{ flex: 1 }}>{form.title || "Untitled form"}</Typography>
-                <Button type="button" size="small" onClick={() => openCustomCreator(form)}>Reopen</Button>
+                <CreatorButton onClick={() => openCustomCreator(form)}>Edit in Creator</CreatorButton>
               </Stack>
             ))}
           </Stack>

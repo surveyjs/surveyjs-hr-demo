@@ -33,7 +33,7 @@ export default function Header() {
 
   return (
     <AppBar position="sticky" color="inherit" elevation={0} sx={{ borderBottom: 1, borderColor: "divider" }}>
-      <Toolbar sx={{ gap: 2, flexWrap: "wrap", py: 1 }}>
+      <Toolbar sx={{ columnGap: { xs: 1, lg: 2 }, rowGap: { xs: 2, lg: 0 }, flexWrap: { xs: "wrap", lg: "nowrap" }, py: 1 }}>
         <Stack
           component="button"
           type="button"
@@ -43,7 +43,10 @@ export default function Header() {
           onClick={openIndex}
           aria-label="Acme HR"
           sx={{
-            mr: 1,
+            order: 1,
+            mr: { xs: 0, lg: 1 },
+            flexShrink: 0,
+            minHeight: 44,
             p: 0,
             border: 0,
             bgcolor: "transparent",
@@ -55,10 +58,23 @@ export default function Header() {
           <Avatar sx={{ bgcolor: "primary.main", width: 36, height: 36 }}>
             <GroupsIcon fontSize="small" />
           </Avatar>
-          <Typography variant="h6" component="div">Acme HR</Typography>
+          <Typography variant="h6" component="div" noWrap>Acme HR</Typography>
         </Stack>
         {currentUser ? (
-        <Stack direction="row" spacing={0.5} useFlexGap flexWrap="wrap" component="nav" aria-label="Primary">
+        <Stack
+          direction="row"
+          spacing={0.5}
+          useFlexGap
+          component="nav"
+          aria-label="Primary"
+          sx={{
+            order: { xs: 3, lg: 2 },
+            flexBasis: { xs: "100%", lg: "auto" },
+            flexGrow: { xs: 0, lg: 1 },
+            minWidth: 0,
+            overflowX: "auto"
+          }}
+        >
           {nav.map((item) => {
             const selected = item.match ? item.match(pathname) : pathname === item.to;
             return (
@@ -69,6 +85,9 @@ export default function Header() {
                 variant="text"
                 aria-current={selected ? "page" : undefined}
                 sx={{
+                  flexShrink: 0,
+                  minHeight: 44,
+                  whiteSpace: "nowrap",
                   color: selected ? "primary.main" : "text.primary",
                   bgcolor: selected ? "var(--hr-selected-wash)" : "transparent",
                   "&:hover": {
@@ -82,20 +101,20 @@ export default function Header() {
           })}
         </Stack>
         ) : null}
-        <Box sx={{ flexGrow: 1 }} />
         {currentUser ? (
-          <Stack direction="row" spacing={1.5} alignItems="center" sx={{ ml: "auto" }}>
-            <Avatar sx={{ width: 32, height: 32, bgcolor: "primary.main", fontSize: 14 }}>
+          <Stack direction="row" spacing={{ xs: 1, md: 1.5 }} alignItems="center" sx={{ order: { xs: 2, lg: 3 }, ml: "auto", minWidth: 0, maxWidth: { xs: "calc(100% - 132px)", md: "none" } }}>
+            <Avatar sx={(theme) => ({ display: { xs: "none", md: "flex" }, width: theme.spacing(3), height: theme.spacing(3), bgcolor: "primary.main", fontSize: theme.typography.caption.fontSize })}>
               {userInitials(currentUser)}
             </Avatar>
-            <Typography variant="body2">{currentUser.fullName}</Typography>
-            <Box aria-hidden="true" sx={{ width: "1px", height: 18, bgcolor: "divider" }} />
+            <Typography variant="body2" noWrap sx={{ fontSize: { xs: 12, md: 14 } }}>{currentUser.fullName}</Typography>
+            <Box aria-hidden="true" sx={{ width: "1px", height: 18, bgcolor: "divider", flexShrink: 0 }} />
             <IconButton
               type="button"
-              aria-label="Log out"
+              aria-label="Log Out"
               onClick={logout}
               size="small"
               sx={{
+                flexShrink: 0,
                 color: "text.secondary",
                 "&:hover": { color: "primary.main", bgcolor: "transparent" }
               }}
@@ -104,7 +123,7 @@ export default function Header() {
             </IconButton>
           </Stack>
         ) : (
-          <Typography variant="body2" color="text.secondary">Local demo</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ order: 2, ml: "auto" }}>Local demo</Typography>
         )}
       </Toolbar>
     </AppBar>

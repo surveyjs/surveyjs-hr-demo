@@ -35,9 +35,9 @@ export default function LeaveRequestForm({ open, request = null, onClose }) {
       elementIdPrefix={editing ? `edit_leave_${request.id}_` : `add_leave_${selectedEmployee.id}_`}
       completeLabel={editing ? "Save Changes" : (schema?.completeText || "Save Leave Request")}
       prefillData={editing ? null : leaveDemoData}
-      customizeLabel="Customize in Builder"
+      customizeLabel="Edit Leave Request Form"
       onClose={onClose}
-      onCustomize={() => openSchemaCreator("addLeave", "Customize Leave Request Form")}
+      onCustomize={() => openSchemaCreator("addLeave", "Edit Leave Request Form")}
       configure={(model) => {
         model.showTitle = false;
         const status = model.getQuestionByName("status");

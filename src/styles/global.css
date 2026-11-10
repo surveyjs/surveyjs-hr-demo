@@ -34,28 +34,69 @@ body {
 .demo-dock,
 .demo-dock:popover-open {
   position: fixed;
-  inset: auto 16px 16px auto;
+  inset: auto auto calc(16px + env(safe-area-inset-bottom, 0px)) 50%;
+  transform: translateX(-50%);
   z-index: 20000;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  display: block;
   box-sizing: border-box;
   width: max-content;
   max-width: calc(100vw - 24px);
   height: auto;
   margin: 0;
-  padding: 8px;
+  padding: 0;
   overflow: visible;
-  border: 1px solid var(--mui-palette-divider);
+  border: 0;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--mui-palette-background-paper) 92%, transparent);
+  background: transparent;
   color: var(--mui-palette-text-primary);
-  box-shadow: 0 8px 28px rgb(23 32 42 / 16%);
-  backdrop-filter: blur(14px);
 }
 
-:root[data-theme="dark"] .demo-dock {
+.demo-dock-panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1px solid var(--mui-palette-divider);
+  border-radius: inherit;
+  background: var(--mui-palette-background-paper);
+  box-shadow: 0 8px 28px rgb(23 32 42 / 16%);
+  transition: opacity 150ms ease;
+}
+
+:root[data-theme="dark"] .demo-dock-panel {
   box-shadow: 0 8px 32px #0007;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* The backdrop stays separate from the fading panel to keep blur stable. */
+  .demo-dock::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    backdrop-filter: blur(14px);
+    pointer-events: none;
+  }
+
+  .demo-dock-panel {
+    opacity: 0.75;
+    will-change: opacity;
+  }
+
+  .demo-dock:hover > .demo-dock-panel,
+  .demo-dock:focus-within > .demo-dock-panel,
+  .demo-dock[data-menu-open="true"] > .demo-dock-panel,
+  .demo-dock[data-tooltip-open="true"] > .demo-dock-panel {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .demo-dock-panel {
+    transition: none;
+  }
 }
 
 [data-survey-component] {
@@ -80,12 +121,57 @@ body {
   pointer-events: none;
 }
 
-:root[data-survey-outlines="true"] [data-survey-component]::after {
-  content: attr(data-survey-component);
+/* Keep Creator panes below the frame without changing their internal stacking. */
+[data-survey-component] > .svc-creator {
+  isolation: isolate;
+}
+
+/* Only the label and narrow outer edge catch clicks; the form stays interactive. */
+[data-survey-outline-dismiss] {
+  display: none;
+}
+:root[data-survey-outlines="true"] [data-survey-component] > [data-survey-outline-dismiss] {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: default;
+  pointer-events: none;
+}
+[data-survey-outline-dismiss]:focus-visible {
+  outline: 2px solid var(--mui-palette-primary-main);
+  outline-offset: 2px;
+}
+[data-survey-outline-edge] {
+  position: absolute;
+  pointer-events: auto;
+}
+[data-survey-outline-edge="top"],
+[data-survey-outline-edge="bottom"] {
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+[data-survey-outline-edge="left"],
+[data-survey-outline-edge="right"] {
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+[data-survey-outline-edge="top"] { top: 0; }
+[data-survey-outline-edge="right"] { right: 0; }
+[data-survey-outline-edge="bottom"] { bottom: 0; }
+[data-survey-outline-edge="left"] { left: 0; }
+[data-survey-outline-label] {
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 7;
   padding: 4px 8px;
   border-radius: 0 10px 0 8px;
   background: var(--mui-palette-primary-main);
@@ -93,10 +179,10 @@ body {
   font: 600 12px/16px Roboto, Helvetica, Arial, sans-serif;
   letter-spacing: 0;
   text-transform: uppercase;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
-:root[data-survey-outlines="true"] .creator-host[data-survey-component]::after {
+.creator-host > [data-survey-outline-dismiss] > [data-survey-outline-label] {
   top: auto;
   right: auto;
   bottom: 12px;
@@ -148,6 +234,11 @@ body {
 .survey-host {
   width: 100%;
   --mui-palette-background-default: var(--mui-palette-background-paper);
+}
+
+.survey-host .sd-action__title,
+.survey-host .sv-button-group__item-caption {
+  text-transform: none;
 }
 
 .survey-host .sd-root-modern.sjs-theme-overrides {
@@ -227,12 +318,34 @@ body {
 #survey-search .search-header-actions {
   align-self: center;
   justify-content: flex-end;
-  width: max-content;
+  box-sizing: border-box;
+  width: 100%;
   justify-self: end;
   gap: 8px;
   padding: 0 var(--search-inset) var(--search-inset);
   overflow: visible;
   --sjs2-layout-component-action-large-box-gap: 8px;
+}
+
+#survey-search .search-header-actions .sd-action-bar__item {
+  flex: 1;
+}
+
+#survey-search .search-footer-actions {
+  grid-column: 1 / -1;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  gap: 8px;
+  padding-inline: var(--search-inset);
+  padding-bottom: var(--search-inset);
+}
+
+#survey-search .search-header-actions .MuiButton-root,
+#survey-search .search-footer-actions .sd-action {
+  box-sizing: border-box;
+  width: 100%;
 }
 
 #survey-search .sd-body {
@@ -242,36 +355,33 @@ body {
   padding-inline: var(--search-inset);
 }
 
-#survey-search .sv-components-container-contentBottom,
-#survey-search .sd-footer {
-  width: max-content;
-  justify-self: end;
-}
-
-#survey-search .sd-footer .search-clear {
-  margin: 0;
-  flex: 0 0 auto;
-  width: auto;
-}
-
-@media (min-width: 768px) {
-  #survey-search {
-    --search-inset: 24px;
-  }
-
+@media (min-width: 600px) {
   #survey-search .sd-container-modern {
     grid-template-columns: minmax(0, 1fr) auto;
   }
 
   #survey-search .search-header-actions {
+    width: max-content;
+    justify-self: start;
+    justify-content: flex-start;
     padding-block: 8px;
     padding-inline: var(--search-inset);
   }
+
+  #survey-search .search-footer-actions {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
 }
 
-@media (min-width: 1024px) {
-  #survey-search .sd-body {
-    grid-template-columns: minmax(0, 1fr) auto;
+@media (min-width: 900px) {
+  #survey-search {
+    --search-inset: 24px;
+  }
+
+  #survey-search .search-header-actions {
+    justify-self: end;
+    justify-content: flex-end;
   }
 }
 
@@ -291,7 +401,7 @@ body {
   --sjs2-layout-component-survey-footer-padding-top: var(--form-inset);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   #signin-form,
   #survey-register,
   #survey-drawer {

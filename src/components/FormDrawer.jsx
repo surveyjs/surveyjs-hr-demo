@@ -9,6 +9,7 @@ import { useApp } from "../app/AppContext.jsx";
 import { choiceLabel, fullName } from "../utils/records.js";
 import { useFormPdfPreview } from "./FormPdfPreview.jsx";
 import SurveyForm, { completeSurvey, prefillSurvey } from "./SurveyForm.jsx";
+import CreatorButton from "./CreatorButton.jsx";
 
 export default function FormDrawer({
   open,
@@ -70,7 +71,7 @@ export default function FormDrawer({
             </Button>
             {prefillData ? (
               <Button type="button" variant="outlined" onClick={() => prefillSurvey(surveyRef.current, prefillData)}>
-                Prefill demo data
+                Prefill Demo Data
               </Button>
             ) : null}
             <Button type="button" variant="outlined" onClick={onClose}>{cancelLabel}</Button>
@@ -83,7 +84,7 @@ export default function FormDrawer({
               Preview PDF
             </Button>
             {canCustomize ? (
-              <Button type="button" onClick={onCustomize}>{customizeLabel || "Customize in Builder"}</Button>
+              <CreatorButton onClick={onCustomize}>{customizeLabel || "Open in Creator"}</CreatorButton>
             ) : null}
           </Stack>
         </Box>

@@ -22,7 +22,7 @@ export default function EmployeeSearchForm() {
       <Box>
         <Typography variant="h4" sx={{ mb: 1.5 }}>Manage Employees</Typography>
         <Typography variant="body2" color="text.secondary">
-          Search by name, department, or employee ID. A first name, a last name, or both will match. Every field is optional.
+          Search by name, department, or employee ID. Results update as you type.
         </Typography>
       </Box>
       <EmployeeSearchPanel
