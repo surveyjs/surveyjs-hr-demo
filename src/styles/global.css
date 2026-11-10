@@ -356,10 +356,16 @@ body {
 }
 
 @media (min-width: 600px) {
+  #survey-search .sd-container-modern {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
   #survey-search .search-header-actions {
     width: max-content;
     justify-self: start;
     justify-content: flex-start;
+    padding-block: 8px;
+    padding-inline: var(--search-inset);
   }
 
   #survey-search .search-footer-actions {
@@ -373,15 +379,9 @@ body {
     --search-inset: 24px;
   }
 
-  #survey-search .sd-container-modern {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-
   #survey-search .search-header-actions {
     justify-self: end;
     justify-content: flex-end;
-    padding-block: 8px;
-    padding-inline: var(--search-inset);
   }
 }
 
