@@ -16,7 +16,7 @@ export default function LoginPage() {
       <Box sx={{ mb: 3 }}>
         <Typography variant="h4" sx={{ mb: 1.5 }}>Sign in</Typography>
         <Typography variant="body2" color="text.secondary">
-          Select a demo account. HR managers open the directory. Employees open their own profile.
+          Select a demo account to explore.
         </Typography>
       </Box>
       <Paper sx={{ p: { xs: 2, md: 3 } }}>

@@ -21,7 +21,7 @@ export default function EmployeeRegistrationForm() {
   const schema = schemas.registration;
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3} sx={{ pb: 8 }}>
       <Box>
         <Typography variant="h4" sx={{ mb: 1.5 }}>Register Employee</Typography>
         <Typography variant="body2" color="text.secondary">
@@ -42,9 +42,6 @@ export default function EmployeeRegistrationForm() {
       ) : null}
       <Paper sx={{ p: { xs: 2, md: 3 } }}>
         <Stack direction={{ xs: "column", sm: "row" }} spacing={1} useFlexGap flexWrap="wrap" sx={{ mb: 1 }}>
-          <Button type="button" variant="contained" onClick={() => completeSurvey(surveyRef.current)}>
-            {schema?.completeText || "Save Employee"}
-          </Button>
           <Button
             type="button"
             variant="outlined"
@@ -67,14 +64,6 @@ export default function EmployeeRegistrationForm() {
             }}
           >
             Reset
-          </Button>
-          <Button
-            type="button"
-            variant="outlined"
-            disabled={pdf.busy}
-            onClick={() => pdf.openPreview(surveyRef.current)}
-          >
-            Preview PDF
           </Button>
           <CreatorButton onClick={() => openSchemaCreator("registration", "Edit Registration Form")}>
             Edit Registration Form
@@ -109,6 +98,19 @@ export default function EmployeeRegistrationForm() {
         ) : (
           <Alert severity="error">Employee Registration Form.json is missing.</Alert>
         )}
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={1} useFlexGap flexWrap="wrap" sx={{ mt: 2 }}>
+          <Button type="button" variant="contained" onClick={() => completeSurvey(surveyRef.current)}>
+            {schema?.completeText || "Save Employee"}
+          </Button>
+          <Button
+            type="button"
+            variant="outlined"
+            disabled={pdf.busy}
+            onClick={() => pdf.openPreview(surveyRef.current)}
+          >
+            Preview PDF
+          </Button>
+        </Stack>
         {pdf.dialog}
       </Paper>
     </Stack>
