@@ -110,7 +110,7 @@ export default function Header() {
             <Box aria-hidden="true" sx={{ width: "1px", height: 18, bgcolor: "divider", flexShrink: 0 }} />
             <IconButton
               type="button"
-              aria-label="Log out"
+              aria-label="Log Out"
               onClick={logout}
               size="small"
               sx={{

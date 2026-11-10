@@ -236,6 +236,11 @@ body {
   --mui-palette-background-default: var(--mui-palette-background-paper);
 }
 
+.survey-host .sd-action__title,
+.survey-host .sv-button-group__item-caption {
+  text-transform: none;
+}
+
 .survey-host .sd-root-modern.sjs-theme-overrides {
   --sd-page-vertical-padding: 0px;
   --sjs2-layout-component-survey-box-padding-top: 0px;
@@ -337,7 +342,7 @@ body {
   padding-bottom: var(--search-inset);
 }
 
-#survey-search .search-header-actions .sd-action,
+#survey-search .search-header-actions .MuiButton-root,
 #survey-search .search-footer-actions .sd-action {
   box-sizing: border-box;
   width: 100%;
@@ -350,6 +355,19 @@ body {
   padding-inline: var(--search-inset);
 }
 
+@media (min-width: 600px) {
+  #survey-search .search-header-actions {
+    width: max-content;
+    justify-self: start;
+    justify-content: flex-start;
+  }
+
+  #survey-search .search-footer-actions {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+}
+
 @media (min-width: 900px) {
   #survey-search {
     --search-inset: 24px;
@@ -360,14 +378,10 @@ body {
   }
 
   #survey-search .search-header-actions {
-    width: max-content;
+    justify-self: end;
+    justify-content: flex-end;
     padding-block: 8px;
     padding-inline: var(--search-inset);
-  }
-
-  #survey-search .search-footer-actions {
-    flex-direction: row;
-    justify-content: flex-end;
   }
 }
 

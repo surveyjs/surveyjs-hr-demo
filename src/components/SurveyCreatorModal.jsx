@@ -94,7 +94,7 @@ export default function SurveyCreatorModal() {
               )}
             </Box>
             <Button type="button" onClick={resetToDefault}>Reset to Default</Button>
-            <Button type="button" variant="contained" onClick={saveAndClose}>Save schema</Button>
+            <Button type="button" variant="contained" onClick={saveAndClose}>Save Schema</Button>
             <Button type="button" variant="outlined" onClick={closeCreator}>Close</Button>
           </Toolbar>
         </AppBar>

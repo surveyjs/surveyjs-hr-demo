@@ -16,10 +16,10 @@ export default function PerformanceReviewForm({ open, onClose }) {
       elementIdPrefix={`add_review_${selectedEmployee.id}_`}
       completeLabel={schema?.completeText || "Save Review"}
       prefillData={reviewDemoData}
-      customizeLabel="Customize in Builder"
+      customizeLabel="Edit Review Form"
       configure={(model) => { model.showTitle = false; }}
       onClose={onClose}
-      onCustomize={() => openSchemaCreator("addReview", "Customize Review Form")}
+      onCustomize={() => openSchemaCreator("addReview", "Edit Review Form")}
       onComplete={(data) => {
         addReview(selectedEmployee.id, data);
         notify("Performance review saved.");

@@ -31,9 +31,9 @@ export default function SalaryForm({ open, onClose }) {
         footer: "Acme HR salary record."
       }}
       completeLabel={schema?.completeText || "Save Salary"}
-      customizeLabel="Customize in Builder"
+      customizeLabel="Edit Salary Form"
       onClose={onClose}
-      onCustomize={() => openSchemaCreator("editSalary", "Customize Salary Form")}
+      onCustomize={() => openSchemaCreator("editSalary", "Edit Salary Form")}
       configure={(model) => { model.showTitle = false; }}
       onComplete={(data) => {
         updateSalary(selectedEmployee.id, data);

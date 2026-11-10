@@ -1,15 +1,16 @@
 import { useRef } from "react";
 import Alert from "@mui/material/Alert";
 import Paper from "@mui/material/Paper";
-import { ActionContainer, SvgRegistry } from "survey-core";
+import { ActionContainer } from "survey-core";
+import { ReactElementFactory } from "survey-react-ui";
+import CreatorButton from "./CreatorButton.jsx";
 import { useApp } from "../app/AppContext.jsx";
 import { searchDemoData } from "../data/demoFormData.js";
 import SurveyForm, { prefillSurvey } from "./SurveyForm.jsx";
 
-SvgRegistry.registerIcon(
-  "icon-hr-settings",
-  `<svg viewBox="0 0 24 24"><g fill="none" stroke="var(--sd-action-icon-color, currentColor)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></g></svg>`
-);
+ReactElementFactory.Instance.registerElement("hr-creator-button", ({ item }) => (
+  <CreatorButton onClick={() => item.action()}>{item.title}</CreatorButton>
+));
 
 export default function EmployeeSearchPanel({
   criteria,
@@ -44,7 +45,7 @@ export default function EmployeeSearchPanel({
     const items = [
       {
         id: "prefill-search",
-        title: "Prefill demo data",
+        title: "Prefill Demo Data",
         showTitle: true,
         disableShrink: true,
         action: () => {
@@ -55,7 +56,7 @@ export default function EmployeeSearchPanel({
       },
       {
         id: "clear-filters",
-        title: "Clear filters",
+        title: "Clear Filters",
         showTitle: true,
         disableShrink: true,
         action: () => actionsRef.current.onClear()
@@ -63,13 +64,11 @@ export default function EmployeeSearchPanel({
     ];
     if (actionsRef.current.isHr) {
       const headerToolbar = new ActionContainer();
-      headerToolbar.setActionsAppearance({ mode: "tertiary-surface", size: "large", style: "brand", showBorder: true });
       headerToolbar.cssClasses = { ...model.navigationBar.cssClasses, root: "sd-action-bar search-header-actions" };
       headerToolbar.setItems([{
         id: "edit-search-form",
         title: "Edit Search Form",
-        iconName: "icon-hr-settings",
-        iconSize: 20,
+        component: "hr-creator-button",
         showTitle: true,
         disableShrink: true,
         action: () => actionsRef.current.openSchemaCreator("search", "Edit Search Form")

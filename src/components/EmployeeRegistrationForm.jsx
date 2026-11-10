@@ -10,6 +10,7 @@ import { employeeIdTaken, fullName, nextDemoEmployeeId } from "../utils/records.
 import { registrationDemoData } from "../data/demoFormData.js";
 import { useFormPdfPreview } from "./FormPdfPreview.jsx";
 import SurveyForm, { completeSurvey, prefillSurvey } from "./SurveyForm.jsx";
+import CreatorButton from "./CreatorButton.jsx";
 
 export default function EmployeeRegistrationForm() {
   const { employees, schemas, registerEmployee, openProfile, openSchemaCreator, notify } = useApp();
@@ -40,7 +41,7 @@ export default function EmployeeRegistrationForm() {
         </Alert>
       ) : null}
       <Paper sx={{ p: { xs: 2, md: 3 } }}>
-        <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" sx={{ mb: 1 }}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={1} useFlexGap flexWrap="wrap" sx={{ mb: 1 }}>
           <Button type="button" variant="contained" onClick={() => completeSurvey(surveyRef.current)}>
             {schema?.completeText || "Save Employee"}
           </Button>
@@ -55,7 +56,7 @@ export default function EmployeeRegistrationForm() {
               });
             }}
           >
-            Prefill demo data
+            Prefill Demo Data
           </Button>
           <Button
             type="button"
@@ -75,9 +76,9 @@ export default function EmployeeRegistrationForm() {
           >
             Preview PDF
           </Button>
-          <Button type="button" onClick={() => openSchemaCreator("registration", "Customize Registration Form")}>
-            Customize Registration Form
-          </Button>
+          <CreatorButton onClick={() => openSchemaCreator("registration", "Edit Registration Form")}>
+            Edit Registration Form
+          </CreatorButton>
         </Stack>
         {schema ? (
           <SurveyForm
