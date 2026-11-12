@@ -1,10 +1,7 @@
 import SurveyOutlineLabel from "./SurveyOutlineLabel";
 import { useEffect, useMemo, useRef } from "react";
-import { AceJsonEditorModel } from "survey-creator-core";
 import { SurveyCreator, SurveyCreatorComponent } from "survey-creator-react";
-import "ace-builds/src-noconflict/ace";
-import "ace-builds/src-noconflict/ext-searchbox";
-import "ace-builds/src-noconflict/theme-clouds_midnight";
+import { applyMonacoTheme } from "./monacoSetup";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -17,15 +14,6 @@ import { useApp } from "../app/AppContext.jsx";
 function colorPalette(mode, systemMode) {
   return (mode === "system" ? systemMode : mode) === "dark" ? "dark" : "light";
 }
-
-function applyAceTheme(creator) {
-  const node = document.querySelector(".svc-json-editor-tab__ace-editor");
-  if (!node || typeof window.ace?.edit !== "function") return;
-  const theme = creator.preferredColorPalette === "dark" ? "ace/theme/clouds_midnight" : "ace/theme/textmate";
-  window.ace.edit(node).setTheme(theme);
-}
-
-AceJsonEditorModel.aceBasePath = "https://unpkg.com/ace-builds@1.43.6/src-min-noconflict/";
 
 export default function SurveyCreatorModal() {
   const { creatorRequest, closeCreator, saveCreatorSchema } = useApp();
@@ -58,14 +46,10 @@ export default function SurveyCreatorModal() {
   useEffect(() => {
     if (!creator) return undefined;
     creator.preferredColorPalette = palette;
-    applyAceTheme(creator);
-    const syncAceTheme = () => applyAceTheme(creator);
-    creator.onActiveTabChanged.add(syncAceTheme);
-    creator.onCreatorThemeSelected.add(syncAceTheme);
-    return () => {
-      creator.onActiveTabChanged.remove(syncAceTheme);
-      creator.onCreatorThemeSelected.remove(syncAceTheme);
-    };
+    applyMonacoTheme(creator);
+    const syncMonacoTheme = () => applyMonacoTheme(creator);
+    creator.onCreatorThemeSelected.add(syncMonacoTheme);
+    return () => creator.onCreatorThemeSelected.remove(syncMonacoTheme);
   }, [creator, palette]);
 
   const saveAndClose = () => {
